@@ -1,0 +1,7 @@
+name: ${project.name}
+version: ${project.version}
+description: ToBeNamed
+authors: [aumgn, first4ever]
+website: https://github.com/aumgn/ToBeNamed
+
+main: fr.aumgn.tobenamed.TBNPlugin
