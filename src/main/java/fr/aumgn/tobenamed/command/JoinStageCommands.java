@@ -36,6 +36,9 @@ public class JoinStageCommands extends Commands {
 
         if (!joinStage.isRandom() && args.length() > 0) {
             String team = args.get(0);
+            if (!joinStage.containsTeam(team)) {
+                throw new CommandError("Cette equipe n'existe pas.");
+            }
             joinStage.addPlayer(player, team);
         } else {
             joinStage.addPlayer(player);
