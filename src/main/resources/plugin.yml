@@ -5,3 +5,16 @@ authors: [aumgn, first4ever]
 website: https://github.com/aumgn/ToBeNamed
 
 main: fr.aumgn.tobenamed.TBNPlugin
+
+commands:
+    init-game:
+        description: "Initie une partie de TBN."
+        usage: "/<command> [-a] <equipe1> <equipe2> [...]"
+        permission: "tbn.cmd.init"
+        aliases: ["init"]
+    join-team:
+        description: "Rejoins (ou cree) une equipe."
+        usage: "/<command> <equipe>"
+        permission: "tbn.cmd.jointeam"
+        aliases: ["jt", "join"]
+

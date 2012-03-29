@@ -11,10 +11,14 @@ import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
+import fr.aumgn.bukkit.command.Commands;
+import fr.aumgn.tobenamed.command.JoinStageCommands;
+
 public class TBNPlugin extends JavaPlugin {
 
     public void onEnable() {
         TBN.init(this);
+        Commands.register(new JoinStageCommands());
         getLogger().info("Enabled.");
     }
 

@@ -1,6 +1,7 @@
 package fr.aumgn.tobenamed;
 
 import java.io.IOException;
+import java.util.Random;
 
 import org.bukkit.Bukkit;
 import org.bukkit.event.HandlerList;
@@ -18,6 +19,7 @@ public final class TBN {
     private static final double GSON_VERSION = 0.0;
 
     private static TBNPlugin plugin;
+    private static Random random;
     private static Game game;
     private static Stage stage;
     private static TBNConfig config;
@@ -30,12 +32,17 @@ public final class TBN {
             throw new UnsupportedOperationException();
         }
         TBN.plugin = plugin;
+        TBN.random = new Random();
         TBN.stage = null;
         reloadConfig();
     }
 
     public static Plugin getPlugin() {
         return plugin;
+    }
+
+    public static Random getRandom() {
+        return random;
     }
 
     public static Gson getGson() {
@@ -76,14 +83,15 @@ public final class TBN {
             for (Listener listener : stage.getListeners()) {
                 HandlerList.unregisterAll(listener);
             }
+            stage.stop();
         }
-        stage.stop();
+        stage = newStage;
         if (newStage != null) {
             for (Listener listener : stage.getListeners()) {
                 Bukkit.getPluginManager().registerEvents(listener, plugin);
             }
+            stage.start();
         }
-        stage = newStage;
-        stage.start();
     }
+
 }
