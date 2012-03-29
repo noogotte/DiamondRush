@@ -18,7 +18,7 @@ public final class TBN {
     }
 
     public static void init(Plugin plugin) {
-        if (plugin != null) {
+        if (TBN.plugin != null) {
             throw new UnsupportedOperationException();
         }
         TBN.plugin = plugin;
