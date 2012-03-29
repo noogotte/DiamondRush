@@ -2,6 +2,8 @@ package fr.aumgn.bukkit.command;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandExecutor;
@@ -14,23 +16,30 @@ public class MethodCommandExecutor implements CommandExecutor {
     private final Method method;
     private final int min;
     private final int max;
+    private final Set<Character> flags;
     private final boolean isPlayerCommand;
 
     public MethodCommandExecutor(Commands instance, Method method, Command command, boolean isPlayerCommand) {
         this.instance = instance;
         this.method = method;
+
         this.min = command.min();
         this.max = command.max();
+        this.flags = new HashSet<Character>();
+        for (char flag : command.flags().toCharArray()) {
+            this.flags.add(flag);
+        }
         this.isPlayerCommand = isPlayerCommand;
     }
 
     @Override
-    public boolean onCommand(CommandSender sender, org.bukkit.command.Command cmd, String lbl, String[] args) {
+    public boolean onCommand(CommandSender sender, org.bukkit.command.Command cmd, String lbl, String[] rawArgs) {
         try {
             ensureHasValidSender(sender);
-            ensureHasValidArgsCount(args);
-            callCommand(sender, args);
+            CommandArgs args = new CommandArgs(rawArgs, flags, min, max);
+            callCommand(lbl, sender, args);
         } catch (CommandUsageError exc) {
+            sender.sendMessage(ChatColor.RED + exc.getMessage());
             return false;
         } catch (CommandError exc) {
             sender.sendMessage(ChatColor.RED + exc.getMessage());
@@ -44,13 +53,7 @@ public class MethodCommandExecutor implements CommandExecutor {
         }
     }
 
-    private void ensureHasValidArgsCount(String[] args) {
-        if (args.length < min || (max != -1 && args.length > max)) {
-            throw new CommandUsageError();
-        }
-    }
-
-    private void callCommand(CommandSender sender, String[] args) {
+    private void callCommand(String name, CommandSender sender, CommandArgs args) {
         try {
             method.invoke(instance, sender, args);
         } catch (IllegalArgumentException exc) {
@@ -58,12 +61,19 @@ public class MethodCommandExecutor implements CommandExecutor {
         } catch (IllegalAccessException exc) {
             unexpectedError(exc);
         } catch (InvocationTargetException exc) {
-            unexpectedError(exc);
+            if (exc.getCause() instanceof CommandError) {
+                throw (CommandError) exc.getCause();
+            }
+            if (exc.getCause() instanceof CommandUsageError) {
+                throw (CommandUsageError) exc.getCause();
+            }
+            throw new CommandException(exc.getCause());
         }
     }
 
     private void unexpectedError(Exception exc) {
-        throw new CommandError("Erreur inattendu lors de l'execution de la commande."
-                + exc.getClass().getSimpleName());
+        throw new CommandError(
+                "Erreur inattendu lors de l'execution de la commande. "
+                + exc.getClass().getSimpleName() + ": " + exc.getMessage());
     }
 }

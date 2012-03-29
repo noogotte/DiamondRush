@@ -23,26 +23,18 @@ public abstract class Commands {
             if (!CommandSender.class.isAssignableFrom(params[0])) {
                 continue;
             }
-            if (!String[].class.isAssignableFrom(params[1])) {
+            if (!CommandArgs.class.isAssignableFrom(params[1])) {
                 continue;
             }
 
             org.bukkit.command.PluginCommand command = Bukkit.getPluginCommand(cmdAnnotation.name());
             if (command != null) {
-                command.setUsage(ChatColor.GREEN + "Usage: " + ChatColor.YELLOW + command.getUsage());
+                command.setUsage(ChatColor.GREEN + "Utilisation: " + ChatColor.YELLOW + command.getUsage());
                 command.setPermissionMessage(ChatColor.RED + "Vous n'avez pas la permission d'executer cette commande.");
                 CommandExecutor executor = new MethodCommandExecutor(commands,
                     method, cmdAnnotation, Player.class.isAssignableFrom(params[0]));
                 command.setExecutor(executor);
             }
         }
-    }
-
-    public void usageError() {
-        throw new CommandUsageError();
-    }
-
-    public void error(String message) {
-        throw new CommandError(message);
     }
 }

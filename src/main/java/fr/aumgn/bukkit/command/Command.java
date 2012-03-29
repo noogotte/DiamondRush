@@ -14,4 +14,6 @@ public @interface Command {
     public int min() default 0;
 
     public int max() default -1;
+
+    public String flags() default "";
 }
