@@ -12,13 +12,17 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
 import fr.aumgn.bukkit.command.Commands;
+import fr.aumgn.tobenamed.command.InfoCommands;
 import fr.aumgn.tobenamed.command.JoinStageCommands;
+import fr.aumgn.tobenamed.command.SpectatorsCommands;
 
 public class TBNPlugin extends JavaPlugin {
 
     public void onEnable() {
         TBN.init(this);
+        Commands.register(new InfoCommands());
         Commands.register(new JoinStageCommands());
+        Commands.register(new SpectatorsCommands());
         getLogger().info("Enabled.");
     }
 

@@ -11,7 +11,7 @@ import org.bukkit.plugin.Plugin;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import fr.aumgn.tobenamed.game.Game;
+import fr.aumgn.tobenamed.exception.NoGameRunning;
 import fr.aumgn.tobenamed.stage.Stage;
 
 public final class TBN {
@@ -20,7 +20,6 @@ public final class TBN {
 
     private static TBNPlugin plugin;
     private static Random random;
-    private static Game game;
     private static Stage stage;
     private static TBNConfig config;
 
@@ -67,14 +66,13 @@ public final class TBN {
     }
 
     public static boolean isRunning() {
-        return game != null;
-    }
-
-    public static Game getGame() {
-        return game;
+        return stage != null;
     }
 
     public static Stage getStage() {
+        if (!isRunning()) {
+            throw new NoGameRunning();
+        }
         return stage;
     }
 

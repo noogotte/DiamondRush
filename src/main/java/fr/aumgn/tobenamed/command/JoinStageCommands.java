@@ -12,9 +12,9 @@ import fr.aumgn.tobenamed.stage.Stage;
 
 public class JoinStageCommands extends Commands {
 
-    @Command(name = "init-game", flags = "a", min = 2)
+    @Command(name = "init-game", flags = "a")
     public void initGame(Player player, CommandArgs args) {
-        if (TBN.getStage() != null) {
+        if (TBN.isRunning()) {
             throw new CommandError("Une partie est déja en cours.");
         }
 
@@ -22,26 +22,18 @@ public class JoinStageCommands extends Commands {
         TBN.nextStage(stage);
     }
 
-    @Command(name = "join-team", min = 0, max = 1)
+    @Command(name = "join-team", max = 1)
     public void joinTeam(Player player, CommandArgs args) {
         Stage stage = TBN.getStage();
-        if (!(stage instanceof JoinStage)) {
-           throw new CommandError("Cette commande ne peut etre utilisé que durant une phase de join.");
-        }
 
-        JoinStage joinStage = (JoinStage) stage;
-        if (joinStage.contains(player)) {
+        if (stage.getGame().contains(player)) {
             throw new CommandError("Vous etes deja dans la partie.");
         }
 
-        if (!joinStage.isRandom() && args.length() > 0) {
-            String team = args.get(0);
-            if (!joinStage.containsTeam(team)) {
-                throw new CommandError("Cette equipe n'existe pas.");
-            }
-            joinStage.addPlayer(player, team);
+        if (args.length() > 0) {
+            stage.addPlayer(player, args.get(0));
         } else {
-            joinStage.addPlayer(player);
+            stage.addPlayer(player);
         }
     }
 }

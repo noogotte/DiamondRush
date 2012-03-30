@@ -2,10 +2,7 @@ package fr.aumgn.tobenamed.stage;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -13,20 +10,17 @@ import org.bukkit.event.Listener;
 
 import fr.aumgn.tobenamed.TBN;
 import fr.aumgn.tobenamed.TBNUtil;
+import fr.aumgn.tobenamed.game.Game;
+import fr.aumgn.tobenamed.game.Team;
 
 public class JoinStage extends Stage {
 
     private boolean random;
-    private HashSet<Player> players;
-    private Map<String, List<Player>> teams;
+    private Game game;
 
     public JoinStage(List<String> teams, boolean random) {
         this.random = random;
-        this.players = new HashSet<Player>();
-        this.teams = new HashMap<String, List<Player>>();
-        for (String team : teams) {
-            this.teams.put(team, new ArrayList<Player>());
-        }
+        this.game = new Game(teams);
     }
 
     @Override
@@ -35,49 +29,51 @@ public class JoinStage extends Stage {
     }
 
     @Override
+    public Game getGame() {
+        return game;
+    }
+
+    @Override
     public void start() {
         TBNUtil.broadcast(ChatColor.GREEN + "Une nouvelle partie de TBN va commencer !");
         TBNUtil.broadcast(ChatColor.GREEN + "Equipes : ");
-        for (String team : teams.keySet()) {
-            TBNUtil.broadcast(ChatColor.GOLD + "  -" + team);
+        for (Team team : game.teams()) {
+            TBNUtil.broadcast(" - " + ChatColor.GOLD + team.getName());
         }
-    }
-
-    public boolean isRandom() {
-        return random;
-    }
-
-    public boolean contains(Player player) {
-        return players.contains(player);
-    }
-
-    public boolean containsTeam(String team) {
-        return teams.get(team) != null;
     }
 
     public void addPlayer(Player player) {
         int minimum = Integer.MAX_VALUE;
-        List<String> roulette = null; 
-        for (Map.Entry<String, List<Player>> team : teams.entrySet()) {
-            int size = team.getValue().size();
+        List<Team> roulette = null; 
+        for (Team team : game.teams()) {
+            int size = team.size();
             if (size < minimum) {
-                roulette = new ArrayList<String>();
-                roulette.add(team.getKey());
-            } else {
-                roulette.add(team.getKey());
+                minimum = size;
+                roulette = new ArrayList<Team>();
+                roulette.add(team);
+            } else if (size == minimum) {
+                roulette.add(team);
             } 
         }
 
         int index = TBN.getRandom().nextInt(roulette.size());
-        addPlayer(player, roulette.get(index));
+        Team team = roulette.get(index);
+        game.addPlayer(player, team);
+        game.sendMessage(ChatColor.GOLD + player.getDisplayName() + 
+                ChatColor.GREEN + " a rejoint l'équipe " + 
+                ChatColor.GOLD + team.getName());
     }
 
-    public void addPlayer(Player player, String team) {
-        players.add(player);
-        teams.get(team).add(player);
-
-        TBNUtil.broadcast(ChatColor.GOLD + player.getDisplayName() + 
-                ChatColor.GREEN + " a rejoint l'équipe " + 
-                ChatColor.GOLD + team);
+    public void addPlayer(Player player, String teamName) {
+        if (random) {
+            addPlayer(player);
+        } else {
+            Team team = game.getTeam(teamName);
+            team.addPlayer(player);
+            game.addPlayer(player, team);
+            game.sendMessage(ChatColor.GOLD + player.getDisplayName() + 
+                    ChatColor.GREEN + " a rejoint l'équipe " + 
+                    ChatColor.GOLD + team.getName());
+        }
     }
 }

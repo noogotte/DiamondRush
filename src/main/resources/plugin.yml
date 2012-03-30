@@ -7,6 +7,10 @@ website: https://github.com/aumgn/ToBeNamed
 main: fr.aumgn.tobenamed.TBNPlugin
 
 commands:
+    show-teams:
+        description: "Affiche les équipes"
+        usage: "/<command>"
+        aliases: ["showteams", "st"]
     init-game:
         description: "Initie une partie de TBN."
         usage: "/<command> [-a] <equipe1> <equipe2> [...]"
@@ -17,4 +21,9 @@ commands:
         usage: "/<command> <equipe>"
         permission: "tbn.cmd.jointeam"
         aliases: ["jt", "join"]
+    watch-game:
+        description: "S'inscrire en tant que spectateur de la partie."
+        usage: "/<command>"
+        permission: "tbn.cmd.watch"
+        aliases: ["watch", "spect-game", "spect"]
 
