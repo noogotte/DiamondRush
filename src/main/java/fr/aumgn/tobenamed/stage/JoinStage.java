@@ -37,7 +37,10 @@ public class JoinStage extends Stage {
     @Override
     public void start() {
         TBNUtil.broadcast(ChatColor.GREEN + "Une nouvelle partie de TBN va commencer !");
-        TBNUtil.broadcast(ChatColor.GREEN + "Equipe : " + teams.keySet());
+        TBNUtil.broadcast(ChatColor.GREEN + "Equipes : ");
+        for (String team : teams.keySet()) {
+            TBNUtil.broadcast(ChatColor.GOLD + "  -" + team);
+        }
     }
 
     public boolean isRandom() {
