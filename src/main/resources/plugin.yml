@@ -21,6 +21,10 @@ commands:
         usage: "/<command> <equipe>"
         permission: "tbn.cmd.jointeam"
         aliases: ["jt", "join"]
+    start-game:
+        description: "Debute la partie."
+        usage: "/<command>"
+        aliases: ["start", "sg"]
     watch-game:
         description: "S'inscrire en tant que spectateur de la partie."
         usage: "/<command>"

@@ -16,7 +16,7 @@ public class InfoCommands extends Commands {
     public void showTeams(Player player, CommandArgs args) {
         Game game = TBN.getStage().getGame();
         player.sendMessage(ChatColor.GREEN + "Equipes :");
-        for (Team team : game.teams()) {
+        for (Team team : game.getTeams()) {
             StringBuffer teamMessage = new StringBuffer();
             teamMessage.append(" - ");
             teamMessage.append(ChatColor.GOLD);

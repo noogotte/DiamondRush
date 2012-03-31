@@ -1,13 +1,18 @@
 package fr.aumgn.tobenamed.region;
 
-import org.bukkit.util.Vector;
+import fr.aumgn.tobenamed.util.Vector;
 
 public class Region {
 
-    private Vector min;
-    private Vector max;
+    protected final Vector min;
+    protected final Vector max;
+
+    public Region(Vector min, Vector max) {
+        this.min = min;
+        this.max = max;
+    }
 
     public boolean isInside(Vector pos) {
-        return pos.isInAABB(min, max);
+        return pos.isInside(min, max);
     }
 }

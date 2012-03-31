@@ -1,5 +1,6 @@
 package fr.aumgn.tobenamed.game;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -7,18 +8,23 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import fr.aumgn.tobenamed.exception.NoSuchTeam;
 import fr.aumgn.tobenamed.exception.NotEnoughTeams;
+import fr.aumgn.tobenamed.region.GameSpawn;
+import fr.aumgn.tobenamed.util.TBNUtil;
+import fr.aumgn.tobenamed.util.Vector;
 
 public class Game {
 
+    private GameSpawn spawn;
     private Map<String, Team> teams;
     private Map<Player, Team> players;
     private Set<Player> spectators;
 
-    public Game(List<String> teamsName) {
+    public Game(List<String> teamsName, Vector spawnPoint) {
         teams = new LinkedHashMap<String, Team>();
         for (String teamName : teamsName) {
             teams.put(teamName, new Team(teamName));
@@ -26,8 +32,13 @@ public class Game {
         if (teams.keySet().size() < 2) {
             throw new NotEnoughTeams();
         }
+        spawn = new GameSpawn(spawnPoint);
         players = new HashMap<Player, Team>();
         spectators = new HashSet<Player>();
+    }
+
+    public GameSpawn getSpawn() {
+        return spawn;
     }
 
     public Team getTeam(String name) {
@@ -42,7 +53,7 @@ public class Game {
     }
 
     public void sendMessage(String message) {
-        for (Team team : teams()) {
+        for (Team team : getTeams()) {
             team.sendMessage(message);
         }
         for (Player spectator : spectators) {
@@ -55,13 +66,34 @@ public class Game {
                 || spectators.contains(player);
     }
 
-    public Iterable<Team> teams() {
-        return teams.values();
+    public List<Team> getTeams() {
+        return new ArrayList<Team>(teams.values());
+    }
+
+    public void addPlayer(Player player) {
+        int minimum = Integer.MAX_VALUE;
+        List<Team> roulette = null; 
+        for (Team team : getTeams()) {
+            int size = team.size();
+            if (size < minimum) {
+                minimum = size;
+                roulette = new ArrayList<Team>();
+                roulette.add(team);
+            } else if (size == minimum) {
+                roulette.add(team);
+            } 
+        }
+
+        Team team = TBNUtil.pickRandom(roulette);
+        addPlayer(player, team);
     }
 
     public void addPlayer(Player player, Team team) {
         team.addPlayer(player);
         players.put(player, team);
+        sendMessage(ChatColor.GOLD + player.getDisplayName() + 
+                ChatColor.GREEN + " a rejoint l'équipe " + 
+                ChatColor.GOLD + team.getName());
     }
 
     public Iterable<Player> spectators() {

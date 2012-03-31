@@ -92,4 +92,11 @@ public final class TBN {
         }
     }
 
+    public static void scheduleDelayed(int delay, Runnable runnable) {
+        Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, runnable, delay);
+    }
+
+    public static void scheduleRepeating(int delay, Runnable runnable) {
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, runnable, delay, delay);
+    }
 }

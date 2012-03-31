@@ -32,6 +32,10 @@ public class Team {
         return foreman;
     }
 
+    public void setForeman(Player foreman) {
+        this.foreman = foreman;
+    }
+
     public List<Player> getPlayers() {
         return players;
     }
@@ -55,9 +59,6 @@ public class Team {
     }
 
     public void addPlayer(Player player) {
-        if (players.size() == 0) {
-            foreman = player;
-        }
         players.add(player);
     }
 }
