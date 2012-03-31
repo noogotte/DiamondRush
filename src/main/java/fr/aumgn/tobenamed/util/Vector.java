@@ -1,6 +1,7 @@
 package fr.aumgn.tobenamed.util;
 
 import org.bukkit.Location;
+import org.bukkit.World;
 
 public class Vector {
 
@@ -69,5 +70,9 @@ public class Vector {
         return x >=min.x && x <= max.x
                 && y >= min.y && y <= max.y
                 && z >= min.z && z <= max.z;
+    }
+
+    public Location toLocation(World world, double offset) {
+        return new Location(world, x + offset, y + offset, z + offset);
     }
 }

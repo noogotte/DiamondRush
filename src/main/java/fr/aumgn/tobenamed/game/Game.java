@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.bukkit.ChatColor;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import fr.aumgn.tobenamed.exception.NoSuchTeam;
@@ -19,12 +20,13 @@ import fr.aumgn.tobenamed.util.Vector;
 
 public class Game {
 
+    private World world;
     private GameSpawn spawn;
     private Map<String, Team> teams;
     private Map<Player, Team> players;
     private Set<Player> spectators;
 
-    public Game(List<String> teamsName, Vector spawnPoint) {
+    public Game(List<String> teamsName, World world, Vector spawnPoint) {
         teams = new LinkedHashMap<String, Team>();
         for (String teamName : teamsName) {
             teams.put(teamName, new Team(teamName));
@@ -32,9 +34,14 @@ public class Game {
         if (teams.keySet().size() < 2) {
             throw new NotEnoughTeams();
         }
+        this.world = world;
         spawn = new GameSpawn(spawnPoint);
         players = new HashMap<Player, Team>();
         spectators = new HashSet<Player>();
+    }
+
+    public World getWorld() {
+        return world;
     }
 
     public GameSpawn getSpawn() {

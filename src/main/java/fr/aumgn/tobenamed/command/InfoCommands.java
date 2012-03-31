@@ -25,8 +25,10 @@ public class InfoCommands extends Commands {
             if (team.size() > 0) {
                 teamMessage.append(" : ");
                 Player foreman = team.getForeman();
-                teamMessage.append(ChatColor.AQUA + foreman.getDisplayName());
-                teamMessage.append(" ");
+                if (foreman != null) {
+                    teamMessage.append(ChatColor.AQUA + foreman.getDisplayName());
+                    teamMessage.append(" ");
+                }
                 teamMessage.append(ChatColor.BLUE);
                 for (Player teamPlayer : team.getPlayers()) {
                     if (foreman.equals(teamPlayer)) {

@@ -1,5 +1,6 @@
 package fr.aumgn.tobenamed.command;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -23,8 +24,9 @@ public class JoinStageCommands extends Commands {
             throw new CommandError("Une partie est déja en cours.");
         }
 
-        JoinStage stage = new JoinStage(args.asList(), 
-                new Vector(player.getLocation()), args.hasFlag('a'));
+        Game game = new Game(args.asList(), player.getWorld(),
+                new Vector(player.getLocation()));
+        JoinStage stage = new JoinStage(game, args.hasFlag('a'));
         TBN.nextStage(stage);
     }
 
@@ -61,13 +63,13 @@ public class JoinStageCommands extends Commands {
             }
         }
 
-        TBN.scheduleDelayed(200, new Runnable() {
+        TBN.scheduleDelayed(0, new Runnable() {
             @Override
             public void run() {
                 TotemStage totemStage = new TotemStage(stage.getGame());
                 TBN.nextStage(totemStage);
             }
         });
-        stage.getGame().sendMessage("La partie commence dans 10 secondes !");
+        stage.getGame().sendMessage(ChatColor.GREEN + "La partie commence dans 10 secondes !");
     }
 }

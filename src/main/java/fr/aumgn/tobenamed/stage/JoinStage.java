@@ -9,16 +9,15 @@ import org.bukkit.event.Listener;
 import fr.aumgn.tobenamed.game.Game;
 import fr.aumgn.tobenamed.game.Team;
 import fr.aumgn.tobenamed.util.TBNUtil;
-import fr.aumgn.tobenamed.util.Vector;
 
 public class JoinStage extends Stage {
 
     private boolean random;
     private Game game;
 
-    public JoinStage(List<String> teams, Vector spawnPoint, boolean random) {
+    public JoinStage(Game game, boolean random) {
         this.random = random;
-        this.game = new Game(teams, spawnPoint);
+        this.game = game;
     }
 
     @Override
