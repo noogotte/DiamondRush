@@ -15,4 +15,10 @@ public class Region {
     public boolean isInside(Vector pos) {
         return pos.isInside(min, max);
     }
+
+    public Vector getMiddle() {
+        Vector middle = min.getMiddle(max);
+        middle.setY(min.getY() + 1);
+        return middle;
+    }
 }

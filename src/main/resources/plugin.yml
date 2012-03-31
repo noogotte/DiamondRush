@@ -11,6 +11,7 @@ commands:
         description: "Affiche les équipes"
         usage: "/<command>"
         aliases: ["showteams", "st"]
+
     init-game:
         description: "Initie une partie de TBN."
         usage: "/<command> [-a] <equipe1> <equipe2> [...]"
@@ -25,9 +26,25 @@ commands:
         description: "Debute la partie."
         usage: "/<command>"
         aliases: ["start", "sg"]
+
     watch-game:
         description: "S'inscrire en tant que spectateur de la partie."
         usage: "/<command>"
         permission: "tbn.cmd.watch"
         aliases: ["watch", "spect-game", "spect"]
+    unwatch-game:
+        description: "Se desinscrire en tant que spectateur de la partie."
+        usage: "/<command>"
+        permission: "tbn.cmd.watch"
+        aliases: ["unwatch", "unspect-game", "unspect"]
+    teleport-player:
+        description: "Teleporte a un joueur."
+        usage: "/<command> <player>"
+        permission: "tbn.cmd.tpplayer"
+        aliases: ["tpp"]
+    teleport-team:
+        description: "Teleporte a un point strategique d'une equipe."
+        usage: "/<command> [-fs] <team>"
+        permission: "tbn.cmd.tpteam"
+        aliases: ["tpt"]
 

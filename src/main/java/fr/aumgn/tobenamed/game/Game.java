@@ -14,6 +14,7 @@ import org.bukkit.entity.Player;
 
 import fr.aumgn.tobenamed.exception.NoSuchTeam;
 import fr.aumgn.tobenamed.exception.NotEnoughTeams;
+import fr.aumgn.tobenamed.exception.PlayerNotInGame;
 import fr.aumgn.tobenamed.region.GameSpawn;
 import fr.aumgn.tobenamed.util.TBNUtil;
 import fr.aumgn.tobenamed.util.Vector;
@@ -56,6 +57,9 @@ public class Game {
     }
 
     public Team getTeam(Player player) {
+        if (!players.containsKey(player)) {
+            throw new PlayerNotInGame();
+        }
         return players.get(player);
     }
 
@@ -103,15 +107,23 @@ public class Game {
                 ChatColor.GOLD + team.getName());
     }
 
+    public boolean hasPlayer(Player player) {
+        return players.containsKey(player);
+    }
+
     public Iterable<Player> spectators() {
         return spectators;
     }
 
-    public boolean isSpectator(Player player) {
+    public boolean hasSpectator(Player player) {
         return spectators.contains(player);
     }
 
     public void addSpectator(Player player) {
         spectators.add(player);
+    }
+
+    public void removeSpectator(Player player) {
+        spectators.remove(player);
     }
 }

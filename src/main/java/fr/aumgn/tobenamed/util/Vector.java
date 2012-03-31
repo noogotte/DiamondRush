@@ -35,6 +35,18 @@ public class Vector {
         return z;
     }
 
+    public Vector setX(int x) {
+        return new Vector(x, y, z);
+    }
+
+    public Vector setY(int y) {
+        return new Vector(x, y, z);
+    }
+
+    public Vector setZ(int z) {
+        return new Vector(x, y, z);
+    }
+
     public Vector add(int i) {
         return new Vector(this.x + i, this.y + i, this.z + i);
     }
