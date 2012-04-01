@@ -7,9 +7,15 @@ website: https://github.com/aumgn/ToBeNamed
 main: fr.aumgn.tobenamed.TBNPlugin
 
 commands:
+    stop-game:
+        description: "Stop la partie en cours."
+        usage: "/<command>"
+        permission: "tbn.cmd.stop"
+        aliases: ["sg"]
     show-teams:
         description: "Affiche les équipes"
         usage: "/<command>"
+        permission: "tbn.cmd.showteams"
         aliases: ["showteams", "st"]
 
     init-game:
@@ -25,15 +31,16 @@ commands:
     start-game:
         description: "Debute la partie."
         usage: "/<command>"
+        permission: "tbn.cmd.start"
         aliases: ["start", "sg"]
 
     watch-game:
-        description: "S'inscrire en tant que spectateur de la partie."
+        description: "Inscris en tant que spectateur de la partie."
         usage: "/<command>"
         permission: "tbn.cmd.watch"
         aliases: ["watch", "spect-game", "spect"]
     unwatch-game:
-        description: "Se desinscrire en tant que spectateur de la partie."
+        description: "Desinscris en tant que spectateur de la partie."
         usage: "/<command>"
         permission: "tbn.cmd.watch"
         aliases: ["unwatch", "unspect-game", "unspect"]
@@ -48,3 +55,22 @@ commands:
         permission: "tbn.cmd.tpteam"
         aliases: ["tpt"]
 
+permissions:
+    tbn.manage:
+        default: op
+        children:
+            tbn.cmd.stop: true
+            tbn.cmd.init: true
+            tbn.cmd.start: true
+            tbn.play: true
+    tbn.play:
+        default: true
+        children:
+            tbn.cmd.jointeam: true
+            tbn.cmd.showteams: true
+    tbn.watch:
+        default: true
+        children:
+            tbn.cmd.watch: true
+            tbn.cmd.tpplayer: true
+            tbn.cmd.tpteam: true
