@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 
 import fr.aumgn.tobenamed.region.TeamSpawn;
 import fr.aumgn.tobenamed.region.Totem;
+import fr.aumgn.tobenamed.util.Vector;
 
 public class Team {
 
@@ -44,8 +45,16 @@ public class Team {
         return totem;
     }
 
+    public void setTotem(Vector pos) {
+        totem = new Totem(pos);
+    }
+
     public TeamSpawn getSpawn() {
         return spawn;
+    }
+
+    public void setSpawn(Vector pos) {
+        spawn = new TeamSpawn(pos);
     }
 
     public void sendMessage(String message) {

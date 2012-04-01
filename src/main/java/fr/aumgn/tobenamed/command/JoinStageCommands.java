@@ -63,7 +63,7 @@ public class JoinStageCommands extends Commands {
             }
         }
 
-        TBN.scheduleDelayed(0, new Runnable() {
+        TBN.scheduleDelayed(200, new Runnable() {
             @Override
             public void run() {
                 TotemStage totemStage = new TotemStage(stage.getGame());
