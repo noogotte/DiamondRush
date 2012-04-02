@@ -84,7 +84,7 @@ public class Vector {
                 && z >= min.z && z <= max.z;
     }
 
-    public Location toLocation(World world, double offset) {
-        return new Location(world, x + offset, y + offset, z + offset);
+    public Location toPlayerLocation(World world) {
+        return new Location(world, x + 0.5, y + 0.5, z + 0.5);
     }
 }

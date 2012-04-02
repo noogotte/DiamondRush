@@ -51,15 +51,17 @@ public class Totem extends Region {
     }
 
     private void createTotem(World world) {
-        Vector pos = min.getMiddle(max).setY(min.getY() + 1);
+        Vector pos = min.getMiddle(max).setY(min.getY());
         for (int i = 1; i <= 3; i++) {
             setTotemBlock(world, pos.add(0, i, 0));
         }
 
-        setTotemBlock(world, pos.add( 1, 3,  0));
-        setTotemBlock(world, pos.add(-1, 3,  0));
+        setTotemBlock(world, pos.add( 1, 3, 0));
+        setTotemBlock(world, pos.add(-1, 3, 0));
 
+        setTorchBlock(world, pos.add( 1, 3,  1));
         setTorchBlock(world, pos.add( 1, 3, -1));
+        setTorchBlock(world, pos.add(-1, 3,  1));
         setTorchBlock(world, pos.add(-1, 3, -1));
     }
 

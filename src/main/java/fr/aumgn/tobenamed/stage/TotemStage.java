@@ -55,7 +55,7 @@ public class TotemStage extends PositioningStage {
         }
 
         foreman.getInventory().addItem(new ItemStack(Material.OBSIDIAN, 1));
-        foreman.teleport(pos.toLocation(world, 0.5));
+        foreman.teleport(pos.toPlayerLocation(world));
     }
 
     @Override
