@@ -8,10 +8,6 @@ import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.entity.FoodLevelChangeEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
 import fr.aumgn.tobenamed.TBN;
@@ -66,20 +62,5 @@ public class TotemStage extends PositioningStage {
     public void initPosition(Team team, Vector pos) {
         team.setTotem(pos);
         team.getTotem().create(game.getWorld());
-    }
-
-    @EventHandler
-    public void onBlockPlace(BlockPlaceEvent event) {
-        super.onBlockPlace(event);
-    }
-
-    @EventHandler
-    public void onInteract(PlayerInteractEvent event) {
-        super.onInteract(event);
-    }
-
-    @EventHandler
-    public void onFoodLevelChange(FoodLevelChangeEvent event) {
-        super.onFoodLevelChange(event);
     }
 }

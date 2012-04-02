@@ -59,8 +59,8 @@ public class Totem extends Region {
         setTotemBlock(world, pos.add( 1, 3,  0));
         setTotemBlock(world, pos.add(-1, 3,  0));
 
+        setTorchBlock(world, pos.add( 1, 3, -1));
         setTorchBlock(world, pos.add(-1, 3, -1));
-        setTorchBlock(world, pos.add(-1, 3,  1));
     }
 
     private void setTotemBlock(World world, Vector pos) {
