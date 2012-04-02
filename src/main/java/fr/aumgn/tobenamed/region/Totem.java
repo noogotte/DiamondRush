@@ -35,6 +35,8 @@ public class Totem extends Region {
                 setInside(world, x, y, z);
             }
         }
+
+        createTotem(world);
     }
 
     private void setEdge(World world, int x, int y, int z) {
@@ -46,5 +48,28 @@ public class Totem extends Region {
     private void setInside(World world, int x, int y, int z) {
         Block block = world.getBlockAt(x, y, z);
         block.setType(Material.SMOOTH_BRICK);
+    }
+
+    private void createTotem(World world) {
+        Vector pos = min.getMiddle(max).setY(min.getY() + 1);
+        for (int i = 1; i <= 3; i++) {
+            setTotemBlock(world, pos.add(0, i, 0));
+        }
+
+        setTotemBlock(world, pos.add( 1, 3,  0));
+        setTotemBlock(world, pos.add(-1, 3,  0));
+
+        setTorchBlock(world, pos.add(-1, 3, -1));
+        setTorchBlock(world, pos.add(-1, 3,  1));
+    }
+
+    private void setTotemBlock(World world, Vector pos) {
+        Block block = world.getBlockAt(pos.getX(), pos.getY(), pos.getZ());
+        block.setType(Material.OBSIDIAN);
+    }
+
+    private void setTorchBlock(World world, Vector pos) {
+        Block block = world.getBlockAt(pos.getX(), pos.getY(), pos.getZ());
+        block.setType(Material.TORCH);
     }
 }
