@@ -17,8 +17,6 @@ public class Region {
     }
 
     public Vector getMiddle() {
-        Vector middle = min.getMiddle(max);
-        middle.setY(min.getY() + 1);
-        return middle;
+        return min.to2D().getMiddle(max.to2D()).to3D(min.getY() + 1);
     }
 }

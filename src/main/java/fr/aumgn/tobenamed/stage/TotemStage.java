@@ -15,6 +15,7 @@ import fr.aumgn.tobenamed.game.Game;
 import fr.aumgn.tobenamed.game.Team;
 import fr.aumgn.tobenamed.util.TBNUtil;
 import fr.aumgn.tobenamed.util.Vector;
+import fr.aumgn.tobenamed.util.Vector2D;
 
 public class TotemStage extends PositioningStage {
 
@@ -25,10 +26,13 @@ public class TotemStage extends PositioningStage {
     @Override
     public void start() {
         List<Team> teams = game.getTeams();
-        Iterator<Vector> directions = game.getSpawn().
+        Vector spawnPos = game.getSpawn().getMiddle(); 
+        Iterator<Vector> positions = game.getSpawn().
                 getDirections(teams.size()).iterator();
         for (Team team : teams) {
-            initTeam(team, game.getWorld(), directions.next());
+            Vector pos = positions.next();
+            Vector2D dir = pos.subtract(spawnPos).to2D();
+            initTeam(team, game.getWorld(), pos, dir);
         }
 
         game.getSpawn().create(game.getWorld());
@@ -42,7 +46,7 @@ public class TotemStage extends PositioningStage {
         });
     }
 
-    private void initTeam(Team team, World world, Vector pos) {
+    private void initTeam(Team team, World world, Vector pos, Vector2D dir) {
         Player foreman = TBNUtil.pickRandom(team.getPlayers());
         team.setForeman(foreman);
         team.sendMessage(ChatColor.GREEN + foreman.getDisplayName() + " est le chef d'equipe.");
@@ -55,7 +59,7 @@ public class TotemStage extends PositioningStage {
         }
 
         foreman.getInventory().addItem(new ItemStack(Material.OBSIDIAN, 1));
-        foreman.teleport(pos.toPlayerLocation(world));
+        foreman.teleport(pos.toPlayerLocation(world, dir));
     }
 
     @Override
