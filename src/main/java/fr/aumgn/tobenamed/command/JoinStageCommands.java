@@ -59,7 +59,7 @@ public class JoinStageCommands extends Commands {
 
         for (Team team : stage.getGame().getTeams()) {
             if (team.size() < 1) {
-                throw new CommandError("L'equipe " + team.getName() + "n'a aucun joueur");
+                throw new CommandError("L'equipe " + team.getName() + " n'a aucun joueur");
             }
         }
 

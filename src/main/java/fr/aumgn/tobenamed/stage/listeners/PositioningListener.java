@@ -27,7 +27,7 @@ public class PositioningListener implements Listener {
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {
         Block block = event.getBlock();
-        if (event.getBlock().getType() == Material.OBSIDIAN) {
+        if (event.getBlock().getType() == stage.getMaterial()) {
             Team team = stage.getGame().getTeam(event.getPlayer());
             if (team == null) {
                 return;
@@ -43,7 +43,7 @@ public class PositioningListener implements Listener {
         }
 
         Block block =  event.getClickedBlock();
-        if (block.getType() != Material.OBSIDIAN) {
+        if (block.getType() != stage.getMaterial()) {
             return;
         }
 
@@ -55,7 +55,7 @@ public class PositioningListener implements Listener {
         if (block.equals(stage.getBlocks().get(team))) {
             event.setCancelled(true);
             event.getPlayer().getInventory().addItem(
-                    new ItemStack(Material.OBSIDIAN));
+                    new ItemStack(stage.getMaterial()));
             block.setType(Material.AIR);
             stage.getBlocks().remove(team);
         }
@@ -76,7 +76,7 @@ public class PositioningListener implements Listener {
         }
 
         ItemStack stack = event.getItemDrop().getItemStack();
-        if (stack.getType() == Material.OBSIDIAN) {
+        if (stack.getType() == stage.getMaterial()) {
             event.setCancelled(true);
         }
     }
