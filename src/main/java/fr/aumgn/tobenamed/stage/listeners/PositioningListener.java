@@ -14,6 +14,7 @@ import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 
 import fr.aumgn.tobenamed.game.Team;
 import fr.aumgn.tobenamed.stage.PositioningStage;
@@ -59,8 +60,12 @@ public class PositioningListener implements Listener {
 
         if (positions.get(team).equals(new Vector(block))) {
             event.setCancelled(true);
-            event.getPlayer().getInventory().addItem(
-                    new ItemStack(stage.getMaterial()));
+            PlayerInventory inventory = event.getPlayer().getInventory();
+            if (inventory.getItemInHand().getType() != Material.AIR) {
+                inventory.addItem(new ItemStack(stage.getMaterial()));
+            } else {
+                inventory.setItemInHand(new ItemStack(stage.getMaterial()));
+            }
             block.setType(Material.AIR);
             positions.remove(team);
         }
@@ -69,7 +74,8 @@ public class PositioningListener implements Listener {
     @EventHandler
     public void onFoodLevelChange(FoodLevelChangeEvent event) {
         HumanEntity entity = event.getEntity();
-        if (entity instanceof Player && stage.getGame().contains((Player) event.getEntity())) {
+        if (entity instanceof Player 
+                && stage.getGame().contains((Player) event.getEntity())) {
             event.setCancelled(true);
         }
     }
