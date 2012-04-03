@@ -15,21 +15,24 @@ public class CommandArgs {
         flags = new HashSet<Character>();
         List<String> argsList = new ArrayList<String>(tokens.length);
         for (String token : tokens) {
-            if (token.length() == 2 && token.charAt(0) == '-') {
-                char flag = token.charAt(1);
-                if (!allowedFlag.contains(flag)) {
-                    throw new CommandUsageError("Flag invalide : -" + flag);
+            if (token.charAt(0) == '-' && token.length() > 1) {
+                for (char flag : token.substring(1).toCharArray()) {
+                    if (!allowedFlag.contains(flag)) {
+                        throw new CommandUsageError("Flag invalide : -" + flag);
+                    }
+                    flags.add(flag);
                 }
-                flags.add(flag);
             } else if (!token.isEmpty()) {
                 argsList.add(token);
             }
         }
         if (argsList.size() < min) {
-            throw new CommandUsageError("Arguments manquant(s) (" + argsList.size() + " / " + min + " minimum)");
+            throw new CommandUsageError(
+                    "Arguments manquant(s) (" + argsList.size() + " / " + min + " minimum)");
         }
         if (max != -1 && argsList.size() > max) {
-            throw new CommandUsageError("Arguments en trop (" + argsList.size() + " / " + max + " maximum)");
+            throw new CommandUsageError(
+                    "Arguments en trop (" + argsList.size() + " / " + max + " maximum)");
         }
         args = argsList.toArray(new String[0]);
     }
@@ -51,13 +54,13 @@ public class CommandArgs {
     }
 
     public String get(int index, int endIndex) {
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder builder = new StringBuilder();
         for (int i = index; i < endIndex; i++) {
-            buffer.append(args[i]);
-            buffer.append(" ");
+            builder.append(args[i]);
+            builder.append(" ");
         }
-        buffer.append(args[endIndex]);
-        return buffer.toString();
+        builder.append(args[endIndex]);
+        return builder.toString();
     }
 
     public List<String> asList() {
