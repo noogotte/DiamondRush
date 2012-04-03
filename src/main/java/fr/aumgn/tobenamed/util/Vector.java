@@ -79,12 +79,20 @@ public class Vector {
     }
 
     public boolean isInside(Vector min, Vector max) {
-        return x >=min.x && x <= max.x
+        return x >= min.x && x <= max.x
                 && y >= min.y && y <= max.y
                 && z >= min.z && z <= max.z;
     }
 
+    public Vector2D to2D() {
+        return new Vector2D(x, z);
+    }
+
     public Location toPlayerLocation(World world) {
-        return new Location(world, x + 0.5, y + 0.5, z + 0.5);
+        return toPlayerLocation(world, new Vector2D(0, 1));
+    }
+
+    public Location toPlayerLocation(World world, Vector2D direction) {
+        return new Location(world, x + 0.5, y + 0.5, z + 0.5, direction.toYaw(), 0.0f);
     }
 }
