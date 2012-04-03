@@ -1,5 +1,7 @@
 package fr.aumgn.tobenamed.stage.listeners;
 
+import java.util.Map;
+
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.HumanEntity;
@@ -15,13 +17,16 @@ import org.bukkit.inventory.ItemStack;
 
 import fr.aumgn.tobenamed.game.Team;
 import fr.aumgn.tobenamed.stage.PositioningStage;
+import fr.aumgn.tobenamed.util.Vector;
 
 public class PositioningListener implements Listener {
 
     private PositioningStage stage;
+    private Map<Team, Vector> positions;
 
-    public PositioningListener(PositioningStage stage) {
+    public PositioningListener(PositioningStage stage, Map<Team, Vector> positions) {
         this.stage = stage;
+        this.positions = positions;
     }
 
     @EventHandler
@@ -32,7 +37,7 @@ public class PositioningListener implements Listener {
             if (team == null) {
                 return;
             }
-            stage.getBlocks().put(team, block);
+            positions.put(team, new Vector(block));
         }
     }
 
@@ -48,16 +53,16 @@ public class PositioningListener implements Listener {
         }
 
         Team team = stage.getGame().getTeam(event.getPlayer());
-        if (!stage.getBlocks().containsKey(team)) {
+        if (!positions.containsKey(team)) {
             return;
         }
 
-        if (block.equals(stage.getBlocks().get(team))) {
+        if (positions.get(team).equals(new Vector(block))) {
             event.setCancelled(true);
             event.getPlayer().getInventory().addItem(
                     new ItemStack(stage.getMaterial()));
             block.setType(Material.AIR);
-            stage.getBlocks().remove(team);
+            positions.remove(team);
         }
     }
 

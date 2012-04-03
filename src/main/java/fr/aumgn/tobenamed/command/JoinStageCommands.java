@@ -14,6 +14,7 @@ import fr.aumgn.tobenamed.game.Team;
 import fr.aumgn.tobenamed.stage.JoinStage;
 import fr.aumgn.tobenamed.stage.Stage;
 import fr.aumgn.tobenamed.stage.TotemStage;
+import fr.aumgn.tobenamed.util.TBNUtil;
 import fr.aumgn.tobenamed.util.Vector;
 
 public class JoinStageCommands extends Commands {
@@ -63,7 +64,7 @@ public class JoinStageCommands extends Commands {
             }
         }
 
-        TBN.scheduleDelayed(200, new Runnable() {
+        TBNUtil.scheduleDelayed(200, new Runnable() {
             @Override
             public void run() {
                 TotemStage totemStage = new TotemStage(stage.getGame());

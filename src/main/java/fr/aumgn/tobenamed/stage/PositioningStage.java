@@ -11,7 +11,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
 
 import fr.aumgn.tobenamed.game.Game;
 import fr.aumgn.tobenamed.game.Team;
@@ -21,12 +20,13 @@ import fr.aumgn.tobenamed.util.Vector;
 public abstract class PositioningStage extends Stage {
 
     protected Game game;
-    private Map<Team, Block> blocks;
-    private Listener listener = new PositioningListener(this);
+    private Map<Team, Vector> positions;
+    private Listener listener;
 
     public PositioningStage(Game game) {
         this.game = game;
-        this.blocks = new HashMap<Team, Block>();
+        this.positions = new HashMap<Team, Vector>();
+        this.listener = new PositioningListener(this, positions);
     }
 
     @Override
@@ -39,45 +39,61 @@ public abstract class PositioningStage extends Stage {
         return game;
     }
 
-    public Map<Team, Block> getBlocks() {
-        return blocks;
-    }
-
     @Override
     public void start() {
-        for (Team team : game.getTeams()) {
-            PlayerInventory inventory = team.getForeman().getInventory();
-            inventory.setItemInHand(new ItemStack(getMaterial(), 1));
-        }
+        giveBlocks();
     }
 
     @Override
     public void stop() {
         for (Team team : game.getTeams()) {
-            Block block = blocks.get(team);
-            Vector pos;
-            if (block == null) {
-                team.sendMessage("Le block n'a pas été placé a temps !");
-                removeBlock(team);
-                Player foreman = team.getForeman();
-                pos = new Vector(foreman.getLocation());
-                foreman.teleport(pos.add(3, 0, 0).toPlayerLocation(game.getWorld()));
-            } else {
-                pos = new Vector(block.getLocation());
-                block.setType(Material.AIR);
-            }
+            Vector pos = getPosition(team);
             initPosition(team, pos);
+        }
+        removeBlocksFromInventories();
+        removeBlocksFromWorld();
+    }
+
+    public Vector getPosition(Team team) {
+        Vector pos = positions.get(team);
+        if (pos == null) {
+            Player foreman = team.getForeman();
+            pos = new Vector(foreman.getLocation());
+            foreman.teleport(pos.add(0, 0, 1).toPlayerLocation(game.getWorld()));
+        }
+        return pos;
+    }
+
+    protected void giveBlocks() {
+        for (Team team : game.getTeams()) {
+            Player player = team.getForeman();
+            player.setItemInHand(new ItemStack(getMaterial(), 1));
         }
     }
 
-    private void removeBlock(Team team) {
-        for (Player player : team.getPlayers()) {
-            Inventory inventory = player.getInventory();
-            int index = inventory.first(getMaterial());
-            if (index != -1) {
-                ItemStack stack = inventory.getItem(index);
-                stack.setAmount(stack.getAmount() - 1);
-                return;
+    protected void removeBlocksFromWorld() {
+        for (Vector pos : positions.values()) {
+            Block block = pos.toBlock(game.getWorld());
+            if (block.getType() == getMaterial()) {
+                block.setType(Material.AIR);
+            }
+        }
+    }
+
+    protected void removeBlocksFromInventories() {
+        for (Team team : game.getTeams()) {
+            for (Player player : team.getPlayers()) {
+                Inventory inventory = player.getInventory();
+                int index = inventory.first(getMaterial());
+                if (index != -1) {
+                    ItemStack stack = inventory.getItem(index);
+                    if (stack.getAmount() > 1) {
+                        stack.setAmount(stack.getAmount() - 1);
+                    } else {
+                        inventory.clear(index);
+                    }
+                    return;
+                }
             }
         }
     }

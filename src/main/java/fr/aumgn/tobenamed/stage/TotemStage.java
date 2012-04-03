@@ -38,7 +38,7 @@ public class TotemStage extends PositioningStage {
         game.getSpawn().create(game.getWorld());
         game.getWorld().setTime(0);
         game.sendMessage(ChatColor.GREEN + "La partie débute !");
-        TBN.scheduleDelayed(600, new Runnable() {
+        TBNUtil.scheduleDelayed(600, new Runnable() {
             @Override
             public void run() {
                 TBN.nextStage(new SpawnStage(game));

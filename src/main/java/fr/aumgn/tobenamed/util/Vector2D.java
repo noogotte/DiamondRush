@@ -88,4 +88,21 @@ public class Vector2D {
     public Vector to3D(int y) {
         return new Vector(x, y, z);
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += x;
+        hash += z;
+        return 37 * hash + 1;
+    }
+
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Vector2D))
+            return false;
+        Vector2D other = (Vector2D) obj;
+        return (x == other.x && z == other.z);
+    }
 }

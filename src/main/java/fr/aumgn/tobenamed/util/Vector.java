@@ -2,6 +2,7 @@ package fr.aumgn.tobenamed.util;
 
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.block.Block;
 
 public class Vector {
 
@@ -21,6 +22,10 @@ public class Vector {
 
     public Vector(Location loc) {
         this(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ());
+    }
+
+    public Vector(Block block) {
+        this(block.getX(), block.getY(), block.getZ());
     }
 
     public int getX() {
@@ -84,15 +89,52 @@ public class Vector {
                 && z >= min.z && z <= max.z;
     }
 
+    public int lengthSq() {
+        return x * x + y * y + z * z;
+    }
+
+    public double length() {
+        return Math.sqrt(lengthSq());
+    }
+
     public Vector2D to2D() {
         return new Vector2D(x, z);
     }
 
+    public Block toBlock(World world) {
+        return world.getBlockAt(x, y, z);
+    }
+
+    public Location toLocation(World world) {
+        return new Location(world, x, y, z);
+    }
+
     public Location toPlayerLocation(World world) {
-        return toPlayerLocation(world, new Vector2D(0, 1));
+        return new Location(world, x + 0.5, y + 0.5, 
+                z + 0.5, 0.0f, 0.0f);
     }
 
     public Location toPlayerLocation(World world, Vector2D direction) {
-        return new Location(world, x + 0.5, y + 0.5, z + 0.5, direction.toYaw(), 0.0f);
+        return new Location(world, x + 0.5, y + 0.5, 
+                z + 0.5, direction.toYaw(), 0.0f);
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += x;
+        hash += y;
+        hash += z;
+        return 31 * hash + 1;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Vector)) {
+            return false;
+        }
+        Vector other = (Vector) obj;
+        return (x == other.x && y == other.y 
+                && z == other.z);
     }
 }

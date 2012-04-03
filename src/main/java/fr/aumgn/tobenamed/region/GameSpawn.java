@@ -20,8 +20,15 @@ public class GameSpawn extends Region {
         list.add(min.add(3, 1, 0));
         list.add(min.add(3, 1, 6));
 
+        if (list.size() > 2) {
+            list.add(min.add(6, 1, 0));
+        }
+        if (list.size() > 3) {
+            list.add(min.add(6, 1, 3));
+        }
+
         Vector middle = min.getMiddle(max);
-        for (int i = 2; i < size; i++) {
+        for (int i = 4; i < size; i++) {
             list.add(middle);
         }
         return list;

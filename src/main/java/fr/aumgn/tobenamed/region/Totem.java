@@ -74,4 +74,10 @@ public class Totem extends Region {
         Block block = world.getBlockAt(pos.getX(), pos.getY(), pos.getZ());
         block.setType(Material.TORCH);
     }
+
+    @Override
+    public Vector getTeleportPoint() {
+        return super.getTeleportPoint().add(0, 0, 1);
+    }
+
 }

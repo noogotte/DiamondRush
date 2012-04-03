@@ -29,4 +29,12 @@ public final class TBNUtil {
     public static <T> T pickRandom(List<T> from) {
         return from.get(TBN.getRandom().nextInt(from.size()));
     }
+
+    public static void scheduleDelayed(int delay, Runnable runnable) {
+        Bukkit.getScheduler().scheduleSyncDelayedTask(TBN.getPlugin(), runnable, delay);
+    }
+
+    public static void scheduleRepeating(int delay, Runnable runnable) {
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(TBN.getPlugin(), runnable, delay, delay);
+    }
 }
