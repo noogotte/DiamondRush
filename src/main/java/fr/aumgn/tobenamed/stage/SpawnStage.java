@@ -30,7 +30,7 @@ public class SpawnStage extends PositioningStage {
                 scheduleNextStage();
                 return;
             }
-            TBN.nextStage(null);
+            TBN.nextStage(new DevelopmentStage(game));
         }
     }
 
