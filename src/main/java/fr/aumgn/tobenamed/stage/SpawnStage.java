@@ -24,6 +24,7 @@ public class SpawnStage extends PositioningStage {
                         " a placé son spawn trop pres du totem.");
                 removeBlocksFromWorld();
                 removeBlocksFromInventories();
+                clearPositions();
                 giveBlocks();
                 // Hidden delayed recursive call FTW !
                 scheduleNextStage();

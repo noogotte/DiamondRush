@@ -64,6 +64,10 @@ public abstract class PositioningStage extends Stage {
         return pos;
     }
 
+    public void clearPositions() {
+        positions.clear();
+    }
+
     protected void giveBlocks() {
         for (Team team : game.getTeams()) {
             Player player = team.getForeman();
