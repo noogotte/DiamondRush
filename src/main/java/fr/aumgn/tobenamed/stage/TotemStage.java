@@ -9,7 +9,6 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
-import fr.aumgn.tobenamed.TBN;
 import fr.aumgn.tobenamed.game.Game;
 import fr.aumgn.tobenamed.game.Team;
 import fr.aumgn.tobenamed.util.TBNUtil;
@@ -38,12 +37,12 @@ public class TotemStage extends PositioningStage {
         game.getSpawn().create(game.getWorld());
         game.getWorld().setTime(0);
         game.sendMessage(ChatColor.GREEN + "La partie débute !");
-        TBNUtil.scheduleDelayed(600, new Runnable() {
-            @Override
-            public void run() {
-                TBN.nextStage(new SpawnStage(game));
-            }
-        });
+        scheduleNextStage(600);
+    }
+
+    @Override
+    protected Stage nextStage() {
+        return new SpawnStage(game);
     }
 
     private void initTeam(Team team, World world, Vector pos, Vector2D dir) {

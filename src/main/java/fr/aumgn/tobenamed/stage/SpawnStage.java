@@ -2,7 +2,6 @@ package fr.aumgn.tobenamed.stage;
 
 import org.bukkit.Material;
 
-import fr.aumgn.tobenamed.TBN;
 import fr.aumgn.tobenamed.game.Game;
 import fr.aumgn.tobenamed.game.Team;
 import fr.aumgn.tobenamed.util.TBNUtil;
@@ -10,10 +9,10 @@ import fr.aumgn.tobenamed.util.Vector;
 
 public class SpawnStage extends PositioningStage {
 
-    private static final int MinDistance = 20 * 20;
+    private static final int MIN_DISTANCE = 20 * 20;
+    private static final int DELAY = 600;
 
-    public class NextStage implements Runnable {
-
+    public class SpawnNextStageTask extends NextStageTask {
         @Override
         public void run() {
             for (Team team : game.getTeams()) {
@@ -27,10 +26,10 @@ public class SpawnStage extends PositioningStage {
                 clearPositions();
                 giveBlocks();
                 // Hidden delayed recursive call FTW !
-                scheduleNextStage();
+                scheduleNextStage(DELAY);
                 return;
             }
-            TBN.nextStage(new DevelopmentStage(game));
+            super.run();
         }
     }
 
@@ -42,11 +41,17 @@ public class SpawnStage extends PositioningStage {
     public void start() {
         super.start();
         game.sendMessage("Phase de placement du spawn.");
-        scheduleNextStage();
+        scheduleNextStage(DELAY);
     }
 
-    private void scheduleNextStage() {
-        TBNUtil.scheduleDelayed(600, new NextStage());
+    @Override
+    protected void scheduleNextStage(int ticks) {
+        TBNUtil.scheduleDelayed(ticks, new SpawnNextStageTask());
+    }
+
+    @Override
+    public Stage nextStage() {
+        return new DevelopmentStage(game);
     }
 
     public boolean validatePosition(Team team) {
@@ -54,7 +59,7 @@ public class SpawnStage extends PositioningStage {
         Vector totemPos = team.getTotem().getMiddle();
         int distance = totemPos.subtract(pos).lengthSq();
         System.out.println(team.getName() + " - " + distance);
-        return distance > MinDistance;
+        return distance > MIN_DISTANCE;
     }
 
     @Override
