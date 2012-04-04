@@ -1,6 +1,8 @@
 package fr.aumgn.tobenamed.util;
 
-public class Vector2D {
+import java.util.Iterator;
+
+public class Vector2D implements Iterable<Vector2D> {
 
     private final int x, z;
 
@@ -87,6 +89,20 @@ public class Vector2D {
 
     public Vector to3D(int y) {
         return new Vector(x, y, z);
+    }
+
+    @Override
+    public Iterator<Vector2D> iterator() {
+        return new Vector2DIterator(new Vector2D(), this);
+    }
+
+    public Iterable<Vector2D> rectangle(final Vector2D max) {
+        return new Iterable<Vector2D>() {
+            @Override
+            public Iterator<Vector2D> iterator() {
+                return new Vector2DIterator(Vector2D.this, max);
+            }
+        };
     }
 
     @Override

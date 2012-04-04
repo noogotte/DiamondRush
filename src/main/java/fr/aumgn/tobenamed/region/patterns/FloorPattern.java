@@ -4,6 +4,7 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 
+import fr.aumgn.tobenamed.util.Vector;
 import fr.aumgn.tobenamed.util.Vector2D;
 
 public class FloorPattern {
@@ -35,10 +36,8 @@ public class FloorPattern {
 
         min = min.add(1, 0, 0);
         max = max.subtract(1, 0, 0);
-        for (int x = min.getX(); x <= max.getX(); x++) {
-            for (int z = min.getZ(); z <= max.getZ(); z++) {
-                setInside(world, x, y, z);
-            }
+        for (Vector2D pos : min.rectangle(max)) {
+            setInside(world, pos.to3D(y));
         }
     }
 
@@ -48,8 +47,8 @@ public class FloorPattern {
         block.setData((byte) 3);
     }
 
-    private void setInside(World world, int x, int y, int z) {
-        Block block = world.getBlockAt(x, y, z);
+    private void setInside(World world, Vector pos) {
+        Block block = pos.toBlock(world);
         block.setType(Material.SMOOTH_BRICK);
     }
 

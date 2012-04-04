@@ -1,5 +1,8 @@
 package fr.aumgn.tobenamed.region;
 
+import org.bukkit.Material;
+import org.bukkit.World;
+
 import fr.aumgn.tobenamed.util.Vector;
 
 public class Region {
@@ -12,7 +15,7 @@ public class Region {
         this.max = max;
     }
 
-    public boolean isInside(Vector pos) {
+    public boolean contains(Vector pos) {
         return pos.isInside(min, max);
     }
 
@@ -22,5 +25,14 @@ public class Region {
 
     public Vector getTeleportPoint() {
         return getMiddle();
+    }
+
+    protected void removeEverythingAbove(World world, int y) {
+        Vector min = this.min.setY(y);
+        Vector max = this.max;
+
+        for (Vector pos : min.rectangle(max)) {
+            pos.toBlock(world).setType(Material.AIR);
+        }
     }
 }

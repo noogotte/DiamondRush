@@ -45,16 +45,16 @@ public class Team {
         return totem;
     }
 
-    public void setTotem(Vector pos) {
-        totem = new Totem(pos);
+    public void setTotem(Vector pos, int worldHeight) {
+        totem = new Totem(pos, worldHeight);
     }
 
     public TeamSpawn getSpawn() {
         return spawn;
     }
 
-    public void setSpawn(Vector pos) {
-        spawn = new TeamSpawn(pos);
+    public void setSpawn(Vector pos, int worldHeight) {
+        spawn = new TeamSpawn(pos, worldHeight);
     }
 
     public void sendMessage(String message) {

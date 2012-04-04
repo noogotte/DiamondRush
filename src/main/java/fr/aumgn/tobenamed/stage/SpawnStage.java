@@ -58,13 +58,12 @@ public class SpawnStage extends PositioningStage {
         Vector pos = getPosition(team);
         Vector totemPos = team.getTotem().getMiddle();
         int distance = totemPos.subtract(pos).lengthSq();
-        System.out.println(team.getName() + " - " + distance);
         return distance > MIN_DISTANCE;
     }
 
     @Override
     public void initPosition(Team team, Vector pos) {
-        team.setSpawn(pos);
+        team.setSpawn(pos, game.getWorld().getMaxHeight());
         team.getSpawn().create(game.getWorld());
     }
 

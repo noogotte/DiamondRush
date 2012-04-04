@@ -16,7 +16,7 @@ public class TotemPattern {
 
     public void create(World world) {
         Vector pos = origin;
-        for (int i = 1; i <= 3; i++) {
+        for (int i = 0; i <= 3; i++) {
             setTotemBlock(world, pos.add(0, i, 0));
         }
 

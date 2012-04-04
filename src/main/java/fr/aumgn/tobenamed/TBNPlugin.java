@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.google.gson.Gson;
@@ -16,15 +17,20 @@ import fr.aumgn.tobenamed.command.GeneralCommands;
 import fr.aumgn.tobenamed.command.InfoCommands;
 import fr.aumgn.tobenamed.command.JoinStageCommands;
 import fr.aumgn.tobenamed.command.SpectatorsCommands;
+import fr.aumgn.tobenamed.listeners.RegionsListener;
 
 public class TBNPlugin extends JavaPlugin {
 
     public void onEnable() {
         TBN.init(this);
+
+        Bukkit.getPluginManager().registerEvents(new RegionsListener(), this);
+
         Commands.register(new GeneralCommands());
         Commands.register(new InfoCommands());
         Commands.register(new JoinStageCommands());
         Commands.register(new SpectatorsCommands());
+
         getLogger().info("Enabled.");
     }
 

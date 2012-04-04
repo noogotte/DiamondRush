@@ -1,10 +1,12 @@
 package fr.aumgn.tobenamed.util;
 
+import java.util.Iterator;
+
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 
-public class Vector {
+public class Vector implements Iterable<Vector> {
 
     private final int x, y, z;
 
@@ -117,6 +119,20 @@ public class Vector {
     public Location toPlayerLocation(World world, Vector2D direction) {
         return new Location(world, x + 0.5, y + 0.5, 
                 z + 0.5, direction.toYaw(), 0.0f);
+    }
+
+    @Override
+    public Iterator<Vector> iterator() {
+        return new VectorIterator(new Vector(), this);
+    }
+
+    public Iterable<Vector> rectangle(final Vector max) {
+        return new Iterable<Vector>() {
+            @Override
+            public Iterator<Vector> iterator() {
+                return new VectorIterator(Vector.this, max);
+            }
+        };
     }
 
     @Override
