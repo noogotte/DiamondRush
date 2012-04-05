@@ -13,11 +13,11 @@ public class Totem extends Region {
     }
 
     public void create(World world) {
+        removeEverythingAbove(world);
         FloorPattern base = new FloorPattern(
                 min.to2D(), max.to2D(), min.getY());
         base.create(world);
-        removeEverythingAbove(world, min.getY() + 1);
-        Vector totemOrigin = min.getMiddle(max).setY(min.getY() + 1);
+        Vector totemOrigin = getMiddle().setY(min.getY() + 1);
         TotemPattern totem = new TotemPattern(totemOrigin);
         totem.create(world);
     }

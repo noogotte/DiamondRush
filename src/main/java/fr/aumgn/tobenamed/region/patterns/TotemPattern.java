@@ -19,23 +19,12 @@ public class TotemPattern {
         for (int i = 0; i <= 2; i++) {
             setTotemBlock(world, pos.add(0, i, 0));
         }
-
         setTotemBlock(world, pos.add( 1, 2, 0));
         setTotemBlock(world, pos.add(-1, 2, 0));
-
-        setTorchBlock(world, pos.add( 1, 2,  1));
-        setTorchBlock(world, pos.add( 1, 2, -1));
-        setTorchBlock(world, pos.add(-1, 2,  1));
-        setTorchBlock(world, pos.add(-1, 2, -1));
     }
 
     private void setTotemBlock(World world, Vector pos) {
         Block block = world.getBlockAt(pos.getX(), pos.getY(), pos.getZ());
         block.setType(Material.OBSIDIAN);
-    }
-
-    private void setTorchBlock(World world, Vector pos) {
-        Block block = world.getBlockAt(pos.getX(), pos.getY(), pos.getZ());
-        block.setType(Material.TORCH);
     }
 }

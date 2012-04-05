@@ -12,9 +12,9 @@ public class TeamSpawn extends Region {
     }
 
     public void create(World world) {
+        removeEverythingAbove(world);
         FloorPattern base = new FloorPattern(
                 min.to2D(), max.to2D(), min.getY());
-        removeEverythingAbove(world, min.getY() + 1);
         base.create(world);
     }
 }

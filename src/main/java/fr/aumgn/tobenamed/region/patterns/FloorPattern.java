@@ -39,6 +39,7 @@ public class FloorPattern {
         for (Vector2D pos : min.rectangle(max)) {
             setInside(world, pos.to3D(y));
         }
+        setTorches(world);
     }
 
     private void setEdge(World world, int x, int y, int z) {
@@ -52,4 +53,14 @@ public class FloorPattern {
         block.setType(Material.SMOOTH_BRICK);
     }
 
+    private void setTorches(World world) {
+        Vector min = baseMin.to3D(y + 1);
+        Vector max = baseMax.to3D(y + 1);
+        min.toBlock(world).setType(Material.TORCH);
+        max.toBlock(world).setType(Material.TORCH);
+        min.setX(max.getX()).toBlock(world)
+            .setType(Material.TORCH);
+        min.setZ(max.getZ()).toBlock(world)
+            .setType(Material.TORCH);
+    }
 }
