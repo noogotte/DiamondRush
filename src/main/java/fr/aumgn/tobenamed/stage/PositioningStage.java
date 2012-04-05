@@ -46,12 +46,12 @@ public abstract class PositioningStage extends Stage {
 
     @Override
     public void stop() {
+        removeBlocksFromInventories();
+        removeBlocksFromWorld();
         for (Team team : game.getTeams()) {
             Vector pos = getPosition(team);
             initPosition(team, pos);
         }
-        removeBlocksFromInventories();
-        removeBlocksFromWorld();
     }
 
     public Vector getPosition(Team team) {

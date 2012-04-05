@@ -7,16 +7,16 @@ import org.bukkit.ChatColor;
 import org.bukkit.event.Listener;
 
 import fr.aumgn.tobenamed.game.Game;
-import fr.aumgn.tobenamed.stage.listeners.DevelopmentListener;
+import fr.aumgn.tobenamed.stage.listeners.FightListener;
 
-public class DevelopmentStage extends Stage {
+public class FightStage extends Stage {
 
     private Game game;
-    private DevelopmentListener listener;
+    private FightListener listener;
 
-    public DevelopmentStage(Game game) {
+    public FightStage(Game game) {
         this.game = game;
-        this.listener = new DevelopmentListener(this);
+        this.listener = new FightListener(this);
     }
 
     @Override
@@ -31,12 +31,12 @@ public class DevelopmentStage extends Stage {
 
     @Override
     public void start() {
-        game.sendMessage(ChatColor.GREEN + "La phase de developement commence.");
-        scheduleNextStage(1200);
+        game.sendMessage(ChatColor.GREEN + "La phase de combat commence.");
+        scheduleNextStage(600);
     }
 
     @Override
     protected Stage nextStage() {
-        return new FightStage(game);
+        return new DevelopmentStage(game);
     }
 }

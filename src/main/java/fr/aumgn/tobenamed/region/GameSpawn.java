@@ -19,10 +19,10 @@ public class GameSpawn extends Region {
         list.add(min.add(3, 1, 0));
         list.add(min.add(3, 1, 6));
 
-        if (list.size() > 2) {
+        if (size > 2) {
             list.add(min.add(6, 1, 0));
         }
-        if (list.size() > 3) {
+        if (size > 3) {
             list.add(min.add(6, 1, 3));
         }
 

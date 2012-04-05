@@ -17,7 +17,7 @@ public class Totem extends Region {
                 min.to2D(), max.to2D(), min.getY());
         base.create(world);
         removeEverythingAbove(world, min.getY() + 1);
-        Vector totemOrigin = min.getMiddle(max).setY(min.getY());
+        Vector totemOrigin = min.getMiddle(max).setY(min.getY() + 1);
         TotemPattern totem = new TotemPattern(totemOrigin);
         totem.create(world);
     }

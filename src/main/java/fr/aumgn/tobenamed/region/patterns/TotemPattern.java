@@ -16,17 +16,17 @@ public class TotemPattern {
 
     public void create(World world) {
         Vector pos = origin;
-        for (int i = 0; i <= 3; i++) {
+        for (int i = 0; i <= 2; i++) {
             setTotemBlock(world, pos.add(0, i, 0));
         }
 
-        setTotemBlock(world, pos.add( 1, 3, 0));
-        setTotemBlock(world, pos.add(-1, 3, 0));
+        setTotemBlock(world, pos.add( 1, 2, 0));
+        setTotemBlock(world, pos.add(-1, 2, 0));
 
-        setTorchBlock(world, pos.add( 1, 3,  1));
-        setTorchBlock(world, pos.add( 1, 3, -1));
-        setTorchBlock(world, pos.add(-1, 3,  1));
-        setTorchBlock(world, pos.add(-1, 3, -1));
+        setTorchBlock(world, pos.add( 1, 2,  1));
+        setTorchBlock(world, pos.add( 1, 2, -1));
+        setTorchBlock(world, pos.add(-1, 2,  1));
+        setTorchBlock(world, pos.add(-1, 2, -1));
     }
 
     private void setTotemBlock(World world, Vector pos) {
