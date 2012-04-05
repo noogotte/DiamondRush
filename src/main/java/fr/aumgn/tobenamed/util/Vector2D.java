@@ -67,8 +67,20 @@ public class Vector2D implements Iterable<Vector2D> {
                 && z >= min.z && z <= max.z;
     }
 
+    public int lengthSq() {
+        return x * x + z * z;
+    }
+
     public double length() {
-        return Math.sqrt(x * x + z * z);
+        return Math.sqrt(lengthSq());
+    }
+
+    public int distanceSq(Vector2D other) {
+        return subtract(other).lengthSq();
+    }
+
+    public double distance(Vector2D other) {
+        return subtract(other).length();
     }
 
     public float toYaw() {

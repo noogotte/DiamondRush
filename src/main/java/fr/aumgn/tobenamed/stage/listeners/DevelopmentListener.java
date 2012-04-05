@@ -54,13 +54,13 @@ public class DevelopmentListener implements Listener {
         }
         Vector targetPos = new Vector(damager.getLocation());
         int totemDistanceSq = damagerTeam.getTotem().
-                getMiddle().subtract(targetPos).lengthSq();
+                getMiddle().distanceSq(targetPos);
         if (totemDistanceSq < TOTEM_RADIUS_SQ) {
             handleSpottedPlayer(damager, target);
         }
 
         int spawnDistanceSq = damagerTeam.getSpawn().
-                getMiddle().subtract(targetPos).lengthSq();
+                getMiddle().distanceSq(targetPos);
         if (spawnDistanceSq < SPAWN_RADIUS_SQ) {
             handleSpottedPlayer(damager, target);
         }

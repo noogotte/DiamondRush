@@ -99,6 +99,14 @@ public class Vector implements Iterable<Vector> {
         return Math.sqrt(lengthSq());
     }
 
+    public int distanceSq(Vector other) {
+        return subtract(other).lengthSq();
+    }
+
+    public double distance(Vector other) {
+        return subtract(other).length();
+    }
+
     public Vector2D to2D() {
         return new Vector2D(x, z);
     }

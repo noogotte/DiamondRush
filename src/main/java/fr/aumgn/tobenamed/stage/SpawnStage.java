@@ -57,7 +57,7 @@ public class SpawnStage extends PositioningStage {
     public boolean validatePosition(Team team) {
         Vector pos = getPosition(team);
         Vector totemPos = team.getTotem().getMiddle();
-        int distance = totemPos.subtract(pos).lengthSq();
+        int distance = totemPos.distanceSq(pos);
         return distance > MIN_DISTANCE;
     }
 
