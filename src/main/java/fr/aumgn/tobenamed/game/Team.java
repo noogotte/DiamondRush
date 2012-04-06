@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 
 import fr.aumgn.tobenamed.region.TeamSpawn;
 import fr.aumgn.tobenamed.region.Totem;
+import fr.aumgn.tobenamed.util.TBNUtil;
 import fr.aumgn.tobenamed.util.Vector;
 
 public class Team {
@@ -16,6 +17,7 @@ public class Team {
     private List<Player> players;
     private Totem totem;
     private TeamSpawn spawn;
+    private int lives;
 
     public Team(String name) {
         this.name = name;
@@ -23,6 +25,7 @@ public class Team {
         this.players = new ArrayList<Player>();
         this.totem = null;
         this.spawn = null;
+        this.lives = 5;
     }
 
     public String getName() {
@@ -69,5 +72,15 @@ public class Team {
 
     public void addPlayer(Player player) {
         players.add(player);
+    }
+
+    public int getLives() {
+        return lives;
+    }
+
+    public void looseLife() {
+        if (--lives == 0) {
+            TBNUtil.broadcast("L'equipe " + name + " a perdu.");
+        }
     }
 }

@@ -1,8 +1,10 @@
 package fr.aumgn.tobenamed.region.patterns;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.block.Block;
 
 import fr.aumgn.tobenamed.util.Vector;
 
@@ -14,17 +16,20 @@ public class TotemPattern {
         this.origin = origin;
     }
 
-    public void create(World world) {
+    public List<Vector> getBlocks() {
+        List<Vector> blocks = new ArrayList<Vector>();
         Vector pos = origin;
         for (int i = 0; i <= 2; i++) {
-            setTotemBlock(world, pos.add(0, i, 0));
+            blocks.add(pos.add(0, i, 0));
         }
-        setTotemBlock(world, pos.add( 1, 2, 0));
-        setTotemBlock(world, pos.add(-1, 2, 0));
+        blocks.add(pos.add( 1, 2, 0));
+        blocks.add(pos.add(-1, 2, 0));
+        return blocks;
     }
 
-    private void setTotemBlock(World world, Vector pos) {
-        Block block = world.getBlockAt(pos.getX(), pos.getY(), pos.getZ());
-        block.setType(Material.OBSIDIAN);
+    public void create(World world) {
+        for (Vector block : getBlocks()) {
+            block.toBlock(world).setType(Material.OBSIDIAN);
+        }
     }
 }

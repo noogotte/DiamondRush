@@ -1,5 +1,6 @@
 package fr.aumgn.tobenamed.listeners;
 
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -21,6 +22,20 @@ public class RegionsListener implements Listener {
 
     @EventHandler
     public void onBreak(BlockBreakEvent event) {
+        if (!TBN.isRunning()) {
+            return;
+        }
+
+        Vector pos = new Vector(event.getBlock());
+        Game game = TBN.getStage().getGame();
+        for (Team team : game.getTeams()) {
+            if (team.getTotem().isTotemBlock(pos) 
+                    && event.getBlock().getType() == Material.OBSIDIAN) {
+                team.looseLife();
+                return;
+            }
+        }
+
         if (isProtected(event.getBlock())) {
             event.setCancelled(true);
         }
