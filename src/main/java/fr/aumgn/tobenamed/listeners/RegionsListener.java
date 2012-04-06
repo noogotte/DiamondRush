@@ -27,16 +27,21 @@ public class RegionsListener implements Listener {
         }
 
         Vector pos = new Vector(event.getBlock());
-        Game game = TBN.getStage().getGame();
+        Game game = TBN.getGame();
         for (Team team : game.getTeams()) {
             if (team.getTotem().isTotemBlock(pos) 
                     && event.getBlock().getType() == Material.OBSIDIAN) {
-                game.decreaseLives(team);
+                if (event.getPlayer().getItemInHand().getType() 
+                        == Material.DIAMOND_PICKAXE) {
+                    game.decreaseLives(team);
+                } else {
+                    event.setCancelled(true);
+                }
                 return;
             }
         }
 
-        if (isProtected(event.getBlock())) {
+        if (isProtected(pos)) {
             event.setCancelled(true);
         }
     }
@@ -104,7 +109,7 @@ public class RegionsListener implements Listener {
             return false;
         }
 
-        Game game = TBN.getStage().getGame();
+        Game game = TBN.getGame();
         if (game.getSpawn() != null 
                 && game.getSpawn().contains(pos)) {
             return true;

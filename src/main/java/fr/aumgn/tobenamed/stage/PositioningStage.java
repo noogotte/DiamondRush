@@ -89,15 +89,16 @@ public abstract class PositioningStage extends Stage {
             for (Player player : team.getPlayers()) {
                 Inventory inventory = player.getInventory();
                 int index = inventory.first(getMaterial());
-                if (index != -1) {
-                    ItemStack stack = inventory.getItem(index);
-                    if (stack.getAmount() > 1) {
-                        stack.setAmount(stack.getAmount() - 1);
-                    } else {
-                        inventory.clear(index);
-                    }
-                    return;
+                if (index == -1) {
+                    continue;
                 }
+                ItemStack stack = inventory.getItem(index);
+                if (stack.getAmount() > 1) {
+                    stack.setAmount(stack.getAmount() - 1);
+                } else {
+                    inventory.clear(index);
+                }
+                return;
             }
         }
     }

@@ -30,11 +30,13 @@ public final class TBNUtil {
         return from.get(TBN.getRandom().nextInt(from.size()));
     }
 
-    public static void scheduleDelayed(int delay, Runnable runnable) {
-        Bukkit.getScheduler().scheduleSyncDelayedTask(TBN.getPlugin(), runnable, delay);
+    public static int scheduleDelayed(int delay, Runnable runnable) {
+        return Bukkit.getScheduler().scheduleSyncDelayedTask(
+                TBN.getPlugin(), runnable, delay);
     }
 
-    public static void scheduleRepeating(int delay, Runnable runnable) {
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(TBN.getPlugin(), runnable, delay, delay);
+    public static int scheduleRepeating(int delay, Runnable runnable) {
+        return Bukkit.getScheduler().scheduleSyncRepeatingTask(
+                TBN.getPlugin(), runnable, delay, delay);
     }
 }

@@ -20,6 +20,7 @@ import fr.aumgn.tobenamed.command.JoinStageCommands;
 import fr.aumgn.tobenamed.command.SpectatorsCommands;
 import fr.aumgn.tobenamed.listeners.GameListener;
 import fr.aumgn.tobenamed.listeners.RegionsListener;
+import fr.aumgn.tobenamed.listeners.SpectatorsListener;
 
 public class TBNPlugin extends JavaPlugin {
 
@@ -27,8 +28,9 @@ public class TBNPlugin extends JavaPlugin {
         TBN.init(this);
 
         PluginManager pm = Bukkit.getPluginManager();
-        pm.registerEvents(new RegionsListener(), this);
         pm.registerEvents(new GameListener(), this);
+        pm.registerEvents(new RegionsListener(), this);
+        pm.registerEvents(new SpectatorsListener(), this);
 
         Commands.register(new GeneralCommands());
         Commands.register(new InfoCommands());

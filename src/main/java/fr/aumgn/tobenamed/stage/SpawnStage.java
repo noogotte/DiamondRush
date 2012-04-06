@@ -11,7 +11,7 @@ import fr.aumgn.tobenamed.util.Vector;
 public class SpawnStage extends PositioningStage {
 
     private static final int MIN_DISTANCE = 20 * 20;
-    private static final int DELAY = 600;
+    private static final int DELAY = 30 * 20;
 
     public class SpawnNextStageTask extends NextStageTask {
         @Override

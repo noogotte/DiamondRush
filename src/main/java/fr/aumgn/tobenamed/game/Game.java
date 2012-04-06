@@ -2,16 +2,17 @@ package fr.aumgn.tobenamed.game;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
+import org.bukkit.event.HandlerList;
+import org.bukkit.event.Listener;
 
 import fr.aumgn.tobenamed.TBN;
 import fr.aumgn.tobenamed.TBNColor;
@@ -19,19 +20,22 @@ import fr.aumgn.tobenamed.exception.NoSuchTeam;
 import fr.aumgn.tobenamed.exception.NotEnoughTeams;
 import fr.aumgn.tobenamed.exception.PlayerNotInGame;
 import fr.aumgn.tobenamed.region.GameSpawn;
+import fr.aumgn.tobenamed.stage.Stage;
 import fr.aumgn.tobenamed.util.TBNUtil;
 import fr.aumgn.tobenamed.util.Vector;
 
 public class Game {
 
+    private Stage stage;
     private World world;
     private GameSpawn spawn;
     private Map<String, Team> teams;
     private Map<Player, Team> players;
-    private Set<Player> spectators;
+    private Spectators spectators;
 
     public Game(List<String> teamsName, World world, Vector spawnPoint) {
-        teams = new LinkedHashMap<String, Team>();
+        this.stage = null;
+        this.teams = new LinkedHashMap<String, Team>();
         Iterator<TBNColor> colors = TBNColor.
                 getRandomColors(teamsName.size()).iterator();
         for (String teamName : teamsName) {
@@ -43,7 +47,27 @@ public class Game {
         this.world = world;
         spawn = new GameSpawn(spawnPoint);
         players = new HashMap<Player, Team>();
-        spectators = new HashSet<Player>();
+        spectators = new Spectators(this);
+    }
+
+    public Stage getStage() {
+        return stage;
+    }
+
+    public void nextStage(Stage newStage) {
+        if (stage != null) {
+            for (Listener listener : stage.getListeners()) {
+                HandlerList.unregisterAll(listener);
+            }
+            stage.stop();
+        }
+        stage = newStage;
+        if (newStage != null) {
+            for (Listener listener : stage.getListeners()) {
+                Bukkit.getPluginManager().registerEvents(listener, TBN.getPlugin());
+            }
+            stage.start();
+        }
     }
 
     public World getWorld() {
@@ -68,6 +92,10 @@ public class Game {
         return players.get(player);
     }
 
+    public Spectators getSpectators() {
+        return spectators;
+    }
+
     public void sendMessage(String message) {
         for (Team team : getTeams()) {
             team.sendMessage(message);
@@ -78,8 +106,7 @@ public class Game {
     }
 
     public boolean contains(Player player) {
-        return players.containsKey(player) 
-                || spectators.contains(player);
+        return players.containsKey(player);
     }
 
     public List<Team> getTeams() {
@@ -115,22 +142,6 @@ public class Game {
         return players.containsKey(player);
     }
 
-    public Iterable<Player> spectators() {
-        return spectators;
-    }
-
-    public boolean hasSpectator(Player player) {
-        return spectators.contains(player);
-    }
-
-    public void addSpectator(Player player) {
-        spectators.add(player);
-    }
-
-    public void removeSpectator(Player player) {
-        spectators.remove(player);
-    }
-
     public void decreaseLives(Team team) {
         team.decreaseLives();
         if (team.getLives() == 0) {
@@ -139,10 +150,14 @@ public class Game {
                 for (Player player : team.getPlayers()) {
                     players.remove(player);
                 }
-                sendMessage("L'équipe " + team.getDisplayName() + " a perdu la partie.");
+                String msg = "L'équipe " + team.getDisplayName() + " a perdu la partie.";
+                sendMessage(msg);
+                team.sendMessage(msg);
             } else {
                 Team winningTeam = teams.values().iterator().next();
-                sendMessage("L'équipe " + winningTeam.getDisplayName() + " a gagné la partie.");
+                String msg = "L'équipe " + winningTeam.getDisplayName() + " a gagné la partie.";
+                sendMessage(msg);
+                team.sendMessage(msg);
                 TBN.forceStop();
             }
         } else {

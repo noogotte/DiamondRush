@@ -1,12 +1,16 @@
 package fr.aumgn.tobenamed.stage.listeners;
 
+import java.util.Set;
+
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.player.PlayerChatEvent;
 
 import fr.aumgn.tobenamed.game.Game;
 import fr.aumgn.tobenamed.game.Team;
@@ -24,7 +28,7 @@ public class DevelopmentListener implements Listener {
         this.stage = stage;
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onDamage(EntityDamageByEntityEvent event) {
         Entity targetEntity = event.getEntity();
         Entity damagerEntity = event.getDamager();
@@ -73,5 +77,18 @@ public class DevelopmentListener implements Listener {
         target.teleport(pos.toLocation(game.getWorld()));
         game.sendMessage(target.getDisplayName() + ChatColor.YELLOW +
                 " s'est fait voir par " + ChatColor.RESET + player.getDisplayName());
+    }
+
+    @EventHandler(priority = EventPriority.HIGH)
+    public void onChat(PlayerChatEvent event) {
+        Player player = event.getPlayer();
+        Game game = stage.getGame();
+        if (game.contains(player)) {
+            Set<Player> receivers = event.getRecipients();
+            receivers.clear();
+            Team team = game.getTeam(player);
+            receivers.addAll(team.getPlayers());
+            receivers.addAll(game.getSpectators().asCollection());
+        }
     }
 }

@@ -28,14 +28,13 @@ public class JoinStageCommands extends Commands {
         Game game = new Game(args.asList(), player.getWorld(),
                 new Vector(player.getLocation()));
         JoinStage stage = new JoinStage(game, args.hasFlag('a'));
-        TBN.nextStage(stage);
+        TBN.initGame(game, stage);
     }
 
     @Command(name = "join-team", max = 1)
     public void joinTeam(Player player, CommandArgs args) {
-        Stage stage = TBN.getStage();
-
-        Game game = stage.getGame();
+        Game game = TBN.getGame();
+        Stage stage = game.getStage();
         if (game.contains(player)) {
             throw new CommandError("Vous etes deja dans la partie.");
         }
@@ -52,7 +51,8 @@ public class JoinStageCommands extends Commands {
 
     @Command(name = "start-game", max = 0)
     public void startGame(CommandSender sender, CommandArgs args) {
-        final Stage stage = TBN.getStage();
+        final Game game = TBN.getGame();
+        final Stage stage = game.getStage();
 
         if (!(stage instanceof JoinStage)) {
             throw new CommandError("Cette commande ne peut etre utilisé que durant la phase de join.");
@@ -68,7 +68,7 @@ public class JoinStageCommands extends Commands {
             @Override
             public void run() {
                 TotemStage totemStage = new TotemStage(stage.getGame());
-                TBN.nextStage(totemStage);
+                game.nextStage(totemStage);
             }
         });
         stage.getGame().sendMessage(ChatColor.GREEN + "La partie commence dans 10 secondes !");

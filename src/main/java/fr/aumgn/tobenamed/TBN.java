@@ -12,7 +12,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import fr.aumgn.tobenamed.exception.NoGameRunning;
-import fr.aumgn.tobenamed.stage.Stage;
+import fr.aumgn.tobenamed.game.Game;
+import fr.aumgn.tobenamed.stage.JoinStage;
 
 public final class TBN {
 
@@ -20,7 +21,7 @@ public final class TBN {
 
     private static TBNPlugin plugin;
     private static Random random;
-    private static Stage stage;
+    private static Game game;
     private static TBNConfig config;
 
     private TBN() {
@@ -32,7 +33,7 @@ public final class TBN {
         }
         TBN.plugin = plugin;
         TBN.random = new Random();
-        TBN.stage = null;
+        TBN.game = null;
         reloadConfig();
     }
 
@@ -66,37 +67,26 @@ public final class TBN {
     }
 
     public static boolean isRunning() {
-        return stage != null;
+        return game != null;
     }
 
-    public static Stage getStage() {
+    public static Game getGame() {
         if (!isRunning()) {
             throw new NoGameRunning();
         }
-        return stage;
+        return game;
     }
 
-    public static void nextStage(Stage newStage) {
-        if (stage != null) {
-            for (Listener listener : stage.getListeners()) {
-                HandlerList.unregisterAll(listener);
-            }
-            stage.stop();
-        }
-        stage = newStage;
-        if (newStage != null) {
-            for (Listener listener : stage.getListeners()) {
-                Bukkit.getPluginManager().registerEvents(listener, plugin);
-            }
-            stage.start();
-        }
+    public static void initGame(Game game, JoinStage stage) {
+        TBN.game = game;
+        game.nextStage(stage);
     }
 
     public static void forceStop() {
-        for (Listener listener : stage.getListeners()) {
+        for (Listener listener : game.getStage().getListeners()) {
             HandlerList.unregisterAll(listener);
         }
-        Bukkit.getScheduler().cancelTasks(plugin);
-        stage = null;
+        Bukkit.getScheduler().cancelTasks(TBN.getPlugin());
+        TBN.game = null;
     }
 }

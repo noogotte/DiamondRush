@@ -7,14 +7,14 @@ import fr.aumgn.bukkit.command.Command;
 import fr.aumgn.bukkit.command.CommandArgs;
 import fr.aumgn.bukkit.command.Commands;
 import fr.aumgn.tobenamed.TBN;
-import fr.aumgn.tobenamed.stage.Stage;
+import fr.aumgn.tobenamed.game.Game;
 
 public class GeneralCommands extends Commands {
 
     @Command(name = "stop-game", max = 0)
     public void stopGame(CommandSender sender, CommandArgs args) {
-        Stage stage = TBN.getStage();
+        Game game = TBN.getGame();
         TBN.forceStop();
-        stage.getGame().sendMessage(ChatColor.RED + "La partie a été arreté.");
+        game.sendMessage(ChatColor.RED + "La partie a été arreté.");
     }
 }

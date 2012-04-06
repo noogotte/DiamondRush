@@ -27,7 +27,7 @@ public class Region {
         return getMiddle();
     }
 
-    protected void removeEverythingAbove(World world) {
+    protected void removeEverythingInside(World world) {
         for (Vector pos : min.rectangle(max)) {
             pos.toBlock(world).setType(Material.AIR);
         }

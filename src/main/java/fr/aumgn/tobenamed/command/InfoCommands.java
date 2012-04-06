@@ -14,7 +14,7 @@ public class InfoCommands extends Commands {
 
     @Command(name = "show-teams", max = 0)
     public void showTeams(Player player, CommandArgs args) {
-        Game game = TBN.getStage().getGame();
+        Game game = TBN.getGame();
         player.sendMessage(ChatColor.GREEN + "Equipes :");
         for (Team team : game.getTeams()) {
             StringBuilder teamMessage = new StringBuilder();

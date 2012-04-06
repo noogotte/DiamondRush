@@ -32,7 +32,7 @@ public class FightStage extends Stage {
     @Override
     public void start() {
         game.sendMessage(ChatColor.GREEN + "La phase de combat commence.");
-        scheduleNextStage(600);
+        scheduleNextStage(5 * 60 * 20);
     }
 
     @Override

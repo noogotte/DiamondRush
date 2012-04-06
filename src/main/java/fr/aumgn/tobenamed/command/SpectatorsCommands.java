@@ -14,6 +14,7 @@ import fr.aumgn.bukkit.command.Commands;
 import fr.aumgn.tobenamed.TBN;
 import fr.aumgn.tobenamed.exception.PlayerNotInGame;
 import fr.aumgn.tobenamed.game.Game;
+import fr.aumgn.tobenamed.game.Spectators;
 import fr.aumgn.tobenamed.game.Team;
 import fr.aumgn.tobenamed.region.TeamSpawn;
 import fr.aumgn.tobenamed.region.Totem;
@@ -22,35 +23,40 @@ public class SpectatorsCommands extends Commands {
 
     @Command(name = "watch-game", max = 0)
     public void watchGame(Player player, CommandArgs args) {
-        Game game = TBN.getStage().getGame();
+        Game game = TBN.getGame();
         if (game.contains(player)) {
             throw new CommandError("Vous etes deja dans la partie.");
         }
 
-        game.addSpectator(player);
+        Spectators spectators = game.getSpectators();
+        if (spectators.contains(player)) {
+            throw new CommandError("Vous etes deja spectateur.");
+        }
+
+        spectators.add(player);
         player.sendMessage(ChatColor.GREEN + "Vous etes maintenant spectateur.");
     }
 
     private void ensureIsSpectator(Player player) {
-        Game game = TBN.getStage().getGame();
-        if (!game.hasSpectator(player)) {
-            throw new CommandError("Cette commande n'est utilisable seulement qu'en tant que spectateur.");
+        Game game = TBN.getGame();
+        if (!game.getSpectators().contains(player)) {
+            throw new CommandError("Cette commande n'est utilisable qu'en tant que spectateur.");
         }
     }
 
     @Command(name = "unwatch-game", max = 0)
     public void unwatchGame(Player player, CommandArgs args) {
         ensureIsSpectator(player);
-        Game game = TBN.getStage().getGame();
-        game.removeSpectator(player);
+        Game game = TBN.getGame();
+        game.getSpectators().remove(player);
         player.sendMessage(ChatColor.GREEN + "Vous n'etes plus spectateur.");
     }
 
-    @Command(name = "tp-player", min = 1, max = 1)
+    @Command(name = "teleport-player", min = 1, max = 1)
     public void tpPlayer(Player player, CommandArgs args) {
         ensureIsSpectator(player);
 
-        Game game = TBN.getStage().getGame();
+        Game game = TBN.getGame();
         String arg = args.get(0);
 
         List<Player> players = Bukkit.matchPlayer(arg);
@@ -68,11 +74,11 @@ public class SpectatorsCommands extends Commands {
         player.sendMessage("Poof !");
     }
 
-    @Command(name = "tp-team", min = 1, max = 1, flags = "sf")
+    @Command(name = "teleport-team", min = 1, max = 1, flags = "sf")
     public void tpTeam(Player player, CommandArgs args) {
         ensureIsSpectator(player);
 
-        Game game = TBN.getStage().getGame();
+        Game game = TBN.getGame();
         String arg = args.get(0);
 
         Team team = game.getTeam(arg);

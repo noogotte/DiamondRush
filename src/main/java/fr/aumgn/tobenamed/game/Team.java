@@ -68,7 +68,7 @@ public class Team {
     }
 
     public void setSpawn(Vector pos, int worldHeight) {
-        spawn = new TeamSpawn(pos, worldHeight);
+        spawn = new TeamSpawn(pos);
     }
 
     public void sendMessage(String message) {
@@ -81,7 +81,7 @@ public class Team {
         return players.size();
     }
 
-    public void addPlayer(Player player) {
+    void addPlayer(Player player) {
         players.add(player);
         String rawName = ChatColor.stripColor(player.getDisplayName());
         String teamName = color.getChatColor() + rawName + ChatColor.RESET;
@@ -93,7 +93,7 @@ public class Team {
         return lives;
     }
 
-    public void decreaseLives() {
+    void decreaseLives() {
         --lives;
     }
 }

@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.bukkit.event.Listener;
 
-import fr.aumgn.tobenamed.TBN;
 import fr.aumgn.tobenamed.game.Game;
 import fr.aumgn.tobenamed.util.TBNUtil;
 
@@ -13,7 +12,7 @@ public abstract class Stage {
     protected class NextStageTask implements Runnable {
         @Override
         public void run() {
-            TBN.nextStage(nextStage());
+            getGame().nextStage(nextStage());
         }
     }
 

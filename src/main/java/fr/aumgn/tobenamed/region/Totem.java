@@ -21,7 +21,7 @@ public class Totem extends Region {
     }
 
     public void create(World world, TBNColor color) {
-        removeEverythingAbove(world);
+        removeEverythingInside(world);
         FloorPattern base = new FloorPattern(
                 min.to2D(), max.to2D(), min.getY(),
                 Material.WOOL, color.getWoolColor());
