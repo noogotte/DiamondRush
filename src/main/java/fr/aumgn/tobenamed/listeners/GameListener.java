@@ -30,11 +30,11 @@ public class GameListener implements Listener {
             Vector2D currentPos = new Vector(player.getLocation()).to2D();
             Vector pos = game.getSpawn().getMiddle();
             Vector2D dir = currentPos.subtract(pos.to2D());
-            event.setRespawnLocation(pos.toPlayerLocation(game.getWorld(), dir));
+            event.setRespawnLocation(pos.toLocation(game.getWorld(), dir));
         } else {
             Vector pos = team.getSpawn().getMiddle();
             Vector2D dir = game.getSpawn().getMiddle().to2D().subtract(pos.to2D());
-            event.setRespawnLocation(pos.toPlayerLocation(game.getWorld(), dir));
+            event.setRespawnLocation(pos.toLocation(game.getWorld(), dir));
         }
     }
 }

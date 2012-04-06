@@ -70,7 +70,7 @@ public class DevelopmentListener implements Listener {
         Game game = stage.getGame();
         Team team = game.getTeam(target);
         Vector pos = team.getSpawn().getTeleportPoint();
-        target.teleport(pos.toPlayerLocation(game.getWorld()));
+        target.teleport(pos.toLocation(game.getWorld()));
         game.sendMessage(target.getDisplayName() + ChatColor.YELLOW +
                 " s'est fait voir par " + ChatColor.RESET + player.getDisplayName());
     }

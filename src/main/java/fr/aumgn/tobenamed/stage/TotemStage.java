@@ -57,7 +57,7 @@ public class TotemStage extends PositioningStage {
             player.getInventory().clear();
         }
 
-        foreman.teleport(pos.toPlayerLocation(world, dir));
+        foreman.teleport(pos.toLocation(world, dir));
     }
 
     @Override

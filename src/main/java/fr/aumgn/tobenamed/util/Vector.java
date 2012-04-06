@@ -116,16 +116,12 @@ public class Vector implements Iterable<Vector> {
     }
 
     public Location toLocation(World world) {
-        return new Location(world, x, y, z);
-    }
-
-    public Location toPlayerLocation(World world) {
-        return new Location(world, x + 0.5, y + 0.5, 
+        return new Location(world, x + 0.5, y, 
                 z + 0.5, 0.0f, 0.0f);
     }
 
-    public Location toPlayerLocation(World world, Vector2D direction) {
-        return new Location(world, x + 0.5, y + 0.5, 
+    public Location toLocation(World world, Vector2D direction) {
+        return new Location(world, x + 0.5, y, 
                 z + 0.5, direction.toYaw(), 0.0f);
     }
 

@@ -59,7 +59,7 @@ public abstract class PositioningStage extends Stage {
         if (pos == null) {
             Player foreman = team.getForeman();
             pos = new Vector(foreman.getLocation());
-            foreman.teleport(pos.add(0, 0, 1).toPlayerLocation(game.getWorld()));
+            foreman.teleport(pos.add(0, 0, 1).toLocation(game.getWorld()));
         }
         return pos;
     }
