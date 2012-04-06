@@ -3,6 +3,7 @@ package fr.aumgn.tobenamed.region;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.Material;
 import org.bukkit.World;
 
 import fr.aumgn.tobenamed.region.patterns.FloorPattern;
@@ -36,7 +37,8 @@ public class GameSpawn extends Region {
     public void create(World world) {
         removeEverythingAbove(world);
         FloorPattern base = new FloorPattern(
-                min.to2D(), max.to2D(), min.getY());
+                min.to2D(), max.to2D(), min.getY(),
+                Material.SMOOTH_BRICK, (byte) 1);
         base.create(world);
     }
 }

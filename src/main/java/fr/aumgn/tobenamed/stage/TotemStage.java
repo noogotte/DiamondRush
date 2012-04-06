@@ -63,7 +63,7 @@ public class TotemStage extends PositioningStage {
     @Override
     public void initPosition(Team team, Vector pos) {
         team.setTotem(pos, game.getWorld().getMaxHeight());
-        team.getTotem().create(game.getWorld());
+        team.getTotem().create(game.getWorld(), team.getColor());
     }
 
     @Override

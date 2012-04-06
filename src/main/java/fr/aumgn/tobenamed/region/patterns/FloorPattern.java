@@ -12,34 +12,48 @@ public class FloorPattern {
     private Vector2D baseMin;
     private Vector2D baseMax;
     private int y;
+    private Material cornerType;
+    private byte cornerData;
 
-    public FloorPattern(Vector2D min, Vector2D max, int y) {
+    public FloorPattern(Vector2D min, Vector2D max, int y,
+            Material cornerType, byte cornerData) {
         this.baseMin = min;
         this.baseMax = max;
         this.y = y;
+        this.cornerType = cornerType;
+        this.cornerData = cornerData;
     }
 
     public void create(World world) {
-        Vector2D min = baseMin;
-        Vector2D max = baseMax;
+        Vector minCorner = baseMin.to3D(y);
+        Vector maxCorner = baseMax.to3D(y);
+        setCorner(world, minCorner);
+        setCorner(world, maxCorner);
+        setCorner(world, minCorner.setX(maxCorner.getX()));
+        setCorner(world, minCorner.setZ(maxCorner.getZ()));
+
+        Vector2D min = baseMin.add(1, 0, 1);
+        Vector2D max = baseMax.subtract(1, 0, 1);
         for (int x = min.getX(); x <= max.getX(); x++) {
-            setEdge(world, x, y, min.getZ());
-            setEdge(world, x, y, max.getZ());
+            setEdge(world, x, y, baseMin.getZ());
+            setEdge(world, x, y, baseMax.getZ());
         }
 
-        min = min.add(0, 0, 1);
-        max = max.subtract(0, 0, 1);
         for (int z = min.getZ(); z <= max.getZ(); z++) {
-            setEdge(world, min.getX(), y, z);
-            setEdge(world, max.getX(), y, z);
+            setEdge(world, baseMin.getX(), y, z);
+            setEdge(world, baseMax.getX(), y, z);
         }
 
-        min = min.add(1, 0, 0);
-        max = max.subtract(1, 0, 0);
         for (Vector2D pos : min.rectangle(max)) {
             setInside(world, pos.to3D(y));
         }
-        setTorches(world);
+    }
+
+    private void setCorner(World world, Vector pos) {
+        Block corner = pos.toBlock(world);
+        corner.setType(cornerType);
+        corner.setData(cornerData);
+        pos.add(0, 1, 0).toBlock(world).setType(Material.TORCH);
     }
 
     private void setEdge(World world, int x, int y, int z) {
@@ -53,14 +67,4 @@ public class FloorPattern {
         block.setType(Material.SMOOTH_BRICK);
     }
 
-    private void setTorches(World world) {
-        Vector min = baseMin.to3D(y + 1);
-        Vector max = baseMax.to3D(y + 1);
-        min.toBlock(world).setType(Material.TORCH);
-        max.toBlock(world).setType(Material.TORCH);
-        min.setX(max.getX()).toBlock(world)
-            .setType(Material.TORCH);
-        min.setZ(max.getZ()).toBlock(world)
-            .setType(Material.TORCH);
-    }
 }

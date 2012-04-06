@@ -1,5 +1,6 @@
 package fr.aumgn.tobenamed.stage;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 
 import fr.aumgn.tobenamed.game.Game;
@@ -19,7 +20,7 @@ public class SpawnStage extends PositioningStage {
                 if (validatePosition(team)) {
                     continue;
                 }
-                game.sendMessage(team.getName() + 
+                game.sendMessage(team.getDisplayName() + ChatColor.YELLOW +
                         " a placé son spawn trop pres du totem.");
                 removeBlocksFromWorld();
                 removeBlocksFromInventories();
@@ -64,7 +65,7 @@ public class SpawnStage extends PositioningStage {
     @Override
     public void initPosition(Team team, Vector pos) {
         team.setSpawn(pos, game.getWorld().getMaxHeight());
-        team.getSpawn().create(game.getWorld());
+        team.getSpawn().create(game.getWorld(), team.getColor());
     }
 
     @Override

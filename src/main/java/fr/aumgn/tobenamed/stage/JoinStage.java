@@ -32,10 +32,10 @@ public class JoinStage extends Stage {
 
     @Override
     public void start() {
-        TBNUtil.broadcast(ChatColor.GREEN + "Une nouvelle partie de TBN va commencer !");
-        TBNUtil.broadcast(ChatColor.GREEN + "Equipes : ");
+        TBNUtil.broadcast(ChatColor.YELLOW + "Une nouvelle partie de TBN va commencer !");
+        TBNUtil.broadcast(ChatColor.YELLOW + "Equipes : ");
         for (Team team : game.getTeams()) {
-            TBNUtil.broadcast(" - " + ChatColor.GOLD + team.getName());
+            TBNUtil.broadcast(" - " + team.getDisplayName());
         }
     }
 

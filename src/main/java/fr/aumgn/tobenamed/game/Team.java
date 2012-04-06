@@ -3,8 +3,10 @@ package fr.aumgn.tobenamed.game;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
+import fr.aumgn.tobenamed.TBNColor;
 import fr.aumgn.tobenamed.region.TeamSpawn;
 import fr.aumgn.tobenamed.region.Totem;
 import fr.aumgn.tobenamed.util.TBNUtil;
@@ -13,14 +15,16 @@ import fr.aumgn.tobenamed.util.Vector;
 public class Team {
 
     private String name;
+    private TBNColor color;
     private Player foreman;
     private List<Player> players;
     private Totem totem;
     private TeamSpawn spawn;
     private int lives;
 
-    public Team(String name) {
+    public Team(String name, TBNColor color) {
         this.name = name;
+        this.color = color;
         this.foreman = null;
         this.players = new ArrayList<Player>();
         this.totem = null;
@@ -30,6 +34,14 @@ public class Team {
 
     public String getName() {
         return name;
+    }
+
+    public String getDisplayName() {
+        return color.getChatColor() + name + ChatColor.RESET;
+    }
+
+    public TBNColor getColor() {
+        return color;
     }
 
     public Player getForeman() {
@@ -72,6 +84,10 @@ public class Team {
 
     public void addPlayer(Player player) {
         players.add(player);
+        String rawName = ChatColor.stripColor(player.getDisplayName());
+        String teamName = color.getChatColor() + rawName + ChatColor.RESET;
+        player.setDisplayName(teamName);
+        player.setPlayerListName(teamName);
     }
 
     public int getLives() {

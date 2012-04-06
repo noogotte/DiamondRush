@@ -17,16 +17,15 @@ public class InfoCommands extends Commands {
         Game game = TBN.getStage().getGame();
         player.sendMessage(ChatColor.GREEN + "Equipes :");
         for (Team team : game.getTeams()) {
-            StringBuffer teamMessage = new StringBuffer();
+            StringBuilder teamMessage = new StringBuilder();
             teamMessage.append(" - ");
-            teamMessage.append(ChatColor.GOLD);
-            teamMessage.append(team.getName());
-            teamMessage.append(ChatColor.RESET);
+            teamMessage.append(team.getDisplayName());
             if (team.size() > 0) {
                 teamMessage.append(" : ");
                 Player foreman = team.getForeman();
                 if (foreman != null) {
-                    teamMessage.append(ChatColor.AQUA + foreman.getDisplayName());
+                    teamMessage.append(ChatColor.GOLD);
+                    teamMessage.append(ChatColor.stripColor(foreman.getDisplayName()));
                     teamMessage.append(" ");
                 }
                 teamMessage.append(ChatColor.BLUE);

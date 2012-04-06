@@ -3,6 +3,7 @@ package fr.aumgn.tobenamed.game;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
+import fr.aumgn.tobenamed.TBNColor;
 import fr.aumgn.tobenamed.exception.NoSuchTeam;
 import fr.aumgn.tobenamed.exception.NotEnoughTeams;
 import fr.aumgn.tobenamed.exception.PlayerNotInGame;
@@ -29,8 +31,10 @@ public class Game {
 
     public Game(List<String> teamsName, World world, Vector spawnPoint) {
         teams = new LinkedHashMap<String, Team>();
+        Iterator<TBNColor> colors = TBNColor.
+                getRandomColors(teamsName.size()).iterator();
         for (String teamName : teamsName) {
-            teams.put(teamName, new Team(teamName));
+            teams.put(teamName, new Team(teamName, colors.next()));
         }
         if (teams.keySet().size() < 2) {
             throw new NotEnoughTeams();
@@ -102,9 +106,8 @@ public class Game {
     public void addPlayer(Player player, Team team) {
         team.addPlayer(player);
         players.put(player, team);
-        sendMessage(ChatColor.GOLD + player.getDisplayName() + 
-                ChatColor.GREEN + " a rejoint l'équipe " + 
-                ChatColor.GOLD + team.getName());
+        sendMessage(player.getDisplayName() + ChatColor.YELLOW +
+                " a rejoint l'équipe " + team.getDisplayName());
     }
 
     public boolean hasPlayer(Player player) {

@@ -3,8 +3,10 @@ package fr.aumgn.tobenamed.region;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.Material;
 import org.bukkit.World;
 
+import fr.aumgn.tobenamed.TBNColor;
 import fr.aumgn.tobenamed.region.patterns.FloorPattern;
 import fr.aumgn.tobenamed.region.patterns.TotemPattern;
 import fr.aumgn.tobenamed.util.Vector;
@@ -18,10 +20,11 @@ public class Totem extends Region {
         this.blocks = new ArrayList<Vector>();
     }
 
-    public void create(World world) {
+    public void create(World world, TBNColor color) {
         removeEverythingAbove(world);
         FloorPattern base = new FloorPattern(
-                min.to2D(), max.to2D(), min.getY());
+                min.to2D(), max.to2D(), min.getY(),
+                Material.WOOL, color.getWoolColor());
         base.create(world);
         Vector totemOrigin = getMiddle().setY(min.getY() + 1);
         TotemPattern totem = new TotemPattern(totemOrigin);
