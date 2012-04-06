@@ -9,7 +9,6 @@ import org.bukkit.entity.Player;
 import fr.aumgn.tobenamed.TBNColor;
 import fr.aumgn.tobenamed.region.TeamSpawn;
 import fr.aumgn.tobenamed.region.Totem;
-import fr.aumgn.tobenamed.util.TBNUtil;
 import fr.aumgn.tobenamed.util.Vector;
 
 public class Team {
@@ -94,9 +93,7 @@ public class Team {
         return lives;
     }
 
-    public void looseLife() {
-        if (--lives == 0) {
-            TBNUtil.broadcast("L'equipe " + name + " a perdu.");
-        }
+    public void decreaseLives() {
+        --lives;
     }
 }

@@ -13,6 +13,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
+import fr.aumgn.tobenamed.TBN;
 import fr.aumgn.tobenamed.TBNColor;
 import fr.aumgn.tobenamed.exception.NoSuchTeam;
 import fr.aumgn.tobenamed.exception.NotEnoughTeams;
@@ -128,5 +129,24 @@ public class Game {
 
     public void removeSpectator(Player player) {
         spectators.remove(player);
+    }
+
+    public void decreaseLives(Team team) {
+        team.decreaseLives();
+        if (team.getLives() == 0) {
+            teams.remove(team.getName());
+            if (teams.size() > 1) {
+                for (Player player : team.getPlayers()) {
+                    players.remove(player);
+                }
+                sendMessage("L'équipe " + team.getDisplayName() + " a perdu la partie.");
+            } else {
+                Team winningTeam = teams.values().iterator().next();
+                sendMessage("L'équipe " + winningTeam.getDisplayName() + " a gagné la partie.");
+                TBN.forceStop();
+            }
+        } else {
+            sendMessage("L'équipe " + team.getDisplayName() + "a perdu une vie. " + team.getLives() + " restantes.");
+        }
     }
 }

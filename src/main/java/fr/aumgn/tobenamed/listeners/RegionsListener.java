@@ -31,7 +31,7 @@ public class RegionsListener implements Listener {
         for (Team team : game.getTeams()) {
             if (team.getTotem().isTotemBlock(pos) 
                     && event.getBlock().getType() == Material.OBSIDIAN) {
-                team.looseLife();
+                game.decreaseLives(team);
                 return;
             }
         }
