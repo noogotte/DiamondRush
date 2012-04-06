@@ -14,13 +14,13 @@ public class GameSpawn extends Region {
         super(pt.subtract(3, 1, 3), pt.add(3, 5, 3));
     }
 
-    public List<Vector> getDirections(int size) {
+    public List<Vector> getStartPositions(int size) {
         List<Vector> list = new ArrayList<Vector>(size);
         list.add(min.add(3, 1, 0));
         list.add(min.add(3, 1, 6));
 
         if (size > 2) {
-            list.add(min.add(6, 1, 0));
+            list.add(min.add(0, 1, 3));
         }
         if (size > 3) {
             list.add(min.add(6, 1, 3));

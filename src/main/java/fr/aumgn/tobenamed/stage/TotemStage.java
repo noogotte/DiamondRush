@@ -26,7 +26,7 @@ public class TotemStage extends PositioningStage {
         List<Team> teams = game.getTeams();
         Vector spawnPos = game.getSpawn().getMiddle(); 
         Iterator<Vector> positions = game.getSpawn().
-                getDirections(teams.size()).iterator();
+                getStartPositions(teams.size()).iterator();
         for (Team team : teams) {
             Vector pos = positions.next();
             Vector2D dir = pos.subtract(spawnPos).to2D();
