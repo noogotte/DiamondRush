@@ -12,6 +12,16 @@ commands:
         usage: "/<command>"
         permission: "tbn.cmd.stop"
         aliases: ["sg"]
+    pause-game:
+        description: "Met en pause la partie en cour"
+        usage: "/<command>"
+        aliases: ["pause", "pg"]
+        permission: "tbn.cmd.stop"
+    resume-game:
+        description: "Redémarre la partie en cour"
+        usage: "/<command>"
+        aliases: ["resume", "rsg"]
+        permission: "tbn.cmd.stop"
     show-teams:
         description: "Affiche les équipes"
         usage: "/<command>"

@@ -26,6 +26,12 @@ public abstract class Stage {
     public void stop() {
     }
 
+    public void pause() {
+    }
+
+    public void resume() {
+    }
+
     protected void scheduleNextStage(int ticks) {
         TBNUtil.scheduleDelayed(ticks, new NextStageTask());
     }

@@ -20,6 +20,7 @@ import fr.aumgn.tobenamed.exception.NoSuchTeam;
 import fr.aumgn.tobenamed.exception.NotEnoughTeams;
 import fr.aumgn.tobenamed.exception.PlayerNotInGame;
 import fr.aumgn.tobenamed.region.GameSpawn;
+import fr.aumgn.tobenamed.stage.PauseStage;
 import fr.aumgn.tobenamed.stage.Stage;
 import fr.aumgn.tobenamed.util.TBNUtil;
 import fr.aumgn.tobenamed.util.Vector;
@@ -54,20 +55,51 @@ public class Game {
         return stage;
     }
 
+    private void unregisterStageListeners() {
+        for (Listener listener : stage.getListeners()) {
+            HandlerList.unregisterAll(listener);
+        }
+    }
+
+    private void registerStageListeners() {
+        for (Listener listener : stage.getListeners()) {
+            Bukkit.getPluginManager().registerEvents(listener, TBN.getPlugin());
+        }
+    }
+
     public void nextStage(Stage newStage) {
         if (stage != null) {
-            for (Listener listener : stage.getListeners()) {
-                HandlerList.unregisterAll(listener);
-            }
+            unregisterStageListeners();
             stage.stop();
         }
         stage = newStage;
-        if (newStage != null) {
-            for (Listener listener : stage.getListeners()) {
-                Bukkit.getPluginManager().registerEvents(listener, TBN.getPlugin());
-            }
+        if (stage != null) {
+            registerStageListeners();
             stage.start();
         }
+    }
+
+    public boolean isPaused() {
+        return (stage instanceof PauseStage);
+    }
+
+    public void pause() {
+        if (stage == null) {
+            throw new UnsupportedOperationException();
+        }
+        unregisterStageListeners();
+        stage.pause();
+        stage = new PauseStage(this, stage);
+        stage.start();
+        registerStageListeners();
+    }
+
+    public void resume() {
+        unregisterStageListeners();
+        stage.stop();
+        stage = ((PauseStage) stage).getOldStage();
+        registerStageListeners();
+        stage.resume();
     }
 
     public World getWorld() {
