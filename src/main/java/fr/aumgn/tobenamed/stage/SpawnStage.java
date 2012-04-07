@@ -21,7 +21,7 @@ public class SpawnStage extends PositioningStage {
                     continue;
                 }
                 game.sendMessage(team.getDisplayName() + ChatColor.YELLOW +
-                        " a placé son spawn trop pres du totem.");
+                        " a placé son spawn trop près du totem.");
                 removeBlocksFromWorld();
                 removeBlocksFromInventories();
                 clearPositions();

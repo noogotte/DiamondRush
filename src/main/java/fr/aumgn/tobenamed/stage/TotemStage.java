@@ -48,7 +48,7 @@ public class TotemStage extends PositioningStage {
     private void initTeam(Team team, World world, Vector pos, Vector2D dir) {
         Player foreman = TBNUtil.pickRandom(team.getPlayers());
         team.setForeman(foreman);
-        team.sendMessage(ChatColor.GREEN + foreman.getDisplayName() + " est le chef d'equipe.");
+        team.sendMessage(ChatColor.GREEN + foreman.getDisplayName() + " est le chef d'équipe.");
 
         for (Player player : team.getPlayers()) {
             player.setGameMode(GameMode.SURVIVAL);

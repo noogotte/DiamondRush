@@ -73,7 +73,7 @@ public class MethodCommandExecutor implements CommandExecutor {
 
     private void unexpectedError(Exception exc) {
         throw new CommandError(
-                "Erreur inattendu lors de l'execution de la commande. "
+                "Erreur inattendue lors de l'exécution de la commande. "
                 + exc.getClass().getSimpleName() + ": " + exc.getMessage());
     }
 }

@@ -29,8 +29,8 @@ public abstract class Commands {
 
             org.bukkit.command.PluginCommand command = Bukkit.getPluginCommand(cmdAnnotation.name());
             if (command != null) {
-                command.setUsage(ChatColor.GREEN + "Utilisation: " + ChatColor.YELLOW + command.getUsage());
-                command.setPermissionMessage(ChatColor.RED + "Vous n'avez pas la permission d'executer cette commande.");
+                command.setUsage(ChatColor.GREEN + "Utilisation : " + ChatColor.YELLOW + command.getUsage());
+                command.setPermissionMessage(ChatColor.RED + "Vous n'avez pas la permission d'exécuter cette commande.");
                 CommandExecutor executor = new MethodCommandExecutor(commands,
                     method, cmdAnnotation, Player.class.isAssignableFrom(params[0]));
                 command.setExecutor(executor);

@@ -8,7 +8,7 @@ main: fr.aumgn.tobenamed.TBNPlugin
 
 commands:
     stop-game:
-        description: "Stop la partie en cours."
+        description: "Stoppe la partie en cours."
         usage: "/<command>"
         permission: "tbn.cmd.stop"
         aliases: ["sg"]
@@ -24,33 +24,33 @@ commands:
         permission: "tbn.cmd.init"
         aliases: ["init"]
     join-team:
-        description: "Rejoins (ou cree) une equipe."
+        description: "Rejoint (ou crée) une équipe."
         usage: "/<command> <equipe>"
         permission: "tbn.cmd.jointeam"
         aliases: ["jt", "join"]
     start-game:
-        description: "Debute la partie."
+        description: "Débute la partie."
         usage: "/<command>"
         permission: "tbn.cmd.start"
         aliases: ["start", "sg"]
 
     watch-game:
-        description: "Inscris en tant que spectateur de la partie."
+        description: "Inscrit en tant que spectateur de la partie."
         usage: "/<command>"
         permission: "tbn.cmd.watch"
         aliases: ["watch", "spect-game", "spect"]
     unwatch-game:
-        description: "Desinscris en tant que spectateur de la partie."
+        description: "Désinscrit en tant que spectateur de la partie."
         usage: "/<command>"
         permission: "tbn.cmd.watch"
         aliases: ["unwatch", "unspect-game", "unspect"]
     teleport-player:
-        description: "Teleporte a un joueur."
+        description: "Téléporte à un joueur."
         usage: "/<command> <player>"
         permission: "tbn.cmd.tpplayer"
         aliases: ["tpp"]
     teleport-team:
-        description: "Teleporte a un point strategique d'une equipe."
+        description: "Téléporte à un point stratégique d'une équipe."
         usage: "/<command> [-fs] <team>"
         permission: "tbn.cmd.tpteam"
         aliases: ["tpt"]

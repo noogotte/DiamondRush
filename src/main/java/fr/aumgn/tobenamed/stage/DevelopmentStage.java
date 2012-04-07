@@ -31,7 +31,7 @@ public class DevelopmentStage extends Stage {
 
     @Override
     public void start() {
-        game.sendMessage(ChatColor.GREEN + "La phase de developement commence.");
+        game.sendMessage(ChatColor.GREEN + "La phase de développement commence.");
         scheduleNextStage(10 * 60 * 20);
     }
 

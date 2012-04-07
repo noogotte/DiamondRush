@@ -22,7 +22,7 @@ public class JoinStageCommands extends Commands {
     @Command(name = "init-game", flags = "a")
     public void initGame(Player player, CommandArgs args) {
         if (TBN.isRunning()) {
-            throw new CommandError("Une partie est déja en cours.");
+            throw new CommandError("Une partie est déjà en cours.");
         }
 
         Game game = new Game(args.asList(), player.getWorld(),
@@ -36,7 +36,7 @@ public class JoinStageCommands extends Commands {
         Game game = TBN.getGame();
         Stage stage = game.getStage();
         if (game.contains(player)) {
-            throw new CommandError("Vous etes deja dans la partie.");
+            throw new CommandError("Vous êtes déjà dans la partie.");
         }
 
         boolean allowDirectTeamJoin = (stage instanceof JoinStage) 
@@ -55,12 +55,12 @@ public class JoinStageCommands extends Commands {
         final Stage stage = game.getStage();
 
         if (!(stage instanceof JoinStage)) {
-            throw new CommandError("Cette commande ne peut etre utilisé que durant la phase de join.");
+            throw new CommandError("Cette commande ne peut être utilisée que durant la phase de join.");
         }
 
         for (Team team : stage.getGame().getTeams()) {
             if (team.size() < 1) {
-                throw new CommandError("L'equipe " + team.getDisplayName() + " n'a aucun joueur");
+                throw new CommandError("L'équipe " + team.getDisplayName() + " n'a aucun joueur.");
             }
         }
 

@@ -25,16 +25,16 @@ public class SpectatorsCommands extends Commands {
     public void watchGame(Player player, CommandArgs args) {
         Game game = TBN.getGame();
         if (game.contains(player)) {
-            throw new CommandError("Vous etes deja dans la partie.");
+            throw new CommandError("Vous êtes déjà dans la partie.");
         }
 
         Spectators spectators = game.getSpectators();
         if (spectators.contains(player)) {
-            throw new CommandError("Vous etes deja spectateur.");
+            throw new CommandError("Vous êtes déjà spectateur.");
         }
 
         spectators.add(player);
-        player.sendMessage(ChatColor.GREEN + "Vous etes maintenant spectateur.");
+        player.sendMessage(ChatColor.GREEN + "Vous êtes maintenant spectateur.");
     }
 
     private void ensureIsSpectator(Player player) {
@@ -49,7 +49,7 @@ public class SpectatorsCommands extends Commands {
         ensureIsSpectator(player);
         Game game = TBN.getGame();
         game.getSpectators().remove(player);
-        player.sendMessage(ChatColor.GREEN + "Vous n'etes plus spectateur.");
+        player.sendMessage(ChatColor.GREEN + "Vous n'êtes plus spectateur.");
     }
 
     @Command(name = "teleport-player", min = 1, max = 1)
@@ -61,7 +61,7 @@ public class SpectatorsCommands extends Commands {
 
         List<Player> players = Bukkit.matchPlayer(arg);
         if (players.size() > 1) {
-            throw new CommandError("Plus d'1 joueur trouvés avec le motif " + arg + ".");
+            throw new CommandError("Plus d'un joueur trouvés avec le motif " + arg + ".");
         } else if (players.size() < 1) {
             throw new CommandError("Aucun joueur trouvé.");
         }
@@ -85,20 +85,20 @@ public class SpectatorsCommands extends Commands {
         if (args.hasFlag('f')) {
             Player foreman = team.getForeman();
             if (foreman == null) {
-                throw new CommandError("Cette equipe n'a pas encore de chef d'equipe.");
+                throw new CommandError("Cette équipe n'a pas encore de chef d'équipe.");
             }
             player.teleport(foreman);
         } else if (args.hasFlag('s')) {
             TeamSpawn spawn = team.getSpawn();
             if (spawn == null) {
-                throw new CommandError("Cette equipe n'a pas encore de spawn.");
+                throw new CommandError("Cette équipe n'a pas encore de spawn.");
             }
             Location loc = spawn.getMiddle().toLocation(game.getWorld());
             player.teleport(loc);
         } else {
             Totem totem = team.getTotem();
             if (totem == null) {
-                throw new CommandError("Cette equipe n'a pas encore de totem.");
+                throw new CommandError("Cette équipe n'a pas encore de totem.");
             }
             Location loc = totem.getMiddle().toLocation(game.getWorld());
             player.teleport(loc);

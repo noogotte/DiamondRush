@@ -15,6 +15,6 @@ public class GeneralCommands extends Commands {
     public void stopGame(CommandSender sender, CommandArgs args) {
         Game game = TBN.getGame();
         TBN.forceStop();
-        game.sendMessage(ChatColor.RED + "La partie a été arreté.");
+        game.sendMessage(ChatColor.RED + "La partie a été arretée.");
     }
 }

@@ -28,11 +28,11 @@ public class CommandArgs {
         }
         if (argsList.size() < min) {
             throw new CommandUsageError(
-                    "Arguments manquant(s) (" + argsList.size() + " / " + min + " minimum)");
+                    "Argument(s) manquant(s) (" + argsList.size() + " / " + min + " minimum)");
         }
         if (max != -1 && argsList.size() > max) {
             throw new CommandUsageError(
-                    "Arguments en trop (" + argsList.size() + " / " + max + " maximum)");
+                    "Argument(s) en trop (" + argsList.size() + " / " + max + " maximum)");
         }
         args = argsList.toArray(new String[0]);
     }
