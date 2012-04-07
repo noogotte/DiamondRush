@@ -37,12 +37,11 @@ public class TotemStage extends PositioningStage {
         game.getSpawn().create(game.getWorld());
         game.getWorld().setTime(0);
         game.sendMessage(ChatColor.GREEN + "La partie débute !");
-        scheduleNextStage(60 * 20);
-    }
-
-    @Override
-    protected Stage nextStage() {
-        return new SpawnStage(game);
+        scheduleNextStage(60, new Runnable() {
+            public void run() {
+                game.nextStage(new SpawnStage(game));
+            }
+        });
     }
 
     private void initTeam(Team team, World world, Vector pos, Vector2D dir) {

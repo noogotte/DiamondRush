@@ -32,11 +32,10 @@ public class DevelopmentStage extends Stage {
     @Override
     public void start() {
         game.sendMessage(ChatColor.GREEN + "La phase de développement commence.");
-        scheduleNextStage(10 * 60 * 20);
-    }
-
-    @Override
-    protected Stage nextStage() {
-        return new FightStage(game);
+        scheduleNextStage(600, new Runnable() {
+            public void run() {
+                game.nextStage(new FightStage(game));
+            }
+        });
     }
 }

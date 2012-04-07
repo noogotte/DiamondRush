@@ -5,15 +5,14 @@ import org.bukkit.Material;
 
 import fr.aumgn.tobenamed.game.Game;
 import fr.aumgn.tobenamed.game.Team;
-import fr.aumgn.tobenamed.util.TBNUtil;
 import fr.aumgn.tobenamed.util.Vector;
 
 public class SpawnStage extends PositioningStage {
 
     private static final int MIN_DISTANCE = 20 * 20;
-    private static final int DELAY = 30 * 20;
+    private static final int DELAY = 30;
 
-    public class SpawnNextStageTask extends NextStageTask {
+    public class SpawnNextStage implements Runnable {
         @Override
         public void run() {
             for (Team team : game.getTeams()) {
@@ -26,11 +25,10 @@ public class SpawnStage extends PositioningStage {
                 removeBlocksFromInventories();
                 clearPositions();
                 giveBlocks();
-                // Hidden delayed recursive call FTW !
-                scheduleNextStage(DELAY);
+                scheduleNextStage(DELAY, new SpawnNextStage());
                 return;
             }
-            super.run();
+            game.nextStage(new DevelopmentStage(game));
         }
     }
 
@@ -42,17 +40,7 @@ public class SpawnStage extends PositioningStage {
     public void start() {
         super.start();
         game.sendMessage("Phase de placement du spawn.");
-        scheduleNextStage(DELAY);
-    }
-
-    @Override
-    protected void scheduleNextStage(int ticks) {
-        TBNUtil.scheduleDelayed(ticks, new SpawnNextStageTask());
-    }
-
-    @Override
-    public Stage nextStage() {
-        return new DevelopmentStage(game);
+        scheduleNextStage(DELAY, new SpawnNextStage());
     }
 
     public boolean validatePosition(Team team) {
