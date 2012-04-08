@@ -1,5 +1,6 @@
 package fr.aumgn.tobenamed;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -11,7 +12,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
 
 import fr.aumgn.bukkit.command.Commands;
 import fr.aumgn.tobenamed.command.GeneralCommands;
@@ -62,8 +62,8 @@ public class TBNPlugin extends JavaPlugin {
             file.createNewFile();
         }
         // This ensures user file is updated with newer fields. 
-        JsonWriter writer = new JsonWriter(new FileWriter(file));
-        gson.toJson(config, TBNConfig.class, writer);
+        BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+        writer.write(gson.toJson(config, TBNConfig.class));
         writer.close();
 
         return config;
