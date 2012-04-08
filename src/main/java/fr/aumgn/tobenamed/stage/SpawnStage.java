@@ -3,14 +3,12 @@ package fr.aumgn.tobenamed.stage;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 
+import fr.aumgn.tobenamed.TBN;
 import fr.aumgn.tobenamed.game.Game;
 import fr.aumgn.tobenamed.game.Team;
 import fr.aumgn.tobenamed.util.Vector;
 
 public class SpawnStage extends PositioningStage {
-
-    private static final int MIN_DISTANCE = 20 * 20;
-    private static final int DELAY = 30;
 
     public class SpawnNextStage implements Runnable {
         @Override
@@ -25,29 +23,32 @@ public class SpawnStage extends PositioningStage {
                 removeBlocksFromInventories();
                 clearPositions();
                 giveBlocks();
-                scheduleNextStage(DELAY, new SpawnNextStage());
+                scheduleNextStage(duration, new SpawnNextStage());
                 return;
             }
             game.nextStage(new DevelopmentStage(game));
         }
     }
 
+    private int duration; 
+
     public SpawnStage(Game game) {
         super(game);
+        this.duration = TBN.getConfig().getSpawnDuration();
     }
 
     @Override
     public void start() {
         super.start();
         game.sendMessage("Phase de placement du spawn.");
-        scheduleNextStage(DELAY, new SpawnNextStage());
+        scheduleNextStage(duration, new SpawnNextStage());
     }
 
     public boolean validatePosition(Team team) {
         Vector pos = getPosition(team);
         Vector totemPos = team.getTotem().getMiddle();
         int distance = totemPos.distanceSq(pos);
-        return distance > MIN_DISTANCE;
+        return distance > TBN.getConfig().getTotemSpawnMinDistance();
     }
 
     @Override

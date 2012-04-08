@@ -12,15 +12,13 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerChatEvent;
 
+import fr.aumgn.tobenamed.TBN;
 import fr.aumgn.tobenamed.game.Game;
 import fr.aumgn.tobenamed.game.Team;
 import fr.aumgn.tobenamed.stage.DevelopmentStage;
 import fr.aumgn.tobenamed.util.Vector;
 
 public class DevelopmentListener implements Listener {
-
-    private static final int TOTEM_RADIUS_SQ = 30 * 30;
-    private static final int SPAWN_RADIUS_SQ = 30 * 30;
 
     public DevelopmentStage stage;
 
@@ -59,13 +57,13 @@ public class DevelopmentListener implements Listener {
         Vector targetPos = new Vector(damager.getLocation());
         int totemDistanceSq = damagerTeam.getTotem().
                 getMiddle().distanceSq(targetPos);
-        if (totemDistanceSq < TOTEM_RADIUS_SQ) {
+        if (totemDistanceSq < TBN.getConfig().getSpottedTotemDistance()) {
             handleSpottedPlayer(damager, target);
         }
 
         int spawnDistanceSq = damagerTeam.getSpawn().
                 getMiddle().distanceSq(targetPos);
-        if (spawnDistanceSq < SPAWN_RADIUS_SQ) {
+        if (spawnDistanceSq < TBN.getConfig().getSpottedSpawnDistance()) {
             handleSpottedPlayer(damager, target);
         }
     }

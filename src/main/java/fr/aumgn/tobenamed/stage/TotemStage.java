@@ -9,6 +9,7 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
+import fr.aumgn.tobenamed.TBN;
 import fr.aumgn.tobenamed.game.Game;
 import fr.aumgn.tobenamed.game.Team;
 import fr.aumgn.tobenamed.util.TBNUtil;
@@ -37,7 +38,7 @@ public class TotemStage extends PositioningStage {
         game.getSpawn().create(game.getWorld());
         game.getWorld().setTime(0);
         game.sendMessage(ChatColor.GREEN + "La partie débute !");
-        scheduleNextStage(60, new Runnable() {
+        scheduleNextStage(TBN.getConfig().getTotemDuration(), new Runnable() {
             public void run() {
                 game.nextStage(new SpawnStage(game));
             }

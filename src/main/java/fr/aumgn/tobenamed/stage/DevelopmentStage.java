@@ -6,6 +6,7 @@ import java.util.List;
 import org.bukkit.ChatColor;
 import org.bukkit.event.Listener;
 
+import fr.aumgn.tobenamed.TBN;
 import fr.aumgn.tobenamed.game.Game;
 import fr.aumgn.tobenamed.stage.listeners.DevelopmentListener;
 
@@ -32,7 +33,7 @@ public class DevelopmentStage extends Stage {
     @Override
     public void start() {
         game.sendMessage(ChatColor.GREEN + "La phase de développement commence.");
-        scheduleNextStage(600, new Runnable() {
+        scheduleNextStage(TBN.getConfig().getDevDuration(), new Runnable() {
             public void run() {
                 game.nextStage(new FightStage(game));
             }

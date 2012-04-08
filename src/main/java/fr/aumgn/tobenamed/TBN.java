@@ -62,7 +62,7 @@ public final class TBN {
         }
     }
 
-    public TBNConfig getConfig() {
+    public static TBNConfig getConfig() {
         return config;
     }
 

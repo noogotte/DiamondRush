@@ -8,6 +8,7 @@ import java.util.Map;
 import org.bukkit.ChatColor;
 import org.bukkit.event.Listener;
 
+import fr.aumgn.tobenamed.TBN;
 import fr.aumgn.tobenamed.game.Game;
 import fr.aumgn.tobenamed.game.Team;
 import fr.aumgn.tobenamed.stage.listeners.FightListener;
@@ -40,7 +41,7 @@ public class FightStage extends Stage {
     @Override
     public void start() {
         game.sendMessage(ChatColor.GREEN + "La phase de combat commence.");
-        scheduleNextStage(300, new Runnable() {
+        scheduleNextStage(TBN.getConfig().getFightDuration(), new Runnable() {
             public void run() {
                 game.nextStage(new DevelopmentStage(game));
             }

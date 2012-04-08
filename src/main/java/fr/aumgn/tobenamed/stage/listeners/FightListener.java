@@ -1,5 +1,8 @@
 package fr.aumgn.tobenamed.stage.listeners;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
@@ -12,8 +15,10 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 
+import fr.aumgn.tobenamed.TBN;
 import fr.aumgn.tobenamed.game.Game;
 import fr.aumgn.tobenamed.game.Team;
 import fr.aumgn.tobenamed.stage.DevelopmentStage;
@@ -22,9 +27,11 @@ import fr.aumgn.tobenamed.stage.FightStage;
 public class FightListener implements Listener {
 
     private FightStage stage;
+    private Set<Player> itemsToGiveAterRespawn;
 
     public FightListener(FightStage stage) {
         this.stage = stage;
+        this.itemsToGiveAterRespawn = new HashSet<Player>();
     }
 
     @EventHandler
@@ -55,7 +62,21 @@ public class FightListener implements Listener {
         }
 
         stage.incrementDeathCount(team);
-        event.getDrops().add(new ItemStack(Material.DIAMOND));
+        if (stage.getDeathCount(team) > TBN.getConfig().getMaxDiamond()) {
+            event.getDrops().add(TBN.getConfig().getItemForKill());
+        } else {
+            event.getDrops().add(new ItemStack(Material.DIAMOND));
+        }
+        itemsToGiveAterRespawn.add(player);
+    }
+
+    @EventHandler
+    public void onRespawn(PlayerRespawnEvent event) {
+        Player player = event.getPlayer();
+        if (itemsToGiveAterRespawn.contains(player)) {
+            player.getInventory().addItem(TBN.getConfig().getItemForDeath());
+            itemsToGiveAterRespawn.remove(player);
+        }
     }
 
     @EventHandler
@@ -71,13 +92,13 @@ public class FightListener implements Listener {
             return;
         }
 
-        Material type = player.getItemInHand().getType();
-        if (type != Material.PAPER) {
+        int type = player.getItemInHand().getTypeId();
+        if (type != TBN.getConfig().getSurrenderItem()) {
             return;
         }
 
         Team team = game.getTeam(player);
-        if (stage.getDeathCount(team) > 0) {
+        if (stage.getDeathCount(team) >= TBN.getConfig().getDeathNeededForSurrender()) {
             game.sendMessage("L'equipe " + team.getDisplayName() + " s'est rendu.");
             game.nextStage(new DevelopmentStage(game));
         } else {
