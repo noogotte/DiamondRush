@@ -59,6 +59,7 @@ public class DevelopmentListener implements Listener {
                 getMiddle().distanceSq(targetPos);
         if (totemDistanceSq < TBN.getConfig().getSpottedTotemDistance()) {
             handleSpottedPlayer(damager, target);
+            return;
         }
 
         int spawnDistanceSq = damagerTeam.getSpawn().

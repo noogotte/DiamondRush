@@ -62,6 +62,10 @@ public class GameListener implements Listener {
 
     @EventHandler(priority = EventPriority.LOW)
     public void onDamage(EntityDamageByEntityEvent event) {
+        if (!TBN.isRunning()) {
+            return;
+        }
+
         Entity targetEntity = event.getEntity();
         Entity damagerEntity = event.getDamager();
         if (damagerEntity instanceof Projectile) {

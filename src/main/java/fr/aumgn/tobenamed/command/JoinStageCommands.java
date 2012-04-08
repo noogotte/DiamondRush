@@ -90,6 +90,7 @@ public class JoinStageCommands extends Commands {
                     "La partie est déjà sur le point de démarrer.");
         }
 
+        joinStage.prepare();
         game.sendMessage(ChatColor.GREEN + "La partie va commencer.");
         stage.scheduleNextStage(10, new Runnable() {
             public void run() {

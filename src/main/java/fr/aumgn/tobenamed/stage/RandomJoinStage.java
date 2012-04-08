@@ -31,7 +31,9 @@ public class RandomJoinStage extends JoinStage {
            player.sendMessage(ChatColor.RED + "Les équipes sont constituées aléatoirement.");
         }
 
+        player.sendMessage(ChatColor.YELLOW + "Joueur actuelles : ");
         for (Player playerInStage : players) {
+            player.sendMessage(ChatColor.YELLOW + " - " + playerInStage.getDisplayName());
             playerInStage.sendMessage(player.getDisplayName() + ChatColor.YELLOW
                     + " a rejoint la partie.");
         }
@@ -46,7 +48,7 @@ public class RandomJoinStage extends JoinStage {
     }
 
     @Override
-    public void stop() {
+    public void prepare() {
         Collections.shuffle(players);
         for (Player player : players) {
             game.addPlayer(player, null);

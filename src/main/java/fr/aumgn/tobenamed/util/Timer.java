@@ -25,7 +25,6 @@ public abstract class Timer implements Runnable {
         this.runnable = runnable;
 
         this.currentDelay = 0;
-        run();
     }
 
     @Override

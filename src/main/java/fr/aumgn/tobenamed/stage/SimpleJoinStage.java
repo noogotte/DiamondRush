@@ -21,6 +21,7 @@ public class SimpleJoinStage extends JoinStage {
     @Override
     public void addPlayer(Player player, Team team) {
         game.addPlayer(player, team);
+        team = game.getTeam(player);
         game.sendMessage(player.getDisplayName() + ChatColor.YELLOW +
                 " a rejoint l'équipe " + team.getDisplayName());
     }

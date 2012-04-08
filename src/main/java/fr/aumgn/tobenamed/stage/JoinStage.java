@@ -43,4 +43,7 @@ public abstract class JoinStage extends Stage {
     public abstract boolean contains(Player player);
 
     public abstract void ensureIsReady();
+
+    public void prepare() {
+    }
 }

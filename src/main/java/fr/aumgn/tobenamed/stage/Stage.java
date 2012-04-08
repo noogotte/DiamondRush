@@ -22,6 +22,7 @@ public abstract class Stage {
 
     public void scheduleNextStage(int seconds, Runnable nextStage) {
         nextStageTimer  = new GameTimer(seconds, getGame(), nextStage);
+        nextStageTimer.run();
     }
 
     public void start() {
