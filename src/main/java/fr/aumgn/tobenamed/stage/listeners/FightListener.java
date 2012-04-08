@@ -1,17 +1,22 @@
 package fr.aumgn.tobenamed.stage.listeners;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
 import fr.aumgn.tobenamed.game.Game;
+import fr.aumgn.tobenamed.game.Team;
+import fr.aumgn.tobenamed.stage.DevelopmentStage;
 import fr.aumgn.tobenamed.stage.FightStage;
 
 public class FightListener implements Listener {
@@ -44,10 +49,40 @@ public class FightListener implements Listener {
             return;
         }
 
-        if (game.getTeam(player) == game.getTeam(damager)) {
+        Team team = game.getTeam(player);
+        if (team == game.getTeam(damager)) {
             return;
         }
 
+        stage.incrementDeathCount(team);
         event.getDrops().add(new ItemStack(Material.DIAMOND));
+    }
+
+    @EventHandler
+    public void onInteract(PlayerInteractEvent event) {
+        if (event.getAction() != Action.RIGHT_CLICK_AIR &&
+                event.getAction() != Action.RIGHT_CLICK_BLOCK) {
+            return;
+        }
+
+        Player player = event.getPlayer();
+        Game game = stage.getGame();
+        if (!game.contains(player)) {
+            return;
+        }
+
+        Material type = player.getItemInHand().getType();
+        if (type != Material.PAPER) {
+            return;
+        }
+
+        Team team = game.getTeam(player);
+        if (stage.getDeathCount(team) > 0) {
+            game.sendMessage("L'equipe " + team.getDisplayName() + " s'est rendu.");
+            game.nextStage(new DevelopmentStage(game));
+        } else {
+            player.sendMessage(ChatColor.RED + 
+                    "Il faut au moins une mort dans l'equipe pour pouvoir se rendre.");
+        }
     }
 }
