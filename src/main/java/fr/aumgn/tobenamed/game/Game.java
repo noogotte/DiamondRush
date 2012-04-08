@@ -182,18 +182,21 @@ public class Game {
                 for (Player player : team.getPlayers()) {
                     players.remove(player);
                 }
-                String msg = "L'équipe " + team.getDisplayName() + " a perdu la partie.";
+                String msg = ChatColor.RED +"L'équipe " + team.getDisplayName() 
+                        + ChatColor.RED + " a perdu la partie.";
                 sendMessage(msg);
                 team.sendMessage(msg);
             } else {
                 Team winningTeam = teams.values().iterator().next();
-                String msg = "L'équipe " + winningTeam.getDisplayName() + " a gagné la partie.";
+                String msg = ChatColor.GREEN + "L'équipe " + winningTeam.getDisplayName() +
+                        ChatColor.GREEN + " a gagné la partie.";
                 sendMessage(msg);
                 team.sendMessage(msg);
                 TBN.forceStop();
             }
         } else {
-            sendMessage("L'équipe " + team.getDisplayName() + "a perdu une vie. " + team.getLives() + " restantes.");
+            sendMessage(ChatColor.YELLOW + "L'équipe " + team.getDisplayName() + 
+                    ChatColor.YELLOW + " a perdu une vie. " + team.getLives() + " restantes.");
         }
     }
 }

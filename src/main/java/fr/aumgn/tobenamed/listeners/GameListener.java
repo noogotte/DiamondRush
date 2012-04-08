@@ -1,6 +1,5 @@
 package fr.aumgn.tobenamed.listeners;
 
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -32,8 +31,7 @@ public class GameListener implements Listener {
                 player.hidePlayer(spectator);
             }
             Team team = game.getTeam(player);
-            String rawDisplayName = ChatColor.stripColor(player.getDisplayName());
-            player.setDisplayName(team.getColor().getChatColor() + rawDisplayName);
+            team.setTeamName(player);
         }
     }
 

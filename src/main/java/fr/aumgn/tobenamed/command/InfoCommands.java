@@ -30,7 +30,7 @@ public class InfoCommands extends Commands {
                 }
                 teamMessage.append(ChatColor.BLUE);
                 for (Player teamPlayer : team.getPlayers()) {
-                    if (foreman.equals(teamPlayer)) {
+                    if (teamPlayer.equals(foreman)) {
                         continue;
                     }
                     teamMessage.append(teamPlayer.getDisplayName());

@@ -83,10 +83,18 @@ public class Team {
 
     void addPlayer(Player player) {
         players.add(player);
+        setTeamName(player);
+    }
+
+    public void setTeamName(Player player) {
         String rawName = ChatColor.stripColor(player.getDisplayName());
         String teamName = color.getChatColor() + rawName + ChatColor.RESET;
         player.setDisplayName(teamName);
-        player.setPlayerListName(teamName);
+        if (teamName.length() > 16) {
+            player.setPlayerListName(teamName.substring(0, 16));
+        } else {
+            player.setPlayerListName(teamName);
+        }
     }
 
     public int getLives() {

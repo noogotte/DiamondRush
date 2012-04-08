@@ -20,7 +20,6 @@ public class PauseStage extends Stage{
         this.game = game;
         this.oldStage = oldStage;
         this.listener = new PauseListener(game);
-        this.time = game.getWorld().getTime();
     }
 
     @Override
@@ -35,6 +34,7 @@ public class PauseStage extends Stage{
 
     @Override
     public void start() {
+        this.time = game.getWorld().getTime();
         game.sendMessage(ChatColor.RED +
                 "TBN est en pause, vous ne pouvez rien faire !");
     }
@@ -42,6 +42,7 @@ public class PauseStage extends Stage{
     @Override
     public void stop() {
         game.getWorld().setTime(time);
+        game.sendMessage(ChatColor.GREEN + "La partie reprend !");
     }
 
     public Stage getOldStage() {

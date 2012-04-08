@@ -11,6 +11,7 @@ import org.bukkit.event.block.BlockIgniteEvent;
 import org.bukkit.event.block.BlockPistonExtendEvent;
 import org.bukkit.event.block.BlockPistonRetractEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
 
 import fr.aumgn.tobenamed.TBN;
@@ -29,7 +30,7 @@ public class RegionsListener implements Listener {
         Vector pos = new Vector(event.getBlock());
         Game game = TBN.getGame();
         for (Team team : game.getTeams()) {
-            if (team.getTotem().isTotemBlock(pos) 
+            if (team.getTotem() != null && team.getTotem().isTotemBlock(pos) 
                     && event.getBlock().getType() == Material.OBSIDIAN) {
                 if (event.getPlayer().getItemInHand().getType() 
                         == Material.DIAMOND_PICKAXE) {
@@ -57,6 +58,16 @@ public class RegionsListener implements Listener {
     public void onIgnite(BlockIgniteEvent event) {
         if (isProtected(event.getBlock())) {
             event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onExplode(EntityExplodeEvent event) {
+        for (Block block : event.blockList()) {
+            if (isProtected(block)) {
+                event.setCancelled(true);
+                return;
+            }
         }
     }
 
