@@ -14,7 +14,6 @@ import fr.aumgn.tobenamed.game.Team;
 import fr.aumgn.tobenamed.stage.JoinStage;
 import fr.aumgn.tobenamed.stage.Stage;
 import fr.aumgn.tobenamed.stage.TotemStage;
-import fr.aumgn.tobenamed.util.TBNUtil;
 import fr.aumgn.tobenamed.util.Vector;
 
 public class JoinStageCommands extends Commands {
@@ -64,13 +63,16 @@ public class JoinStageCommands extends Commands {
             }
         }
 
-        TBNUtil.scheduleDelayed(200, new Runnable() {
-            @Override
+        if (stage.hasNextStageScheduled()) {
+            throw new CommandError(
+                    "La partie est deja sur le point de démarrer.");
+        }
+
+        game.sendMessage(ChatColor.GREEN + "La partie va commencer.");
+        stage.scheduleNextStage(10, new Runnable() {
             public void run() {
-                TotemStage totemStage = new TotemStage(stage.getGame());
-                game.nextStage(totemStage);
+                game.nextStage(new TotemStage(game));
             }
         });
-        stage.getGame().sendMessage(ChatColor.GREEN + "La partie commence dans 10 secondes !");
     }
 }

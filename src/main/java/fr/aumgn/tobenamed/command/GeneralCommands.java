@@ -9,6 +9,7 @@ import fr.aumgn.bukkit.command.CommandError;
 import fr.aumgn.bukkit.command.Commands;
 import fr.aumgn.tobenamed.TBN;
 import fr.aumgn.tobenamed.game.Game;
+import fr.aumgn.tobenamed.stage.Stage;
 
 public class GeneralCommands extends Commands {
 
@@ -30,10 +31,22 @@ public class GeneralCommands extends Commands {
 
     @Command(name = "resume-game", max = 0)
     public void resumeGame(CommandSender sender, CommandArgs args) {
-        Game game = TBN.getGame();
+        final Game game = TBN.getGame();
         if (!game.isPaused()) {
             throw new CommandError("Le jeu n'est pas en pause.");
         }
-        game.resume();
+
+        Stage stage = game.getStage();
+        if (stage.hasNextStageScheduled()) {
+            throw new CommandError(
+                    "La partie est deja sur le point de redémarrer.");
+        }
+
+        game.sendMessage(ChatColor.GREEN + "La partie va reprendre");
+        stage.scheduleNextStage(3, new Runnable() {
+            public void run() {
+                game.resume();
+            }
+        });
     }
 }
