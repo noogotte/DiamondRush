@@ -93,14 +93,14 @@ public class SpectatorsCommands extends Commands {
             if (spawn == null) {
                 throw new CommandError("Cette équipe n'a pas encore de spawn.");
             }
-            Location loc = spawn.getMiddle().toLocation(game.getWorld());
+            Location loc = spawn.getTeleportPoint().toLocation(game.getWorld());
             player.teleport(loc);
         } else {
             Totem totem = team.getTotem();
             if (totem == null) {
                 throw new CommandError("Cette équipe n'a pas encore de totem.");
             }
-            Location loc = totem.getMiddle().toLocation(game.getWorld());
+            Location loc = totem.getTeleportPoint().toLocation(game.getWorld());
             player.teleport(loc);
         }
         player.sendMessage("Poof !");
