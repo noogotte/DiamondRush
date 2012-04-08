@@ -1,6 +1,7 @@
 package fr.aumgn.tobenamed.command;
 
 import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import fr.aumgn.bukkit.command.Command;
@@ -13,9 +14,9 @@ import fr.aumgn.tobenamed.game.Team;
 public class InfoCommands extends Commands {
 
     @Command(name = "show-teams", max = 0)
-    public void showTeams(Player player, CommandArgs args) {
+    public void showTeams(CommandSender sender, CommandArgs args) {
         Game game = TBN.getGame();
-        player.sendMessage(ChatColor.GREEN + "Equipes :");
+        sender.sendMessage(ChatColor.GREEN + "Equipes :");
         for (Team team : game.getTeams()) {
             StringBuilder teamMessage = new StringBuilder();
             teamMessage.append(" - ");
@@ -37,7 +38,7 @@ public class InfoCommands extends Commands {
                     teamMessage.append(" ");
                 }
             }
-            player.sendMessage(teamMessage.toString());
+            sender.sendMessage(teamMessage.toString());
         }
     }
 }
