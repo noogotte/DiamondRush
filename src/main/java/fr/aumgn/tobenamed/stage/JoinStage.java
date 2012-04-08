@@ -4,19 +4,18 @@ import java.util.Collections;
 import java.util.List;
 
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 
 import fr.aumgn.tobenamed.game.Game;
 import fr.aumgn.tobenamed.game.Team;
 import fr.aumgn.tobenamed.util.TBNUtil;
 
-public class JoinStage extends Stage {
+public abstract class JoinStage extends Stage {
 
-    private boolean random;
-    private Game game;
+    protected Game game;
 
-    public JoinStage(Game game, boolean random) {
-        this.random = random;
+    public JoinStage(Game game) {
         this.game = game;
     }
 
@@ -39,8 +38,9 @@ public class JoinStage extends Stage {
         }
     }
 
-    public boolean isRandom() {
-        return random;
-    }
+    public abstract void addPlayer(Player player, Team team);
 
+    public abstract boolean contains(Player player);
+
+    public abstract void ensureIsReady();
 }

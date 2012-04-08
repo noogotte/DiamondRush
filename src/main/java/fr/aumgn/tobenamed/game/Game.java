@@ -145,7 +145,7 @@ public class Game {
         return new ArrayList<Team>(teams.values());
     }
 
-    public void addPlayer(Player player) {
+    private Team getTeamWithMinimumPlayers() {
         int minimum = Integer.MAX_VALUE;
         List<Team> roulette = null; 
         for (Team team : getTeams()) {
@@ -159,15 +159,16 @@ public class Game {
             } 
         }
 
-        Team team = TBNUtil.pickRandom(roulette);
-        addPlayer(player, team);
+        return TBNUtil.pickRandom(roulette);
     }
 
     public void addPlayer(Player player, Team team) {
+        if (team == null) {
+            team = getTeamWithMinimumPlayers();
+        }
+
         team.addPlayer(player);
         players.put(player, team);
-        sendMessage(player.getDisplayName() + ChatColor.YELLOW +
-                " a rejoint l'équipe " + team.getDisplayName());
     }
 
     public boolean hasPlayer(Player player) {

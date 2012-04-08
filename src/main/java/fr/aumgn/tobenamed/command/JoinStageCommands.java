@@ -12,6 +12,8 @@ import fr.aumgn.tobenamed.TBN;
 import fr.aumgn.tobenamed.game.Game;
 import fr.aumgn.tobenamed.game.Team;
 import fr.aumgn.tobenamed.stage.JoinStage;
+import fr.aumgn.tobenamed.stage.RandomJoinStage;
+import fr.aumgn.tobenamed.stage.SimpleJoinStage;
 import fr.aumgn.tobenamed.stage.Stage;
 import fr.aumgn.tobenamed.stage.TotemStage;
 import fr.aumgn.tobenamed.util.Vector;
@@ -26,7 +28,12 @@ public class JoinStageCommands extends Commands {
 
         Game game = new Game(args.asList(), player.getWorld(),
                 new Vector(player.getLocation()));
-        JoinStage stage = new JoinStage(game, args.hasFlag('a'));
+        JoinStage stage;
+        if (args.hasFlag('a')) {
+            stage = new RandomJoinStage(game);
+        } else {
+            stage = new SimpleJoinStage(game);
+        }
         TBN.initGame(game, stage);
     }
 
@@ -34,17 +41,35 @@ public class JoinStageCommands extends Commands {
     public void joinTeam(Player player, CommandArgs args) {
         Game game = TBN.getGame();
         Stage stage = game.getStage();
-        if (game.contains(player)) {
-            throw new CommandError("Vous êtes déjà dans la partie.");
+
+        Team team = null;
+        if (args.length() > 0) {
+            team = game.getTeam(args.get(0));
         }
 
-        boolean allowDirectTeamJoin = (stage instanceof JoinStage) 
-                && !((JoinStage) stage).isRandom();
-        if (args.length() > 0 && allowDirectTeamJoin) {
-            Team team = game.getTeam(args.get(0));
-            game.addPlayer(player, team);
+        if (stage instanceof JoinStage) {
+            JoinStage joinStage = (JoinStage) stage;
+            if (joinStage.contains(player)) {
+                throw new CommandError("Vous êtes déjà dans la partie.");
+            }
+
+            ((JoinStage) stage).addPlayer(player, team);
         } else {
-            game.addPlayer(player);
+            if (game.contains(player)) {
+                throw new CommandError("Vous êtes déjà dans la partie.");
+            }
+
+            game.addPlayer(player, team);
+            team = game.getTeam(player);
+            Vector pos;
+            if (team.getTotem() != null) {
+                pos = team.getTotem().getTeleportPoint();
+            } else {
+                pos = new Vector(team.getForeman().getLocation());
+            } 
+            player.teleport(pos.toLocation(game.getWorld()));
+            game.sendMessage(player.getDisplayName() + ChatColor.YELLOW +
+                    " a rejoint l'équipe " + team.getDisplayName());
         }
     }
 
@@ -57,11 +82,8 @@ public class JoinStageCommands extends Commands {
             throw new CommandError("Cette commande ne peut être utilisée que durant la phase de join.");
         }
 
-        for (Team team : stage.getGame().getTeams()) {
-            if (team.size() < 1) {
-                throw new CommandError("L'équipe " + team.getDisplayName() + " n'a aucun joueur.");
-            }
-        }
+        JoinStage joinStage = (JoinStage) stage;
+        joinStage.ensureIsReady();
 
         if (stage.hasNextStageScheduled()) {
             throw new CommandError(
