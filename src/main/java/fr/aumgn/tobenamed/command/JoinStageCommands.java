@@ -65,7 +65,7 @@ public class JoinStageCommands extends Commands {
 
         if (stage.hasNextStageScheduled()) {
             throw new CommandError(
-                    "La partie est deja sur le point de démarrer.");
+                    "La partie est déjà sur le point de démarrer.");
         }
 
         game.sendMessage(ChatColor.GREEN + "La partie va commencer.");

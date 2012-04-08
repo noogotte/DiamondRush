@@ -39,7 +39,7 @@ public class GeneralCommands extends Commands {
         Stage stage = game.getStage();
         if (stage.hasNextStageScheduled()) {
             throw new CommandError(
-                    "La partie est deja sur le point de redémarrer.");
+                    "La partie est déjà sur le point de redémarrer.");
         }
 
         game.sendMessage(ChatColor.GREEN + "La partie va reprendre");
