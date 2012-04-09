@@ -3,6 +3,8 @@ package fr.aumgn.tobenamed.region.patterns;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.material.Torch;
 
 import fr.aumgn.tobenamed.util.Vector;
 import fr.aumgn.tobenamed.util.Vector2D;
@@ -14,14 +16,16 @@ public class FloorPattern {
     private int y;
     private Material cornerType;
     private byte cornerData;
+    private boolean torch;
 
     public FloorPattern(Vector2D min, Vector2D max, int y,
-            Material cornerType, byte cornerData) {
+            Material cornerType, byte cornerData, boolean torch) {
         this.baseMin = min;
         this.baseMax = max;
         this.y = y;
         this.cornerType = cornerType;
         this.cornerData = cornerData;
+        this.torch = torch;
     }
 
     public void create(World world) {
@@ -53,7 +57,13 @@ public class FloorPattern {
         Block corner = pos.toBlock(world);
         corner.setType(cornerType);
         corner.setData(cornerData);
-        pos.add(0, 1, 0).toBlock(world).setType(Material.TORCH);
+        if (torch) {
+            Block torch = pos.add(0, 1, 0).toBlock(world);
+            torch.setType(Material.TORCH);
+            Torch torchData = new Torch(torch.getType(), torch.getData());
+            torchData.setFacingDirection(BlockFace.UP);
+            torch.setData(torchData.getData());
+        }
     }
 
     private void setEdge(World world, int x, int y, int z) {

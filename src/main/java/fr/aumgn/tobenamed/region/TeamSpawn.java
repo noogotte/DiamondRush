@@ -17,7 +17,7 @@ public class TeamSpawn extends Region {
         removeEverythingInside(world);
         FloorPattern base = new FloorPattern(
                 min.to2D(), max.to2D(), min.getY(),
-                Material.WOOL, color.getWoolColor());
+                Material.WOOL, color.getWoolColor(), true);
         base.create(world);
     }
 }
