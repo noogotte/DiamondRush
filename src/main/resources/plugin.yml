@@ -11,14 +11,14 @@ commands:
         description: "Stoppe la partie en cours."
         usage: "/<command>"
         permission: "tbn.cmd.stop"
-        aliases: ["sg"]
+        aliases: ["stg"]
     pause-game:
-        description: "Met en pause la partie en cour"
+        description: "Met en pause la partie en cours."
         usage: "/<command>"
         aliases: ["pause", "pg"]
         permission: "tbn.cmd.stop"
     resume-game:
-        description: "Redémarre la partie en cour"
+        description: "Redémarre la partie."
         usage: "/<command>"
         aliases: ["resume", "rsg"]
         permission: "tbn.cmd.stop"
@@ -32,12 +32,17 @@ commands:
         description: "Initie une partie de TBN."
         usage: "/<command> [-a] <equipe1> <equipe2> [...]"
         permission: "tbn.cmd.init"
-        aliases: ["init"]
-    join-team:
+        aliases: ["init", "ig"]
+    join-game:
         description: "Rejoint (ou crée) une équipe."
         usage: "/<command> <equipe>"
         permission: "tbn.cmd.jointeam"
-        aliases: ["jt", "join"]
+        aliases: ["join", "jg"]
+    quit-game:
+        description: "Quitte la partie."
+        usage: "/<command>"
+        permission: "tbn.cmd.jointeam"
+        aliases: ["quit", "qg"]
     start-game:
         description: "Débute la partie."
         usage: "/<command>"

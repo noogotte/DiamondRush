@@ -37,7 +37,7 @@ public class JoinStageCommands extends Commands {
         TBN.initGame(game, stage);
     }
 
-    @Command(name = "join-team", max = 1)
+    @Command(name = "join-game", max = 1)
     public void joinTeam(Player player, CommandArgs args) {
         Game game = TBN.getGame();
         Stage stage = game.getStage();
@@ -70,6 +70,27 @@ public class JoinStageCommands extends Commands {
             player.teleport(pos.toLocation(game.getWorld()));
             game.sendMessage(player.getDisplayName() + ChatColor.YELLOW +
                     " a rejoint l'équipe " + team.getDisplayName());
+        }
+    }
+
+    @Command(name = "quit-game", max = 0)
+    public void quitGame(Player player, CommandArgs args) {
+        Game game = TBN.getGame();
+        Stage stage = game.getStage();
+
+        if (stage instanceof JoinStage) {
+            JoinStage joinStage = (JoinStage) stage;
+            if (!joinStage.contains(player)) {
+                throw new CommandError("Vous n'êtes pas dans la partie.");
+            }
+
+            joinStage.removePlayer(player);
+        } else {
+            if (!game.contains(player)) {
+                throw new CommandError("Vous n'êtes pas dans la partie.");
+            }
+
+            game.removePlayer(player);
         }
     }
 

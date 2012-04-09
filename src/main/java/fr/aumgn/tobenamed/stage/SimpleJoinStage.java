@@ -27,6 +27,13 @@ public class SimpleJoinStage extends JoinStage {
     }
 
     @Override
+    public void removePlayer(Player player) {
+        game.removePlayer(player);
+        game.sendMessage(player.getDisplayName() + ChatColor.YELLOW +
+                " a quitté la partie.");
+    }
+
+    @Override
     public void ensureIsReady() {
         for (Team team : game.getTeams()) {
             if (team.size() < 1) {

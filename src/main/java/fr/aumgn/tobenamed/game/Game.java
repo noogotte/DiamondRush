@@ -171,8 +171,10 @@ public class Game {
         players.put(player, team);
     }
 
-    public boolean hasPlayer(Player player) {
-        return players.containsKey(player);
+    public void removePlayer(Player player) {
+        Team team = getTeam(player);
+        team.removePlayer(player);
+        players.remove(player);
     }
 
     public void decreaseLives(Team team) {

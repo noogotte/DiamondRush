@@ -38,7 +38,7 @@ public class GameSpawn extends Region {
         removeEverythingInside(world);
         FloorPattern base = new FloorPattern(
                 min.to2D(), max.to2D(), min.getY(),
-                Material.SMOOTH_BRICK, (byte) 1);
+                Material.GLOWSTONE, (byte) 0);
         base.create(world);
     }
 }

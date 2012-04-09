@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import fr.aumgn.tobenamed.TBNColor;
 import fr.aumgn.tobenamed.region.TeamSpawn;
 import fr.aumgn.tobenamed.region.Totem;
+import fr.aumgn.tobenamed.util.TBNUtil;
 import fr.aumgn.tobenamed.util.Vector;
 
 public class Team {
@@ -71,6 +72,10 @@ public class Team {
         spawn = new TeamSpawn(pos);
     }
 
+    public int getLives() {
+        return lives;
+    }
+
     public void sendMessage(String message) {
         for (Player player : players) {
             player.sendMessage(message);
@@ -79,11 +84,6 @@ public class Team {
 
     public int size() {
         return players.size();
-    }
-
-    void addPlayer(Player player) {
-        players.add(player);
-        setTeamName(player);
     }
 
     public void setTeamName(Player player) {
@@ -97,8 +97,18 @@ public class Team {
         }
     }
 
-    public int getLives() {
-        return lives;
+    void addPlayer(Player player) {
+        players.add(player);
+        setTeamName(player);
+    }
+
+    void removePlayer(Player player) {
+        players.remove(player);
+        if (player.equals(foreman)) {
+            foreman = TBNUtil.pickRandom(players);
+            sendMessage(foreman.getDisplayName() + 
+                    " est maintenant le chef d'equipe.");
+        }
     }
 
     void decreaseLives() {

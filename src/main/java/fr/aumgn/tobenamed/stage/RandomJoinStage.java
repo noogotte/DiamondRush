@@ -41,6 +41,16 @@ public class RandomJoinStage extends JoinStage {
     }
 
     @Override
+    public void removePlayer(Player player) {
+        players.remove(player);
+        String msg = player.getDisplayName() + ChatColor.YELLOW +
+                " a quitté la partie.";
+        for (Player playerInStage : players) {
+            playerInStage.sendMessage(msg);
+        }
+    }
+
+    @Override
     public void ensureIsReady() {
         if (game.getTeams().size() > players.size()) {
             throw new CommandError("Il n'y a pas assez de joueur");
