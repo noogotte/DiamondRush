@@ -21,6 +21,9 @@ public class InfoCommands extends Commands {
             StringBuilder teamMessage = new StringBuilder();
             teamMessage.append(" - ");
             teamMessage.append(team.getDisplayName());
+            teamMessage.append("(");
+            teamMessage.append(team.getLives());
+            teamMessage.append(")");
             if (team.size() > 0) {
                 teamMessage.append(" : ");
                 Player foreman = team.getForeman();
