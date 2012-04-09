@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import fr.aumgn.bukkit.command.CommandError;
 import fr.aumgn.tobenamed.game.Game;
 import fr.aumgn.tobenamed.game.Team;
+import fr.aumgn.tobenamed.game.TeamsView;
 
 public class RandomJoinStage extends JoinStage {
 
@@ -31,7 +32,9 @@ public class RandomJoinStage extends JoinStage {
            player.sendMessage(ChatColor.RED + "Les équipes sont constituées aléatoirement.");
         }
 
-        player.sendMessage(ChatColor.YELLOW + "Joueur actuelles : ");
+        if (players.size() > 0) {
+            player.sendMessage(ChatColor.YELLOW + "Joueur actuels : ");
+        }
         for (Player playerInStage : players) {
             player.sendMessage(ChatColor.YELLOW + " - " + playerInStage.getDisplayName());
             playerInStage.sendMessage(player.getDisplayName() + ChatColor.YELLOW
@@ -62,6 +65,10 @@ public class RandomJoinStage extends JoinStage {
         Collections.shuffle(players);
         for (Player player : players) {
             game.addPlayer(player, null);
+        }
+        TeamsView view = new TeamsView(game.getTeams());
+        for (String message : view) {
+            game.sendMessage(message);
         }
     }
 }
