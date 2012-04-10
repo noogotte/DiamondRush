@@ -37,23 +37,33 @@ public abstract class Timer implements Runnable {
     public void run() {
         seconds -= currentDelay;
         if (seconds > majorDelay) {
-            scheduleAndPrintTime(majorDelay, ChatColor.YELLOW);
+            scheduleAndPrintTime(majorDelay);
         } else if (seconds > minorDelay) {
-            scheduleAndPrintTime(minorDelay, ChatColor.GOLD);
+            scheduleAndPrintTime(minorDelay);
         } else if (seconds > 0) {
-            scheduleAndPrintTime(1, ChatColor.RED);
+            scheduleAndPrintTime(1);
         } else {
             runnable.run();
         }
     }
 
-    private void scheduleAndPrintTime(int delay, ChatColor color) {
+    private void scheduleAndPrintTime(int delay) {
         long minutes = TimeUnit.SECONDS.toMinutes(seconds);
         String msg = String.format("%02d:%02d", minutes, seconds % 60);
-        sendTimeMessage(color + msg);
+        sendTimeMessage(getColorFor(delay) + msg);
         currentDelay = delay;
         taskStartTime = System.currentTimeMillis();
         taskId = TBNUtil.scheduleDelayed(delay * TICKS_PER_SECONDS, this);
+    }
+
+    private ChatColor getColorFor(int delay) {
+        if (seconds > majorDelay) {
+            return ChatColor.YELLOW;
+        } else if (seconds > minorDelay) {
+            return ChatColor.GOLD;
+        } else {
+            return ChatColor.RED;
+        }
     }
 
     public void pause() {
@@ -63,7 +73,7 @@ public abstract class Timer implements Runnable {
     }
 
     public void resume() {
-        scheduleAndPrintTime(currentDelay - pauseDelay, ChatColor.YELLOW); 
+        scheduleAndPrintTime(currentDelay - pauseDelay); 
     }
 
     public abstract void sendTimeMessage(String string);
