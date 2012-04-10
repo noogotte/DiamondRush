@@ -35,7 +35,14 @@ public class DevelopmentStage extends Stage {
         game.sendMessage(ChatColor.GREEN + "La phase de développement commence.");
         scheduleNextStage(TBN.getConfig().getDevDuration(), new Runnable() {
             public void run() {
-                game.nextStage(new FightStage(game));
+                game.sendMessage(ChatColor.GREEN + "Fin de la phase de développement.");
+                StaticStage stage = new StaticStage(game);
+                game.nextStage(stage);
+                stage.scheduleNextStage(10, new Runnable() {
+                    public void run() {
+                        game.nextStage(new FightStage(game));
+                    }
+                });
             }
         });
     }

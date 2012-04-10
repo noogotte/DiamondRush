@@ -43,7 +43,14 @@ public class FightStage extends Stage {
         game.sendMessage(ChatColor.GREEN + "La phase de combat commence.");
         scheduleNextStage(TBN.getConfig().getFightDuration(), new Runnable() {
             public void run() {
-                game.nextStage(new DevelopmentStage(game));
+                game.sendMessage(ChatColor.GREEN + "Fin de la phase de combat.");
+                StaticStage stage = new StaticStage(game);
+                game.nextStage(stage);
+                stage.scheduleNextStage(10, new Runnable() {
+                    public void run() {
+                        game.nextStage(new DevelopmentStage(game));
+                    }
+                });
             }
         });
     }
