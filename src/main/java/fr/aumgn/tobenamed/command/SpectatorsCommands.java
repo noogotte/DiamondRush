@@ -67,7 +67,7 @@ public class SpectatorsCommands extends Commands {
         }
 
         Player target = players.get(0);
-        if (!game.contains(target)) {
+        if (!game.contains(target) || !game.getSpectators().contains(player)) {
             throw new PlayerNotInGame();
         }
         player.teleport(target);
