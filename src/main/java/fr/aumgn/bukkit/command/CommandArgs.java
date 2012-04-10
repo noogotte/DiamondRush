@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import fr.aumgn.bukkit.command.exception.CommandUsageError;
+
 public class CommandArgs {
 
     private Set<Character> flags;

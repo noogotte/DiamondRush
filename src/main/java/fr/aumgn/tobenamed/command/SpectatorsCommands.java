@@ -9,8 +9,8 @@ import org.bukkit.entity.Player;
 
 import fr.aumgn.bukkit.command.Command;
 import fr.aumgn.bukkit.command.CommandArgs;
-import fr.aumgn.bukkit.command.CommandError;
 import fr.aumgn.bukkit.command.Commands;
+import fr.aumgn.bukkit.command.exception.CommandError;
 import fr.aumgn.tobenamed.TBN;
 import fr.aumgn.tobenamed.exception.PlayerNotInGame;
 import fr.aumgn.tobenamed.game.Game;

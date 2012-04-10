@@ -1,8 +1,6 @@
 package fr.aumgn.tobenamed.exception;
 
-import fr.aumgn.bukkit.command.CommandError;
-
-public class NoGameRunning extends CommandError {
+public class NoGameRunning extends TBNException {
 
     private static final long serialVersionUID = -8107617954016679711L;
 

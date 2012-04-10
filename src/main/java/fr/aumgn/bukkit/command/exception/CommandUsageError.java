@@ -1,4 +1,4 @@
-package fr.aumgn.bukkit.command;
+package fr.aumgn.bukkit.command.exception;
 
 public class CommandUsageError extends RuntimeException {
     private static final long serialVersionUID = -2455651120183829047L;

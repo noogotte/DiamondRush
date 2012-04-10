@@ -1,8 +1,6 @@
 package fr.aumgn.tobenamed.exception;
 
-import fr.aumgn.bukkit.command.CommandError;
-
-public class NotEnoughTeams extends CommandError {
+public class NotEnoughTeams extends TBNException {
     private static final long serialVersionUID = -1667774177005590103L;
 
     public NotEnoughTeams() {
