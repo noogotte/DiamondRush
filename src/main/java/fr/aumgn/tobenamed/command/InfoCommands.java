@@ -9,7 +9,7 @@ import fr.aumgn.tobenamed.TBN;
 import fr.aumgn.tobenamed.game.Game;
 import fr.aumgn.tobenamed.game.TeamsView;
 
-public class InfoCommands extends Commands {
+public class InfoCommands implements Commands {
 
     @Command(name = "show-teams", max = 0)
     public void showTeams(CommandSender sender, CommandArgs args) {

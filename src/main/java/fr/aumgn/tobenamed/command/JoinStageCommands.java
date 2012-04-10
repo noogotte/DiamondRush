@@ -18,7 +18,7 @@ import fr.aumgn.tobenamed.stage.Stage;
 import fr.aumgn.tobenamed.stage.TotemStage;
 import fr.aumgn.tobenamed.util.Vector;
 
-public class JoinStageCommands extends Commands {
+public class JoinStageCommands implements Commands {
 
     @Command(name = "init-game", flags = "a")
     public void initGame(Player player, CommandArgs args) {

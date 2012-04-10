@@ -19,7 +19,7 @@ import fr.aumgn.tobenamed.game.Team;
 import fr.aumgn.tobenamed.region.TeamSpawn;
 import fr.aumgn.tobenamed.region.Totem;
 
-public class SpectatorsCommands extends Commands {
+public class SpectatorsCommands implements Commands {
 
     @Command(name = "watch-game", max = 0)
     public void watchGame(Player player, CommandArgs args) {

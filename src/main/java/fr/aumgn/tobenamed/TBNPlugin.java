@@ -13,7 +13,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 
-import fr.aumgn.bukkit.command.Commands;
+import fr.aumgn.bukkit.command.CommandsManager;
 import fr.aumgn.tobenamed.command.GeneralCommands;
 import fr.aumgn.tobenamed.command.InfoCommands;
 import fr.aumgn.tobenamed.command.JoinStageCommands;
@@ -32,10 +32,11 @@ public class TBNPlugin extends JavaPlugin {
         pm.registerEvents(new RegionsListener(), this);
         pm.registerEvents(new SpectatorsListener(), this);
 
-        Commands.register(new GeneralCommands());
-        Commands.register(new InfoCommands());
-        Commands.register(new JoinStageCommands());
-        Commands.register(new SpectatorsCommands());
+        CommandsManager commandsManager = new CommandsManager(this); 
+        commandsManager.register(new GeneralCommands());
+        commandsManager.register(new InfoCommands());
+        commandsManager.register(new JoinStageCommands());
+        commandsManager.register(new SpectatorsCommands());
 
         getLogger().info("Enabled.");
     }

@@ -11,7 +11,7 @@ import fr.aumgn.tobenamed.TBN;
 import fr.aumgn.tobenamed.game.Game;
 import fr.aumgn.tobenamed.stage.Stage;
 
-public class GeneralCommands extends Commands {
+public class GeneralCommands implements Commands {
 
     @Command(name = "stop-game", max = 0)
     public void stopGame(CommandSender sender, CommandArgs args) {
