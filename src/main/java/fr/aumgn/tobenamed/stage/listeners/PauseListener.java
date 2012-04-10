@@ -36,8 +36,8 @@ public class PauseListener implements Listener {
                 || from.getBlockY() != to.getBlockY()
                 || from.getBlockZ() != to.getBlockZ()) {
             if (game.contains(player)) {
-                stage.getPauseLocation(player).
-                    teleportTo(player);
+                stage.getPlayerStatus(player).
+                    restorePosition(player);
             }
         }
     }
