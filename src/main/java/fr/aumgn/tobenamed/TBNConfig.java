@@ -4,9 +4,13 @@ import org.bukkit.inventory.ItemStack;
 
 public class TBNConfig {
 
+    private int timerMajorDelay = 2 * 60;
+    private int timerMinorDelay = 20;
+    
     private int totemDuration = 90;
     private int spawnDuration = 30;
     private int developmentDuration = 20 * 60;
+    private int transitionDuration = 10;
     private int fightDuration = 6 * 60;
 
     private int totemSpawnMinimumDistance = 20;
@@ -23,6 +27,15 @@ public class TBNConfig {
     private int itemForDeathId = 265;
     private int itemForDeathAmount = 3;
 
+
+    public int getMajorDelay() {
+        return timerMajorDelay;
+    }
+
+    public int getMinorDelay() {
+        return timerMinorDelay;
+    }
+
     public int getTotemDuration() {
         return totemDuration;
     }
@@ -30,12 +43,17 @@ public class TBNConfig {
     public int getSpawnDuration() {
         return spawnDuration;
     }
+
     public int getDevDuration() {
         return developmentDuration;
     }
 
     public int getFightDuration() {
         return fightDuration;
+    }
+
+    public int getTransitionDuration() {
+        return transitionDuration;
     }
 
     public int getTotemSpawnMinDistance() {

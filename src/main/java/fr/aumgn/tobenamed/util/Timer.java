@@ -5,12 +5,15 @@ import java.util.concurrent.TimeUnit;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
+import fr.aumgn.tobenamed.TBN;
+
 
 public abstract class Timer implements Runnable {
 
     private static final int TICKS_PER_SECONDS = 20;
-    private static final int MAJOR_DELAY = 2 * 60;
-    private static final int MINOR_DELAY = 20;
+
+    private int majorDelay;
+    private int minorDelay;
 
     private Runnable runnable;
     private int seconds;
@@ -21,6 +24,9 @@ public abstract class Timer implements Runnable {
     private int pauseDelay;
 
     public Timer(int seconds, Runnable runnable) {
+        this.majorDelay = TBN.getConfig().getMajorDelay();
+        this.minorDelay = TBN.getConfig().getMinorDelay();
+
         this.seconds = seconds;
         this.runnable = runnable;
 
@@ -30,10 +36,10 @@ public abstract class Timer implements Runnable {
     @Override
     public void run() {
         seconds -= currentDelay;
-        if (seconds > MAJOR_DELAY) {
-            scheduleAndPrintTime(MAJOR_DELAY, ChatColor.YELLOW);
-        } else if (seconds > MINOR_DELAY) {
-            scheduleAndPrintTime(MINOR_DELAY, ChatColor.GOLD);
+        if (seconds > majorDelay) {
+            scheduleAndPrintTime(majorDelay, ChatColor.YELLOW);
+        } else if (seconds > minorDelay) {
+            scheduleAndPrintTime(minorDelay, ChatColor.GOLD);
         } else if (seconds > 0) {
             scheduleAndPrintTime(1, ChatColor.RED);
         } else {
