@@ -6,14 +6,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.bukkit.ChatColor;
-import org.bukkit.command.CommandException;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import fr.aumgn.bukkit.command.exception.CommandError;
-import fr.aumgn.bukkit.command.exception.CommandUnhandledException;
-import fr.aumgn.bukkit.command.exception.CommandUsageError;
 
 public class MethodCommandExecutor implements CommandExecutor {
 
@@ -46,7 +41,7 @@ public class MethodCommandExecutor implements CommandExecutor {
         } catch (CommandUsageError exc) {
             sender.sendMessage(ChatColor.RED + exc.getMessage());
             return false;
-        } catch (CommandException exc) {
+        } catch (CommandError exc) {
             sender.sendMessage(ChatColor.RED + exc.getMessage());
         }
         return true;
@@ -72,7 +67,7 @@ public class MethodCommandExecutor implements CommandExecutor {
             if (exc.getCause() instanceof CommandUsageError) {
                 throw (CommandUsageError) exc.getCause();
             }
-            throw new CommandUnhandledException(exc.getCause());
+            throw new CommandException(exc.getCause());
         }
     }
 

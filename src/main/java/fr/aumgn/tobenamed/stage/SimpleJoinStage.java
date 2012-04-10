@@ -3,7 +3,7 @@ package fr.aumgn.tobenamed.stage;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-import fr.aumgn.bukkit.command.exception.CommandError;
+import fr.aumgn.bukkit.command.CommandError;
 import fr.aumgn.tobenamed.game.Game;
 import fr.aumgn.tobenamed.game.Team;
 

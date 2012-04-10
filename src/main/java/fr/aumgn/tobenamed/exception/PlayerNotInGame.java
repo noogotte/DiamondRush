@@ -1,6 +1,8 @@
 package fr.aumgn.tobenamed.exception;
 
-public class PlayerNotInGame extends TBNException {
+import fr.aumgn.bukkit.command.CommandError;
+
+public class PlayerNotInGame extends CommandError {
     private static final long serialVersionUID = -3139364881212075182L;
 
     public PlayerNotInGame() {

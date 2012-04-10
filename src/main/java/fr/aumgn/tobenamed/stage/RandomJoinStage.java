@@ -7,7 +7,7 @@ import java.util.List;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-import fr.aumgn.bukkit.command.exception.CommandError;
+import fr.aumgn.bukkit.command.CommandError;
 import fr.aumgn.tobenamed.game.Game;
 import fr.aumgn.tobenamed.game.Team;
 import fr.aumgn.tobenamed.game.TeamsView;

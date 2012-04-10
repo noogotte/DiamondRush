@@ -1,6 +1,8 @@
 package fr.aumgn.tobenamed.exception;
 
-public class NoSuchTeam extends TBNException {
+import fr.aumgn.bukkit.command.CommandError;
+
+public class NoSuchTeam extends CommandError {
     private static final long serialVersionUID = -359072155198800087L;
 
     public NoSuchTeam(String name) {
