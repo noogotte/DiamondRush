@@ -1,5 +1,6 @@
 package fr.aumgn.tobenamed.listeners;
 
+import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -14,7 +15,6 @@ import fr.aumgn.tobenamed.TBN;
 import fr.aumgn.tobenamed.game.Game;
 import fr.aumgn.tobenamed.game.Team;
 import fr.aumgn.tobenamed.util.Vector;
-import fr.aumgn.tobenamed.util.Vector2D;
 
 public class GameListener implements Listener {
 
@@ -49,14 +49,11 @@ public class GameListener implements Listener {
 
         Team team = game.getTeam(player);
         if (team.getSpawn() == null) {
-            Vector2D currentPos = new Vector(player.getLocation()).to2D();
-            Vector pos = game.getSpawn().getMiddle();
-            Vector2D dir = currentPos.subtract(pos.to2D());
-            event.setRespawnLocation(pos.toLocation(game.getWorld(), dir));
+            Vector currentPos = new Vector(player.getLocation());
+            Location loc = game.getSpawn().getTeleportLocation(game.getWorld(), currentPos);
+            event.setRespawnLocation(loc);
         } else {
-            Vector pos = team.getSpawn().getMiddle();
-            Vector2D dir = game.getSpawn().getMiddle().subtract(pos).to2D();
-            event.setRespawnLocation(pos.toLocation(game.getWorld(), dir));
+            team.getSpawn().getTeleportLocation(game.getWorld(), game.getSpawn());
         }
     }
 

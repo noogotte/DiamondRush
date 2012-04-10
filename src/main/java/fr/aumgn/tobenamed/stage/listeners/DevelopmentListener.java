@@ -72,8 +72,7 @@ public class DevelopmentListener implements Listener {
     private void handleSpottedPlayer(Player player, Player target) {
         Game game = stage.getGame();
         Team team = game.getTeam(target);
-        Vector pos = team.getSpawn().getTeleportPoint();
-        target.teleport(pos.toLocation(game.getWorld()));
+        target.teleport(team.getSpawn().getTeleportLocation(game.getWorld(), game.getSpawn()));
         game.sendMessage(target.getDisplayName() + ChatColor.YELLOW +
                 " s'est fait voir par " + ChatColor.RESET + player.getDisplayName());
     }
