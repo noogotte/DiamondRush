@@ -6,7 +6,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import fr.aumgn.tobenamed.TBN;
 import fr.aumgn.tobenamed.game.Game;
@@ -62,5 +65,13 @@ public class FightStage extends Stage {
     public void incrementDeathCount(Team team) {
         int count = getDeathCount(team) + 1;
         deathsCounts.put(team, count);
+    }
+
+    public void affect(Team team) {
+        PotionEffect effect = new PotionEffect(PotionEffectType.CONFUSION, 
+                TBN.getConfig().getSurrenderMalusDuration(), 10);
+        for (Player player : team.getPlayers()) {
+            player.addPotionEffect(effect);
+        }
     }
 }

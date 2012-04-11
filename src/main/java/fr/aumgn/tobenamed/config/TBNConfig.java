@@ -29,6 +29,7 @@ public class TBNConfig {
 
     private int surrenderItemId = 339;
     private int deathNeededForSurrender = 1;
+    private int surrenderMalusDuration = 60;
 
     private int maximumDiamondPerFight = 4;
     private int itemForKillId = 266;
@@ -90,6 +91,10 @@ public class TBNConfig {
 
     public int getDeathNeededForSurrender() {
         return deathNeededForSurrender;
+    }
+
+    public int getSurrenderMalusDuration() {
+        return surrenderMalusDuration * 20;
     }
 
     public int getMaxDiamond() {

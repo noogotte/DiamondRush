@@ -98,11 +98,12 @@ public class FightListener implements Listener {
             return;
         }
 
-        Team team = game.getTeam(player);
+        final Team team = game.getTeam(player);
         if (stage.getDeathCount(team) >= TBN.getConfig().getDeathNeededForSurrender()) {
             game.sendMessage("L'equipe " + team.getDisplayName() + " s'est rendu.");
             game.nextStage(new TransitionStage(game, new Runnable() {
                 public void run() {
+                    stage.affect(team);
                     game.nextStage(new DevelopmentStage(game));
                 }
             }));
