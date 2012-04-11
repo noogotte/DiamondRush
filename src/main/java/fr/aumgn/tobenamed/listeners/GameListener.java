@@ -1,14 +1,18 @@
 package fr.aumgn.tobenamed.listeners;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
 import fr.aumgn.tobenamed.TBN;
@@ -17,6 +21,9 @@ import fr.aumgn.tobenamed.game.Team;
 import fr.aumgn.tobenamed.util.Vector;
 
 public class GameListener implements Listener {
+
+    private boolean handleMove = false;
+    private Set<Player> playersInSpawn = new HashSet<Player>();
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
@@ -46,27 +53,73 @@ public class GameListener implements Listener {
             event.setRespawnLocation(loc);
         } else {
             team.getSpawn().getTeleportLocation(game.getWorld(), game.getSpawn());
+            playersInSpawn.add(player);
+            handleMove = true;
+        }
+    }
+
+    @EventHandler
+    public void onMove(PlayerMoveEvent event) {
+        if (!handleMove) {
+            return;
+        }
+
+        Game game = TBN.getGame();
+        if (game.isPaused()) {
+            return;
+        }
+
+        Player player = event.getPlayer();
+        if (!playersInSpawn.contains(player)) {
+            return;
+        }
+
+        if (!game.contains(player)) {
+            playersInSpawn.remove(player);
+            handleMove = playersInSpawn.size() > 0;
+        }
+
+        Location from = event.getFrom();
+        Location to = event.getTo();
+        if (from.getBlockX() == to.getBlockX()
+                && from.getBlockY() == to.getBlockY()
+                && from.getBlockZ() == to.getBlockZ()) {
+            return;
+        }
+
+        Vector toPos = new Vector(to);
+        if (!game.getTeam(player).getSpawn().contains(toPos)) {
+            playersInSpawn.remove(player);
+            handleMove = playersInSpawn.size() > 0;
         }
     }
 
     @EventHandler(priority = EventPriority.LOW)
-    public void onDamage(EntityDamageByEntityEvent event) {
+    public void onDamage(EntityDamageEvent event) {
         Entity targetEntity = event.getEntity();
-        Entity damagerEntity = event.getDamager();
-        if (damagerEntity instanceof Projectile) {
-            damagerEntity = ((Projectile) damagerEntity).getShooter();
-        }
 
-        if (!(targetEntity instanceof Player)
-                || !(damagerEntity instanceof Player)) {
+        if (!(targetEntity instanceof Player)) {
             return;
         }
 
         Player target = (Player) targetEntity;
+        if (playersInSpawn.contains(target)) {
+            event.setCancelled(true);
+            return;
+        }
+
+        if (!(event instanceof EntityDamageByEntityEvent)) {
+            return;
+        }
+
+        Entity damagerEntity = ((EntityDamageByEntityEvent) event).getDamager();
+        if (!(damagerEntity instanceof Player)) {
+            return;
+        }
+
         Player damager = (Player) damagerEntity;
         Game game = TBN.getGame();
-        if ((game.contains(target) && !game.contains(damager))
-                || (!game.contains(target) && game.contains(damager))) {
+        if ((game.contains(target) != game.contains(damager))) {
             event.setCancelled(true);
         }
     }
