@@ -1,5 +1,6 @@
 package fr.aumgn.tobenamed.stage;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -12,6 +13,8 @@ import org.bukkit.entity.Player;
 import fr.aumgn.tobenamed.TBN;
 import fr.aumgn.tobenamed.game.Game;
 import fr.aumgn.tobenamed.game.Team;
+import fr.aumgn.tobenamed.region.ChestPopulator;
+import fr.aumgn.tobenamed.region.Totem;
 import fr.aumgn.tobenamed.util.TBNUtil;
 import fr.aumgn.tobenamed.util.Vector;
 import fr.aumgn.tobenamed.util.Vector2D;
@@ -64,6 +67,18 @@ public class TotemStage extends PositioningStage {
     public void initPosition(Team team, Vector pos) {
         team.setTotem(pos, game.getWorld().getMaxHeight());
         team.getTotem().create(game.getWorld(), team.getColor());
+    }
+
+    @Override
+    public void stop() {
+        super.stop();
+        List<Team> teams = game.getTeams();
+        List<Totem> totems = new ArrayList<Totem>(teams.size());
+        for (Team team : teams) {
+            totems.add(team.getTotem());
+        }
+        ChestPopulator chestPopulator = new ChestPopulator(game.getSpawn(), totems);
+        chestPopulator.populate(game.getWorld(), 2 * teams.size() - 1);
     }
 
     @Override

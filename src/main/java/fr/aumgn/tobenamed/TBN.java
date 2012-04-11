@@ -12,6 +12,7 @@ import org.bukkit.plugin.PluginManager;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import fr.aumgn.tobenamed.config.TBNConfig;
 import fr.aumgn.tobenamed.exception.NoGameRunning;
 import fr.aumgn.tobenamed.game.Game;
 import fr.aumgn.tobenamed.listeners.GameListener;

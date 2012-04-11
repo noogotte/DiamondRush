@@ -36,7 +36,7 @@ public class Vector2D implements Iterable<Vector2D> {
         return new Vector2D(this.x + i, this.z + i);
     }
 
-    public Vector2D add(int ox, int oy, int oz) {
+    public Vector2D add(int ox, int oz) {
         return new Vector2D(x + ox, z + oz);
     }
 
@@ -48,7 +48,7 @@ public class Vector2D implements Iterable<Vector2D> {
         return new Vector2D(x - i, z - i);
     }
 
-    public Vector2D subtract(int ox, int oy, int oz) {
+    public Vector2D subtract(int ox, int oz) {
         return new Vector2D(x - ox, z - oz);
     }
 
@@ -65,6 +65,10 @@ public class Vector2D implements Iterable<Vector2D> {
     public boolean isInside(Vector2D min, Vector2D max) {
         return x >= min.x && x <= max.x
                 && z >= min.z && z <= max.z;
+    }
+
+    public Vector2D positive() {
+        return new Vector2D(Math.abs(x), Math.abs(z));
     }
 
     public int lengthSq() {

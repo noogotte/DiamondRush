@@ -1,6 +1,11 @@
-package fr.aumgn.tobenamed;
+package fr.aumgn.tobenamed.config;
+
+import java.util.Collections;
+import java.util.List;
 
 import org.bukkit.inventory.ItemStack;
+
+import fr.aumgn.tobenamed.util.TBNUtil;
 
 public class TBNConfig {
 
@@ -21,7 +26,7 @@ public class TBNConfig {
 
     private int spottedTotemDistance = 30;
     private int spottedSpawnDistance = 20;
-    
+
     private int surrenderItemId = 339;
     private int deathNeededForSurrender = 1;
 
@@ -30,6 +35,8 @@ public class TBNConfig {
     private int itemForKillAmount = 1;
     private int itemForDeathId = 265;
     private int itemForDeathAmount = 3;
+
+    private List<BonusChest> bonusChests = Collections.<BonusChest>emptyList();
 
 
     public int getMajorDelay() {
@@ -97,5 +104,12 @@ public class TBNConfig {
     public ItemStack getItemForDeath() {
         return new ItemStack(
                 itemForDeathId, itemForDeathAmount);
+    }
+
+    public ItemStack[] getRandomBonus() {
+        if (bonusChests.size() == 0) {
+            return new ItemStack[0];
+        }
+        return TBNUtil.pickRandom(bonusChests).toItemStacks();
     }
 }

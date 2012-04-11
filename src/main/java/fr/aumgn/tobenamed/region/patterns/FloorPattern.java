@@ -36,8 +36,8 @@ public class FloorPattern {
         setCorner(world, minCorner.setX(maxCorner.getX()));
         setCorner(world, minCorner.setZ(maxCorner.getZ()));
 
-        Vector2D min = baseMin.add(1, 0, 1);
-        Vector2D max = baseMax.subtract(1, 0, 1);
+        Vector2D min = baseMin.add(1, 1);
+        Vector2D max = baseMax.subtract(1, 1);
         for (int x = min.getX(); x <= max.getX(); x++) {
             setEdge(world, x, y, baseMin.getZ());
             setEdge(world, x, y, baseMax.getZ());

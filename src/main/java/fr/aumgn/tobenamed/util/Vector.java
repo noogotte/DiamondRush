@@ -91,6 +91,10 @@ public class Vector implements Iterable<Vector> {
                 && z >= min.z && z <= max.z;
     }
 
+    public Vector positive() {
+        return new Vector(Math.abs(x), Math.abs(y), Math.abs(z));
+    }
+
     public int lengthSq() {
         return x * x + y * y + z * z;
     }

@@ -16,6 +16,7 @@ import fr.aumgn.tobenamed.command.GeneralCommands;
 import fr.aumgn.tobenamed.command.InfoCommands;
 import fr.aumgn.tobenamed.command.JoinStageCommands;
 import fr.aumgn.tobenamed.command.SpectatorsCommands;
+import fr.aumgn.tobenamed.config.TBNConfig;
 
 public class TBNPlugin extends JavaPlugin {
 
