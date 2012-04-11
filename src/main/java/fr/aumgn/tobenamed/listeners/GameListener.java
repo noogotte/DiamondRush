@@ -20,10 +20,6 @@ public class GameListener implements Listener {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
-        if (!TBN.isRunning()) {
-            return;
-        }
-
         Player player = event.getPlayer();
         Game game = TBN.getGame();
         if (game.contains(player)) {
@@ -37,10 +33,6 @@ public class GameListener implements Listener {
 
     @EventHandler
     public void onRespawn(PlayerRespawnEvent event) {
-        if (!TBN.isRunning()) {
-            return;
-        }
-
         Player player = event.getPlayer();
         Game game = TBN.getGame();
         if (!game.contains(player)) {
@@ -59,10 +51,6 @@ public class GameListener implements Listener {
 
     @EventHandler(priority = EventPriority.LOW)
     public void onDamage(EntityDamageByEntityEvent event) {
-        if (!TBN.isRunning()) {
-            return;
-        }
-
         Entity targetEntity = event.getEntity();
         Entity damagerEntity = event.getDamager();
         if (damagerEntity instanceof Projectile) {

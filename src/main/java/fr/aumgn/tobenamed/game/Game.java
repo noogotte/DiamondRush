@@ -68,15 +68,16 @@ public class Game {
     }
 
     public void nextStage(Stage newStage) {
+        if (newStage == null) {
+            throw new IllegalArgumentException("New stage cannot be null");
+        }
         if (stage != null) {
             unregisterStageListeners();
             stage.stop();
         }
         stage = newStage;
-        if (stage != null) {
-            registerStageListeners();
-            stage.start();
-        }
+        registerStageListeners();
+        stage.start();
     }
 
     public boolean isPaused() {

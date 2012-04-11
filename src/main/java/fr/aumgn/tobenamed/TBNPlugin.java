@@ -6,8 +6,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import org.bukkit.Bukkit;
-import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.google.gson.Gson;
@@ -18,19 +16,11 @@ import fr.aumgn.tobenamed.command.GeneralCommands;
 import fr.aumgn.tobenamed.command.InfoCommands;
 import fr.aumgn.tobenamed.command.JoinStageCommands;
 import fr.aumgn.tobenamed.command.SpectatorsCommands;
-import fr.aumgn.tobenamed.listeners.GameListener;
-import fr.aumgn.tobenamed.listeners.RegionsListener;
-import fr.aumgn.tobenamed.listeners.SpectatorsListener;
 
 public class TBNPlugin extends JavaPlugin {
 
     public void onEnable() {
         TBN.init(this);
-
-        PluginManager pm = Bukkit.getPluginManager();
-        pm.registerEvents(new GameListener(), this);
-        pm.registerEvents(new RegionsListener(), this);
-        pm.registerEvents(new SpectatorsListener(), this);
 
         CommandsManager commandsManager = new CommandsManager(this); 
         commandsManager.register(new GeneralCommands());

@@ -7,12 +7,16 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginManager;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import fr.aumgn.tobenamed.exception.NoGameRunning;
 import fr.aumgn.tobenamed.game.Game;
+import fr.aumgn.tobenamed.listeners.GameListener;
+import fr.aumgn.tobenamed.listeners.RegionsListener;
+import fr.aumgn.tobenamed.listeners.SpectatorsListener;
 import fr.aumgn.tobenamed.stage.JoinStage;
 
 public final class TBN {
@@ -22,6 +26,7 @@ public final class TBN {
     private static TBNPlugin plugin;
     private static Random random;
     private static Game game;
+    private static Listener[] listeners;
     private static TBNConfig config;
 
     private TBN() {
@@ -34,6 +39,10 @@ public final class TBN {
         TBN.plugin = plugin;
         TBN.random = new Random();
         TBN.game = null;
+        TBN.listeners = new Listener[3];
+        TBN.listeners[0] = new GameListener();
+        TBN.listeners[1] = new RegionsListener();
+        TBN.listeners[2] = new SpectatorsListener();
         reloadConfig();
     }
 
@@ -79,6 +88,10 @@ public final class TBN {
 
     public static void initGame(Game game, JoinStage stage) {
         TBN.game = game;
+        PluginManager pm = Bukkit.getPluginManager();
+        for (Listener listener : listeners) {
+            pm.registerEvents(listener, plugin);
+        }
         game.nextStage(stage);
     }
 
@@ -87,6 +100,10 @@ public final class TBN {
             HandlerList.unregisterAll(listener);
         }
         Bukkit.getScheduler().cancelTasks(TBN.getPlugin());
+
+        for (Listener listener : listeners) {
+            HandlerList.unregisterAll(listener);
+        }
         TBN.game = null;
     }
 }

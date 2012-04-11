@@ -70,10 +70,6 @@ public class SpectatorsListener implements Listener {
     }
 
     private boolean isSpectator(Player player) {
-        if (!TBN.isRunning()) {
-            return false;
-        }
-
         return TBN.getGame().getSpectators().contains(player);
     }
 

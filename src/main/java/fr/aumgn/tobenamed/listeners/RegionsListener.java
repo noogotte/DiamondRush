@@ -24,10 +24,6 @@ public class RegionsListener implements Listener {
 
     @EventHandler
     public void onBreak(BlockBreakEvent event) {
-        if (!TBN.isRunning()) {
-            return;
-        }
-
         Vector pos = new Vector(event.getBlock());
         Game game = TBN.getGame();
         for (Team team : game.getTeams()) {
@@ -124,10 +120,6 @@ public class RegionsListener implements Listener {
     }
 
     private boolean isProtected(Vector pos) {
-        if (!TBN.isRunning()) {
-            return false;
-        }
-
         Game game = TBN.getGame();
         if (game.getSpawn() != null 
                 && game.getSpawn().contains(pos)) {
