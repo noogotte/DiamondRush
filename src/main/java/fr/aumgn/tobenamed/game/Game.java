@@ -50,7 +50,7 @@ public class Game {
         spawn = new GameSpawn(spawnPoint);
         players = new HashMap<Player, Team>();
         spectators = new Spectators(this);
-        turnCount = 0;
+        turnCount = -1;
     }
 
     public Stage getStage() {

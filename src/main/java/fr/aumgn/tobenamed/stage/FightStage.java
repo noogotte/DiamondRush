@@ -45,6 +45,7 @@ public class FightStage extends Stage {
         scheduleNextStage(duration, new Runnable() {
             public void run() {
                 game.sendMessage(ChatColor.GREEN + "Fin de la phase de combat.");
+                game.sendMessage(ChatColor.YELLOW + "C'est le moment de changer de channel.");
                 StaticStage stage = new StaticStage(game);
                 game.nextStage(stage);
                 stage.scheduleNextStage(TBN.getConfig().getTransitionDuration(), new Runnable() {
