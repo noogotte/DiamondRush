@@ -35,18 +35,16 @@ public class DevelopmentStage extends Stage {
         game.sendMessage(ChatColor.GREEN + "La phase de développement commence.");
         game.incrementTurnCount();
         int duration = TBN.getConfig().getDevDuration(game.getTurnCount());
-        scheduleNextStage(duration, new Runnable() {
+        scheduleNextStageWithTransition(duration, new Runnable() {
             public void run() {
-                game.sendMessage(ChatColor.GREEN + "Fin de la phase de développement.");
-                game.sendMessage(ChatColor.YELLOW + "C'est le moment de changer de channel.");
-                StaticStage stage = new StaticStage(game);
-                game.nextStage(stage);
-                stage.scheduleNextStage(TBN.getConfig().getTransitionDuration(), new Runnable() {
-                    public void run() {
-                        game.nextStage(new FightStage(game));
-                    }
-                });
+                game.nextStage(new FightStage(game));
             }
         });
+    }
+
+    @Override
+    public void stop() {
+        super.stop();
+        game.sendMessage(ChatColor.GREEN + "Fin de la phase de développement.");
     }
 }

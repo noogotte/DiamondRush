@@ -25,6 +25,14 @@ public abstract class Stage {
         nextStageTimer.run();
     }
 
+    public void scheduleNextStageWithTransition(int seconds, final Runnable nextStage) {
+        scheduleNextStage(seconds, new Runnable() {
+            public void run() {
+                new TransitionStage(getGame(), nextStage);
+            }
+        });
+    }
+
     public void start() {
     }
 

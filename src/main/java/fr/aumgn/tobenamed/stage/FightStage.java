@@ -42,19 +42,17 @@ public class FightStage extends Stage {
     public void start() {
         game.sendMessage(ChatColor.GREEN + "La phase de combat commence.");
         int duration = TBN.getConfig().getFightDuration(game.getTurnCount());
-        scheduleNextStage(duration, new Runnable() {
+        scheduleNextStageWithTransition(duration, new Runnable() {
             public void run() {
-                game.sendMessage(ChatColor.GREEN + "Fin de la phase de combat.");
-                game.sendMessage(ChatColor.YELLOW + "C'est le moment de changer de channel.");
-                StaticStage stage = new StaticStage(game);
-                game.nextStage(stage);
-                stage.scheduleNextStage(TBN.getConfig().getTransitionDuration(), new Runnable() {
-                    public void run() {
-                        game.nextStage(new DevelopmentStage(game));
-                    }
-                });
+                game.nextStage(new DevelopmentStage(game));
             }
         });
+    }
+
+    @Override
+    public void stop() {
+        super.stop();
+        game.sendMessage(ChatColor.GREEN + "Fin de la phase de combat.");
     }
 
     public int getDeathCount(Team team) {

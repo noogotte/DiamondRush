@@ -23,6 +23,7 @@ import fr.aumgn.tobenamed.game.Game;
 import fr.aumgn.tobenamed.game.Team;
 import fr.aumgn.tobenamed.stage.DevelopmentStage;
 import fr.aumgn.tobenamed.stage.FightStage;
+import fr.aumgn.tobenamed.stage.TransitionStage;
 
 public class FightListener implements Listener {
 
@@ -87,7 +88,7 @@ public class FightListener implements Listener {
         }
 
         Player player = event.getPlayer();
-        Game game = stage.getGame();
+        final Game game = stage.getGame();
         if (!game.contains(player)) {
             return;
         }
@@ -100,7 +101,11 @@ public class FightListener implements Listener {
         Team team = game.getTeam(player);
         if (stage.getDeathCount(team) >= TBN.getConfig().getDeathNeededForSurrender()) {
             game.sendMessage("L'equipe " + team.getDisplayName() + " s'est rendu.");
-            game.nextStage(new DevelopmentStage(game));
+            game.nextStage(new TransitionStage(game, new Runnable() {
+                public void run() {
+                    game.nextStage(new DevelopmentStage(game));
+                }
+            }));
         } else {
             player.sendMessage(ChatColor.RED + 
                     "Il faut au moins une mort dans l'equipe pour pouvoir se rendre.");
