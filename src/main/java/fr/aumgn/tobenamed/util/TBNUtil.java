@@ -27,6 +27,9 @@ public final class TBNUtil {
     }
 
     public static <T> T pickRandom(List<T> from) {
+        if (from.isEmpty()) {
+            return null;
+        }
         return from.get(TBN.getRandom().nextInt(from.size()));
     }
 
