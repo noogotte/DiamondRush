@@ -33,6 +33,7 @@ public class Game {
     private Map<String, Team> teams;
     private Map<Player, Team> players;
     private Spectators spectators;
+    private int turnCount;
 
     public Game(List<String> teamsName, World world, Vector spawnPoint) {
         this.stage = null;
@@ -49,6 +50,7 @@ public class Game {
         spawn = new GameSpawn(spawnPoint);
         players = new HashMap<Player, Team>();
         spectators = new Spectators(this);
+        turnCount = 0;
     }
 
     public Stage getStage() {
@@ -127,6 +129,14 @@ public class Game {
 
     public Spectators getSpectators() {
         return spectators;
+    }
+
+    public int getTurnCount() {
+        return turnCount;
+    }
+
+    public void incrementTurnCount() {
+        ++turnCount;
     }
 
     public void sendMessage(String message) {

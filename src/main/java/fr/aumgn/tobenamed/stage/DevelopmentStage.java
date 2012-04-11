@@ -33,7 +33,9 @@ public class DevelopmentStage extends Stage {
     @Override
     public void start() {
         game.sendMessage(ChatColor.GREEN + "La phase de développement commence.");
-        scheduleNextStage(TBN.getConfig().getDevDuration(), new Runnable() {
+        game.incrementTurnCount();
+        int duration = TBN.getConfig().getDevDuration(game.getTurnCount());
+        scheduleNextStage(duration, new Runnable() {
             public void run() {
                 game.sendMessage(ChatColor.GREEN + "Fin de la phase de développement.");
                 StaticStage stage = new StaticStage(game);

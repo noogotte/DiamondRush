@@ -9,9 +9,13 @@ public class TBNConfig {
     
     private int totemDuration = 90;
     private int spawnDuration = 30;
-    private int developmentDuration = 20 * 60;
     private int transitionDuration = 10;
-    private int fightDuration = 6 * 60;
+
+    private int developmentFirstDuration = 20 * 60;
+    private int developmentDurationDiff = - 3 * 60;
+    private int fightFirstDuration = 5 * 60;
+    private int fightDurationDiff = 3 * 60;
+    private int applyDiffUntilTurn = 5;
 
     private int totemSpawnMinimumDistance = 20;
 
@@ -44,12 +48,14 @@ public class TBNConfig {
         return spawnDuration;
     }
 
-    public int getDevDuration() {
-        return developmentDuration;
+    public int getDevDuration(int turn) {
+        int diff = Math.min(applyDiffUntilTurn, turn) * developmentDurationDiff;
+        return Math.max(developmentFirstDuration + diff, 0);
     }
 
-    public int getFightDuration() {
-        return fightDuration;
+    public int getFightDuration(int turn) {
+        int diff = Math.min(applyDiffUntilTurn, turn) * fightDurationDiff;
+        return Math.max(fightFirstDuration + diff, 0);
     }
 
     public int getTransitionDuration() {

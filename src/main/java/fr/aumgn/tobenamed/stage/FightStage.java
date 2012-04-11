@@ -41,7 +41,8 @@ public class FightStage extends Stage {
     @Override
     public void start() {
         game.sendMessage(ChatColor.GREEN + "La phase de combat commence.");
-        scheduleNextStage(TBN.getConfig().getFightDuration(), new Runnable() {
+        int duration = TBN.getConfig().getFightDuration(game.getTurnCount());
+        scheduleNextStage(duration, new Runnable() {
             public void run() {
                 game.sendMessage(ChatColor.GREEN + "Fin de la phase de combat.");
                 StaticStage stage = new StaticStage(game);
