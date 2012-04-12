@@ -1,6 +1,6 @@
 package fr.aumgn.tobenamed.config;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.inventory.ItemStack;
@@ -37,8 +37,24 @@ public class TBNConfig {
     private int itemForDeathId = 265;
     private int itemForDeathAmount = 3;
 
-    private List<BonusChest> bonusChests = Collections.<BonusChest>emptyList();
+    private List<BonusChest> bonusChests;
 
+    public TBNConfig() {
+        bonusChests = new ArrayList<BonusChest>();
+        BonusChest bonusChest = new BonusChest();
+        bonusChest.add(new Bonus(369, 1, 0));
+        bonusChest.add(new Bonus(115, 10, 4));
+        bonusChests.add(bonusChest);
+        bonusChest = new BonusChest();
+        bonusChest.add(new Bonus(47, 10, 4));
+        bonusChest.add(new Bonus(384, 16, 6));
+        bonusChests.add(bonusChest);
+        bonusChest = new BonusChest();
+        bonusChest.add(new Bonus(370, 8, 3));
+        bonusChest.add(new Bonus(378, 12, 4));
+        bonusChest.add(new Bonus(377, 6, 2));
+        bonusChests.add(bonusChest);
+    }
 
     public int getMajorDelay() {
         return timerMajorDelay;
