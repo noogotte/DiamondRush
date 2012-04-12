@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.bukkit.ChatColor;
 
+import fr.aumgn.tobenamed.util.TBNUtil;
+
 public enum TBNColor {
 
     BLUE          (ChatColor.BLUE,          11),
@@ -43,7 +45,7 @@ public enum TBNColor {
         for (int i = 0; i < count; i++) {
             list.add(colors[i]);
         }
-        Collections.shuffle(list, TBN.getRandom());
+        Collections.shuffle(list, TBNUtil.getRandom());
         return list;
     }
 }

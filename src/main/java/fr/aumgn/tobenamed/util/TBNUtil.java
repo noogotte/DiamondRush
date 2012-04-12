@@ -1,6 +1,7 @@
 package fr.aumgn.tobenamed.util;
 
 import java.util.List;
+import java.util.Random;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -8,6 +9,8 @@ import org.bukkit.entity.Player;
 import fr.aumgn.tobenamed.TBN;
 
 public final class TBNUtil {
+
+    private static Random random = new Random();
 
     private TBNUtil() {
     }
@@ -26,11 +29,15 @@ public final class TBNUtil {
         }
     }
 
+    public static Random getRandom() {
+        return random;
+    }
+
     public static <T> T pickRandom(List<T> from) {
         if (from.isEmpty()) {
             return null;
         }
-        return from.get(TBN.getRandom().nextInt(from.size()));
+        return from.get(getRandom().nextInt(from.size()));
     }
 
     public static int scheduleDelayed(int delay, Runnable runnable) {

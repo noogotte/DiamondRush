@@ -9,6 +9,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
 
 import fr.aumgn.tobenamed.TBN;
+import fr.aumgn.tobenamed.util.TBNUtil;
 import fr.aumgn.tobenamed.util.Vector2D;
 
 public class ChestPopulator {
@@ -58,8 +59,8 @@ public class ChestPopulator {
     private Vector2D getRandomRadius(Vector2D radius) {
         Vector2D diameter = radius.add(radius);
         return new Vector2D(
-            TBN.getRandom().nextInt(diameter.getX()),
-            TBN.getRandom().nextInt(diameter.getZ())
+            TBNUtil.getRandom().nextInt(diameter.getX()),
+            TBNUtil.getRandom().nextInt(diameter.getZ())
         ).subtract(radius);
     }
 
