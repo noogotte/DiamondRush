@@ -7,18 +7,16 @@ import fr.aumgn.tobenamed.game.Game;
 
 public class TransitionStage extends StaticStage {
 
-    public TransitionStage(final Game game, final Runnable nextStage) {
+    private Stage nextStage;
+
+    public TransitionStage(Game game, Stage nextStage) {
         super(game);
-        scheduleNextStage(TBN.getConfig().getTransitionDuration(), new Runnable() {
-            public void run() {
-                nextStage.run();
-            }
-        });
     }
 
     @Override
     public void start() {
         super.start();
         game.sendMessage(ChatColor.YELLOW + "C'est le moment de changer de channel.");
+        scheduleNextStage(TBN.getConfig().getTransitionDuration(), nextStage);
     }
 }

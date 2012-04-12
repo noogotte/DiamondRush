@@ -13,20 +13,13 @@ import fr.aumgn.tobenamed.util.TBNUtil;
 
 public abstract class JoinStage extends Stage {
 
-    protected Game game;
-
     public JoinStage(Game game) {
-        this.game = game;
+        super(game);
     }
 
     @Override
     public List<Listener> getListeners() {
         return Collections.<Listener>emptyList();
-    }
-
-    @Override
-    public Game getGame() {
-        return game;
     }
 
     @Override

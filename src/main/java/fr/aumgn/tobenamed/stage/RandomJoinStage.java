@@ -29,16 +29,18 @@ public class RandomJoinStage extends JoinStage {
     @Override
     public void addPlayer(Player player, Team team) {
         if (team != null) {
-           player.sendMessage(ChatColor.RED + "Les équipes sont constituées aléatoirement.");
+           player.sendMessage(ChatColor.RED +
+                   "Les équipes sont constituées aléatoirement.");
         }
 
         if (players.size() > 0) {
             player.sendMessage(ChatColor.YELLOW + "Joueur actuels : ");
         }
         for (Player playerInStage : players) {
-            player.sendMessage(ChatColor.YELLOW + " - " + playerInStage.getDisplayName());
-            playerInStage.sendMessage(player.getDisplayName() + ChatColor.YELLOW
-                    + " a rejoint la partie.");
+            player.sendMessage(ChatColor.YELLOW + " - " +
+                    playerInStage.getDisplayName());
+            playerInStage.sendMessage(player.getDisplayName() +
+                    ChatColor.YELLOW + " a rejoint la partie.");
         }
         players.add(player);
     }

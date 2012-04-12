@@ -113,10 +113,6 @@ public class JoinStageCommands implements Commands {
 
         joinStage.prepare();
         game.sendMessage(ChatColor.GREEN + "La partie va commencer.");
-        stage.scheduleNextStage(10, new Runnable() {
-            public void run() {
-                game.nextStage(new TotemStage(game));
-            }
-        });
+        stage.scheduleNextStage(10, new TotemStage(game));
     }
 }

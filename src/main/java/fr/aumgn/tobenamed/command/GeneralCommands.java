@@ -9,6 +9,7 @@ import fr.aumgn.bukkit.command.CommandError;
 import fr.aumgn.bukkit.command.Commands;
 import fr.aumgn.tobenamed.TBN;
 import fr.aumgn.tobenamed.game.Game;
+import fr.aumgn.tobenamed.game.GameTimer;
 import fr.aumgn.tobenamed.stage.Stage;
 
 public class GeneralCommands implements Commands {
@@ -43,10 +44,11 @@ public class GeneralCommands implements Commands {
         }
 
         game.sendMessage(ChatColor.GREEN + "La partie va reprendre");
-        stage.scheduleNextStage(3, new Runnable() {
+        GameTimer timer = new GameTimer(3, game, new Runnable() {
             public void run() {
                 game.resume();
             }
         });
+        timer.run();
     }
 }

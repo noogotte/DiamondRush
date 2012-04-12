@@ -12,11 +12,10 @@ import fr.aumgn.tobenamed.stage.listeners.DevelopmentListener;
 
 public class DevelopmentStage extends Stage {
 
-    private Game game;
     private DevelopmentListener listener;
 
     public DevelopmentStage(Game game) {
-        this.game = game;
+        super(game);
         this.listener = new DevelopmentListener(this);
     }
 
@@ -26,25 +25,15 @@ public class DevelopmentStage extends Stage {
     }
 
     @Override
-    public Game getGame() {
-        return game;
-    }
-
-    @Override
     public void start() {
         game.sendMessage(ChatColor.GREEN + "La phase de développement commence.");
         game.incrementTurnCount();
         int duration = TBN.getConfig().getDevDuration(game.getTurnCount());
-        scheduleNextStageWithTransition(duration, new Runnable() {
-            public void run() {
-                game.nextStage(new FightStage(game));
-            }
-        });
+        scheduleNextStageWithTransition(duration, new FightStage(game));
     }
 
     @Override
     public void stop() {
-        super.stop();
         game.sendMessage(ChatColor.GREEN + "Fin de la phase de développement.");
     }
 }

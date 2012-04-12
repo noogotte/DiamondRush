@@ -18,17 +18,13 @@ import fr.aumgn.tobenamed.stage.listeners.FightListener;
 
 public class FightStage extends Stage {
 
-    private Game game;
     private FightListener listener;
     private Map<Team, Integer> deathsCounts;
 
     public FightStage(Game game) {
-        this.game = game;
+        super(game);
         this.listener = new FightListener(this);
         this.deathsCounts = new HashMap<Team, Integer>();
-        for (Team team : game.getTeams()) {
-            deathsCounts.put(team, 0);
-        }
     }
 
     @Override
@@ -37,19 +33,13 @@ public class FightStage extends Stage {
     }
 
     @Override
-    public Game getGame() {
-        return game;
-    }
-
-    @Override
     public void start() {
         game.sendMessage(ChatColor.GREEN + "La phase de combat commence.");
+        for (Team team : game.getTeams()) {
+            deathsCounts.put(team, 0);
+        }
         int duration = TBN.getConfig().getFightDuration(game.getTurnCount());
-        scheduleNextStageWithTransition(duration, new Runnable() {
-            public void run() {
-                game.nextStage(new DevelopmentStage(game));
-            }
-        });
+        scheduleNextStageWithTransition(duration, new DevelopmentStage(game));
     }
 
     @Override

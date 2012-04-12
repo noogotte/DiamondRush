@@ -75,6 +75,7 @@ public class Game {
         }
         if (stage != null) {
             unregisterStageListeners();
+            Bukkit.getScheduler().cancelTasks(TBN.getPlugin());
             stage.stop();
         }
         stage = newStage;

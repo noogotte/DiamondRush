@@ -10,27 +10,34 @@ import fr.aumgn.tobenamed.util.Timer;
 
 public abstract class Stage {
 
-    private Timer nextStageTimer = null;
+    protected Game game;
+    protected Timer nextStageTimer = null;
+
+    public Stage(Game game) {
+        this.game = game;
+    }
+
+    public Game getGame() {
+        return game;
+    }
 
     public abstract List<Listener> getListeners();
-
-    public abstract Game getGame();
 
     public boolean hasNextStageScheduled() {
         return nextStageTimer != null;
     }
 
-    public void scheduleNextStage(int seconds, Runnable nextStage) {
-        nextStageTimer  = new GameTimer(seconds, getGame(), nextStage);
+    public void scheduleNextStage(int seconds, final Stage nextStage) {
+        nextStageTimer  = new GameTimer(seconds, game, new Runnable() {
+            public void run() {
+                game.nextStage(nextStage);
+            }
+        });
         nextStageTimer.run();
     }
 
-    public void scheduleNextStageWithTransition(int seconds, final Runnable nextStage) {
-        scheduleNextStage(seconds, new Runnable() {
-            public void run() {
-                new TransitionStage(getGame(), nextStage);
-            }
-        });
+    public void scheduleNextStageWithTransition(int seconds, Stage nextStage) {
+        scheduleNextStage(seconds, new TransitionStage(game, nextStage));
     }
 
     public void start() {

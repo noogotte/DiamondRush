@@ -19,12 +19,11 @@ import fr.aumgn.tobenamed.util.Vector;
 
 public abstract class PositioningStage extends Stage {
 
-    protected Game game;
     private Map<Team, Vector> positions;
     private Listener listener;
 
     public PositioningStage(Game game) {
-        this.game = game;
+        super(game);
         this.positions = new HashMap<Team, Vector>();
         this.listener = new PositioningListener(this, positions);
     }
@@ -32,11 +31,6 @@ public abstract class PositioningStage extends Stage {
     @Override
     public List<Listener> getListeners() {
         return Collections.<Listener>singletonList(listener);
-    }
-
-    @Override
-    public Game getGame() {
-        return game;
     }
 
     @Override

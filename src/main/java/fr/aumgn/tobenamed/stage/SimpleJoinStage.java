@@ -37,7 +37,8 @@ public class SimpleJoinStage extends JoinStage {
     public void ensureIsReady() {
         for (Team team : game.getTeams()) {
             if (team.size() < 1) {
-                throw new CommandError("L'équipe " + team.getDisplayName() + " n'a aucun joueur.");
+                throw new CommandError("L'équipe " + 
+                        team.getDisplayName() + " n'a aucun joueur.");
             }
         }
     }

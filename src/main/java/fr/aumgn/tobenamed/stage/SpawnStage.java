@@ -5,30 +5,11 @@ import org.bukkit.Material;
 
 import fr.aumgn.tobenamed.TBN;
 import fr.aumgn.tobenamed.game.Game;
+import fr.aumgn.tobenamed.game.GameTimer;
 import fr.aumgn.tobenamed.game.Team;
 import fr.aumgn.tobenamed.util.Vector;
 
 public class SpawnStage extends PositioningStage {
-
-    public class SpawnNextStage implements Runnable {
-        @Override
-        public void run() {
-            for (Team team : game.getTeams()) {
-                if (validatePosition(team)) {
-                    continue;
-                }
-                game.sendMessage(team.getDisplayName() + ChatColor.YELLOW +
-                        " a placé son spawn trop près du totem.");
-                removeBlocksFromWorld();
-                removeBlocksFromInventories();
-                clearPositions();
-                giveBlocks();
-                scheduleNextStage(duration, new SpawnNextStage());
-                return;
-            }
-            game.nextStage(new DevelopmentStage(game));
-        }
-    }
 
     private int duration; 
 
@@ -41,14 +22,17 @@ public class SpawnStage extends PositioningStage {
     public void start() {
         super.start();
         game.sendMessage("Phase de placement du spawn.");
-        scheduleNextStage(duration, new SpawnNextStage());
+        scheduleNextStage(duration, new DevelopmentStage(game));
     }
 
-    public boolean validatePosition(Team team) {
-        Vector pos = getPosition(team);
-        Vector totemPos = team.getTotem().getMiddle();
-        int distance = totemPos.distanceSq(pos);
-        return distance > TBN.getConfig().getTotemSpawnMinDistance();
+    @Override
+    public void scheduleNextStage(int seconds, Stage nextStage) {
+        nextStageTimer  = new GameTimer(seconds, game, new Runnable() {
+            public void run() {
+                nextStage();
+            }
+        });
+        nextStageTimer.run();
     }
 
     @Override
@@ -60,5 +44,29 @@ public class SpawnStage extends PositioningStage {
     @Override
     public Material getMaterial() {
         return Material.SMOOTH_BRICK;
+    }
+
+    public void nextStage() {
+        for (Team team : game.getTeams()) {
+            if (validatePosition(team)) {
+                continue;
+            }
+            game.sendMessage(team.getDisplayName() + ChatColor.YELLOW +
+                    " a placé son spawn trop près du totem.");
+            removeBlocksFromWorld();
+            removeBlocksFromInventories();
+            clearPositions();
+            giveBlocks();
+            scheduleNextStage(duration, new DevelopmentStage(game));
+            return;
+        }
+        game.nextStage(new DevelopmentStage(game));
+    }
+
+    private boolean validatePosition(Team team) {
+        Vector pos = getPosition(team);
+        Vector totemPos = team.getTotem().getMiddle();
+        int distance = totemPos.distanceSq(pos);
+        return distance > TBN.getConfig().getTotemSpawnMinDistance();
     }
 }

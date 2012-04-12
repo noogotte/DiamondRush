@@ -69,13 +69,12 @@ public class StaticStage extends Stage {
         }
     }
 
-    protected Game game;
     private StaticListener listener;
     private long time;
     private Map<Player, PlayerStatus> status;
 
     public StaticStage(Game game) {
-        this.game = game;
+        super(game);
         this.listener = new StaticListener(this);
         this.status = new HashMap<Player, PlayerStatus>();
     }
@@ -83,11 +82,6 @@ public class StaticStage extends Stage {
     @Override
     public List<Listener> getListeners() {
         return Collections.<Listener>singletonList(listener);
-    }
-
-    @Override
-    public Game getGame() {
-        return game;
     }
 
     @Override
@@ -105,9 +99,7 @@ public class StaticStage extends Stage {
         game.getWorld().setTime(time);
         for (Map.Entry<Player, PlayerStatus> playerStatus : status.entrySet()) {
             Player player = playerStatus.getKey();
-            if (player.isOnline()) {
-                playerStatus.getValue().restore(player);
-            }
+            playerStatus.getValue().restore(player);
         }
     }
 
