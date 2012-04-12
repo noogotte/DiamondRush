@@ -26,6 +26,9 @@ public class StaticStage extends Stage {
         private Material material;
         private byte data;
         private Collection<PotionEffect> potionEffects;
+        private float fallDistance;
+        private int remainingAir;
+        private int fireTicks;
 
         public PlayerStatus(Player player) {
             Location loc = player.getLocation();
@@ -42,6 +45,10 @@ public class StaticStage extends Stage {
             for (PotionEffect activeEffect : potionEffects) {
                 player.removePotionEffect(activeEffect.getType());
             }
+
+            this.fallDistance = player.getFallDistance();
+            this.remainingAir = player.getRemainingAir();
+            this.fireTicks = player.getFireTicks();
         }
 
         public void restorePosition(Player player) {
@@ -55,6 +62,10 @@ public class StaticStage extends Stage {
             for (PotionEffect potionEffect : potionEffects) {
                 player.addPotionEffect(potionEffect, true);
             }
+
+            player.setFallDistance(fallDistance);
+            player.setRemainingAir(remainingAir);
+            player.setFireTicks(fireTicks);
         }
     }
 
