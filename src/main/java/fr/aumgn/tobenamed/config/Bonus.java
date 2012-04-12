@@ -31,7 +31,7 @@ public class Bonus {
             int amountDiff = TBNUtil.getRandom().nextInt(randAmountDiff * 2);
             amountDiff -= randAmountDiff;
             int max = Material.getMaterial(id).getMaxStackSize();
-            actualAmount =(short) Math.max(max, amount + amountDiff);
+            actualAmount =(short) Math.min(max, amount + amountDiff);
         }
         return new ItemStack(id, actualAmount, (short) 0, data);
     }
