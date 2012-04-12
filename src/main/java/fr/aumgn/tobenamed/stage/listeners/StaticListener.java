@@ -34,7 +34,8 @@ public class StaticListener implements Listener {
         Location to = event.getTo();
         if (from.getBlockX() != to.getBlockX()
                 || from.getBlockY() != to.getBlockY()
-                || from.getBlockZ() != to.getBlockZ()) {
+                || from.getBlockZ() != to.getBlockZ()
+                || !from.getWorld().equals(to.getWorld())) {
             if (game.contains(player)) {
                 stage.getPlayerStatus(player).
                     restorePosition(player);

@@ -83,7 +83,8 @@ public class GameListener implements Listener {
         Location to = event.getTo();
         if (from.getBlockX() == to.getBlockX()
                 && from.getBlockY() == to.getBlockY()
-                && from.getBlockZ() == to.getBlockZ()) {
+                && from.getBlockZ() == to.getBlockZ()
+                && to.getWorld().equals(game.getWorld())) {
             return;
         }
 

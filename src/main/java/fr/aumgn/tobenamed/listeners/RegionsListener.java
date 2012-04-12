@@ -1,6 +1,8 @@
 package fr.aumgn.tobenamed.listeners;
 
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -39,7 +41,7 @@ public class RegionsListener implements Listener {
             }
         }
 
-        if (isProtected(pos)) {
+        if (isProtected(event.getBlock().getWorld(), pos)) {
             event.setCancelled(true);
         }
     }
@@ -91,7 +93,8 @@ public class RegionsListener implements Listener {
 
     @EventHandler
     public void onPistonRetract(BlockPistonRetractEvent event) {
-        if (isProtected(new Vector(event.getRetractLocation()))) {
+        Location location = event.getRetractLocation();
+        if (isProtected(location.getWorld(), new Vector(location))) {
             event.setCancelled(true);
         }
     }
@@ -116,11 +119,16 @@ public class RegionsListener implements Listener {
     }
 
     private boolean isProtected(Block block) {
-        return isProtected(new Vector(block));
+        return isProtected(block.getWorld(), new Vector(block));
     }
 
-    private boolean isProtected(Vector pos) {
+    private boolean isProtected(World world, Vector pos) {
         Game game = TBN.getGame();
+
+        if (!world.equals(game.getWorld())) {
+            return false;
+        }
+
         if (game.getSpawn() != null 
                 && game.getSpawn().contains(pos)) {
             return true;

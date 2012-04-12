@@ -54,6 +54,11 @@ public class DevelopmentListener implements Listener {
         if (game.getTeam(target) == damagerTeam) {
             return;
         }
+
+        if (!target.getWorld().equals(game.getWorld())) {
+            return;
+        }
+
         Vector targetPos = new Vector(damager.getLocation());
         int totemDistanceSq = damagerTeam.getTotem().
                 getMiddle().distanceSq(targetPos);
