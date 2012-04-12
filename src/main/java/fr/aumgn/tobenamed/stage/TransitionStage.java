@@ -11,6 +11,7 @@ public class TransitionStage extends StaticStage {
 
     public TransitionStage(Game game, Stage nextStage) {
         super(game);
+        this.nextStage = nextStage;
     }
 
     @Override

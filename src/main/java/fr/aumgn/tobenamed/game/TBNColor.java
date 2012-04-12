@@ -1,4 +1,4 @@
-package fr.aumgn.tobenamed;
+package fr.aumgn.tobenamed.game;
 
 import java.util.ArrayList;
 import java.util.Collections;

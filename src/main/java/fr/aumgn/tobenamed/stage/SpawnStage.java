@@ -5,7 +5,6 @@ import org.bukkit.Material;
 
 import fr.aumgn.tobenamed.TBN;
 import fr.aumgn.tobenamed.game.Game;
-import fr.aumgn.tobenamed.game.GameTimer;
 import fr.aumgn.tobenamed.game.Team;
 import fr.aumgn.tobenamed.util.Vector;
 
@@ -27,12 +26,11 @@ public class SpawnStage extends PositioningStage {
 
     @Override
     public void scheduleNextStage(int seconds, Stage nextStage) {
-        nextStageTimer  = new GameTimer(seconds, game, new Runnable() {
+        schedule(seconds, new Runnable() {
             public void run() {
                 nextStage();
             }
         });
-        nextStageTimer.run();
     }
 
     @Override

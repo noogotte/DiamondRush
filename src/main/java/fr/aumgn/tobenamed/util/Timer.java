@@ -12,8 +12,8 @@ public abstract class Timer implements Runnable {
 
     private static final int TICKS_PER_SECONDS = 20;
 
-    private int majorDelay;
-    private int minorDelay;
+    private final int majorDelay;
+    private final int minorDelay;
 
     private Runnable runnable;
     private int seconds;
@@ -57,9 +57,9 @@ public abstract class Timer implements Runnable {
     }
 
     private ChatColor getColorFor(int delay) {
-        if (seconds > majorDelay) {
+        if (delay > majorDelay) {
             return ChatColor.YELLOW;
-        } else if (seconds > minorDelay) {
+        } else if (delay > minorDelay){
             return ChatColor.GOLD;
         } else {
             return ChatColor.RED;

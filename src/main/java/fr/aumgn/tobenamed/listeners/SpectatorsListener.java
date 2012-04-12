@@ -5,12 +5,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.event.player.PlayerBucketFillEvent;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
-import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 
@@ -27,8 +27,9 @@ public class SpectatorsListener implements Listener {
     }
 
     @EventHandler
-    public void onEntityInteract(PlayerInteractEntityEvent event) {
-        if (isSpectator(event.getPlayer())) {
+    public void onEntityDamage(EntityDamageByEntityEvent event) {
+        Entity entity = event.getDamager();
+        if (entity instanceof Player && isSpectator((Player) entity)) {
             event.setCancelled(true);
         }
     }

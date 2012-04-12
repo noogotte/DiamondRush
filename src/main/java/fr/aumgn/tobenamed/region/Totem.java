@@ -6,7 +6,7 @@ import java.util.List;
 import org.bukkit.Material;
 import org.bukkit.World;
 
-import fr.aumgn.tobenamed.TBNColor;
+import fr.aumgn.tobenamed.game.TBNColor;
 import fr.aumgn.tobenamed.region.patterns.FloorPattern;
 import fr.aumgn.tobenamed.region.patterns.TotemPattern;
 import fr.aumgn.tobenamed.util.Vector;

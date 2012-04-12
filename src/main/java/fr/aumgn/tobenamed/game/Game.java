@@ -15,7 +15,6 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 
 import fr.aumgn.tobenamed.TBN;
-import fr.aumgn.tobenamed.TBNColor;
 import fr.aumgn.tobenamed.exception.NoSuchTeam;
 import fr.aumgn.tobenamed.exception.NotEnoughTeams;
 import fr.aumgn.tobenamed.exception.PlayerNotInGame;

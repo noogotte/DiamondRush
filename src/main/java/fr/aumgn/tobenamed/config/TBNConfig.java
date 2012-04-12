@@ -43,7 +43,7 @@ public class TBNConfig {
         bonusChests = new ArrayList<BonusChest>();
         BonusChest bonusChest = new BonusChest();
         bonusChest.add(new Bonus(369, 1, 0));
-        bonusChest.add(new Bonus(115, 10, 4));
+        bonusChest.add(new Bonus(372, 10, 4));
         bonusChests.add(bonusChest);
         bonusChest = new BonusChest();
         bonusChest.add(new Bonus(47, 10, 4));

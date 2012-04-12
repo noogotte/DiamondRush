@@ -27,13 +27,17 @@ public abstract class Stage {
         return nextStageTimer != null;
     }
 
+    public void schedule(int seconds, Runnable runnable) {
+        nextStageTimer  = new GameTimer(seconds, game, runnable);
+        nextStageTimer.run();
+    }
+
     public void scheduleNextStage(int seconds, final Stage nextStage) {
-        nextStageTimer  = new GameTimer(seconds, game, new Runnable() {
+        this.schedule(seconds, new Runnable() {
             public void run() {
                 game.nextStage(nextStage);
             }
         });
-        nextStageTimer.run();
     }
 
     public void scheduleNextStageWithTransition(int seconds, Stage nextStage) {

@@ -47,16 +47,22 @@ public class TBNPlugin extends JavaPlugin {
         TBNConfig config;
         if (file.exists()) {
             JsonReader reader = new JsonReader(new FileReader(file));
-            config = gson.fromJson(reader, TBNConfig.class);
-            reader.close();
+            try {
+                config = gson.fromJson(reader, TBNConfig.class);
+            } finally {
+                reader.close();
+            }
         } else {
             config = new TBNConfig();
             file.createNewFile();
         }
         // This ensures user file is updated with newer fields. 
         BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-        writer.write(gson.toJson(config, TBNConfig.class));
-        writer.close();
+        try {
+            writer.write(gson.toJson(config, TBNConfig.class));
+        } finally {
+            writer.close();
+        }
 
         return config;
     }

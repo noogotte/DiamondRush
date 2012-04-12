@@ -6,7 +6,6 @@ import java.util.List;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-import fr.aumgn.tobenamed.TBNColor;
 import fr.aumgn.tobenamed.region.TeamSpawn;
 import fr.aumgn.tobenamed.region.Totem;
 import fr.aumgn.tobenamed.util.TBNUtil;
