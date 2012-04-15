@@ -105,8 +105,10 @@ public class Team {
         players.remove(player);
         if (player.equals(foreman)) {
             foreman = Util.pickRandom(players);
-            sendMessage(foreman.getDisplayName() + 
+            if (foreman != null) {
+                sendMessage(foreman.getDisplayName() + 
                     " est maintenant le chef d'equipe.");
+            }
         }
     }
 

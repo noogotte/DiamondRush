@@ -50,16 +50,16 @@ public abstract class Timer implements Runnable {
     private void scheduleAndPrintTime(int delay) {
         long minutes = TimeUnit.SECONDS.toMinutes(seconds);
         String msg = String.format("%02d:%02d", minutes, seconds % 60);
-        sendTimeMessage(getColorFor(delay) + msg);
+        sendTimeMessage(getCurrentColor() + msg);
         currentDelay = delay;
         taskStartTime = System.currentTimeMillis();
         taskId = Util.scheduleDelayed(delay * TICKS_PER_SECONDS, this);
     }
 
-    private ChatColor getColorFor(int delay) {
-        if (delay > majorDelay) {
+    private ChatColor getCurrentColor() {
+        if (seconds > majorDelay) {
             return ChatColor.YELLOW;
-        } else if (delay > minorDelay){
+        } else if (seconds > minorDelay){
             return ChatColor.GOLD;
         } else {
             return ChatColor.RED;
