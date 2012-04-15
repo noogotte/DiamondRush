@@ -8,7 +8,9 @@ import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.PlayerInventory;
 
 import fr.aumgn.diamondrush.DiamondRush;
 import fr.aumgn.diamondrush.game.Game;
@@ -36,6 +38,9 @@ public class TotemStage extends PositioningStage {
             Vector2D dir = pos.subtract(spawnPos).to2D();
             initTeam(team, game.getWorld(), pos, dir);
         }
+        for (Monster monster : game.getWorld().getEntitiesByClass(Monster.class)) {
+            monster.remove();
+        }
 
         super.start();
         game.getSpawn().create(game.getWorld());
@@ -53,7 +58,11 @@ public class TotemStage extends PositioningStage {
             player.setGameMode(GameMode.SURVIVAL);
             player.setHealth(20);
             player.setFoodLevel(20);
-            player.getInventory().clear();
+            PlayerInventory inventory = player.getInventory();
+            for (int i = 0; i <= 39; i++) {
+                inventory.setItem(i, null);
+            }
+            player.setExp(0);
         }
 
         foreman.teleport(pos.toLocation(world, dir));
