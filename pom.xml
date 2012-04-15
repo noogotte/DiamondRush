@@ -3,12 +3,12 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>fr.aumgn</groupId>
-	<artifactId>tobenamed</artifactId>
+	<artifactId>diamondrush</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 
-	<name>ToBeNamed</name>
-	<description>ToBeNamed</description>
-	<url>https://github.com/aumgn/ToBeNamed</url>
+	<name>DiamondRush</name>
+	<description>DiamondRush PVP game plugin</description>
+	<url>https://github.com/aumgn/DiamondRush</url>
 
 	<licenses>
 		<license>

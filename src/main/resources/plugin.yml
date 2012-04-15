@@ -1,91 +1,91 @@
 name: ${project.name}
 version: ${project.version}
-description: ToBeNamed
+description: DiamondRush
 authors: [aumgn, first4ever]
-website: https://github.com/aumgn/ToBeNamed
+website: https://github.com/aumgn/DiamondRush
 
-main: fr.aumgn.tobenamed.TBNPlugin
+main: fr.aumgn.diamondrush.DiamondRushPlugin
 
 commands:
     stop-game:
         description: "Stoppe la partie en cours."
         usage: "/<command>"
-        permission: "tbn.cmd.stop"
+        permission: "dr.cmd.stop"
         aliases: ["stg"]
     pause-game:
         description: "Met en pause la partie en cours."
         usage: "/<command>"
         aliases: ["pause", "pg"]
-        permission: "tbn.cmd.stop"
+        permission: "dr.cmd.stop"
     resume-game:
         description: "Redémarre la partie."
         usage: "/<command>"
         aliases: ["resume", "rsg"]
-        permission: "tbn.cmd.stop"
+        permission: "dr.cmd.stop"
     show-teams:
         description: "Affiche les équipes"
         usage: "/<command>"
-        permission: "tbn.cmd.showteams"
+        permission: "dr.cmd.showteams"
         aliases: ["showteams", "st"]
 
     init-game:
         description: "Initie une partie de TBN."
         usage: "/<command> [-a] <equipe1> <equipe2> [...]"
-        permission: "tbn.cmd.init"
+        permission: "dr.cmd.init"
         aliases: ["init", "ig"]
     join-game:
         description: "Rejoint (ou crée) une équipe."
         usage: "/<command> <equipe>"
-        permission: "tbn.cmd.jointeam"
+        permission: "dr.cmd.jointeam"
         aliases: ["join", "jg"]
     quit-game:
         description: "Quitte la partie."
         usage: "/<command>"
-        permission: "tbn.cmd.jointeam"
+        permission: "dr.cmd.jointeam"
         aliases: ["quit", "qg"]
     start-game:
         description: "Débute la partie."
         usage: "/<command>"
-        permission: "tbn.cmd.start"
+        permission: "dr.cmd.start"
         aliases: ["start", "sg"]
 
     watch-game:
         description: "Inscrit en tant que spectateur de la partie."
         usage: "/<command>"
-        permission: "tbn.cmd.watch"
+        permission: "dr.cmd.watch"
         aliases: ["watch", "spect-game", "spect"]
     unwatch-game:
         description: "Désinscrit en tant que spectateur de la partie."
         usage: "/<command>"
-        permission: "tbn.cmd.watch"
+        permission: "dr.cmd.watch"
         aliases: ["unwatch", "unspect-game", "unspect"]
     teleport-player:
         description: "Téléporte à un joueur."
         usage: "/<command> <player>"
-        permission: "tbn.cmd.tpplayer"
+        permission: "dr.cmd.tpplayer"
         aliases: ["tpp"]
     teleport-team:
         description: "Téléporte à un point stratégique d'une équipe."
         usage: "/<command> [-fs] <team>"
-        permission: "tbn.cmd.tpteam"
+        permission: "dr.cmd.tpteam"
         aliases: ["tpt"]
 
 permissions:
-    tbn.manage:
+    dr.manage:
         default: op
         children:
-            tbn.cmd.stop: true
-            tbn.cmd.init: true
-            tbn.cmd.start: true
-            tbn.play: true
-    tbn.play:
+            dr.cmd.stop: true
+            dr.cmd.init: true
+            dr.cmd.start: true
+            dr.play: true
+    dr.play:
         default: true
         children:
-            tbn.cmd.jointeam: true
-            tbn.cmd.showteams: true
-    tbn.watch:
+            dr.cmd.jointeam: true
+            dr.cmd.showteams: true
+    dr.watch:
         default: true
         children:
-            tbn.cmd.watch: true
-            tbn.cmd.tpplayer: true
-            tbn.cmd.tpteam: true
+            dr.cmd.watch: true
+            dr.cmd.tpplayer: true
+            dr.cmd.tpteam: true
