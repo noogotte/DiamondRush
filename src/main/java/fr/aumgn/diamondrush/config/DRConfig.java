@@ -17,10 +17,10 @@ public class DRConfig {
     private int transitionDuration = 10;
 
     private int developmentFirstDuration = 20 * 60;
-    private int developmentDurationDiff = - 3 * 60;
-    private int fightFirstDuration = 5 * 60;
+    private int developmentDurationDiff = - 2 * 60;
+    private int fightFirstDuration = 2 * 60;
     private int fightDurationDiff = 3 * 60;
-    private int applyDiffUntilTurn = 5;
+    private int applyDiffUntilTurn = 8;
 
     private int totemSpawnMinimumDistance = 20;
 
@@ -73,12 +73,12 @@ public class DRConfig {
     }
 
     public int getDevDuration(int turn) {
-        int diff = Math.min(applyDiffUntilTurn, turn) * developmentDurationDiff;
+        int diff = Math.min(applyDiffUntilTurn - 1, turn) * developmentDurationDiff;
         return Math.max(developmentFirstDuration + diff, 0);
     }
 
     public int getFightDuration(int turn) {
-        int diff = Math.min(applyDiffUntilTurn, turn) * fightDurationDiff;
+        int diff = Math.min(applyDiffUntilTurn - 1, turn) * fightDurationDiff;
         return Math.max(fightFirstDuration + diff, 0);
     }
 
