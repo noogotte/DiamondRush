@@ -1,17 +1,10 @@
 package fr.aumgn.diamondrush;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.google.gson.Gson;
-import com.google.gson.stream.JsonReader;
-
 import fr.aumgn.bukkit.command.CommandsManager;
+import fr.aumgn.bukkit.gconf.GConfLoadException;
+import fr.aumgn.bukkit.gconf.GConfLoader;
 import fr.aumgn.diamondrush.command.GeneralCommands;
 import fr.aumgn.diamondrush.command.InfoCommands;
 import fr.aumgn.diamondrush.command.JoinStageCommands;
@@ -36,34 +29,14 @@ public class DiamondRushPlugin extends JavaPlugin {
         getLogger().info("Disabled.");
     }
 
-    public DRConfig loadTBNConfig() throws IOException {
-        File folder = getDataFolder();
-        if (!folder.exists()) {
-            folder.mkdirs();
-        }
-
-        File file = new File(getDataFolder(), "config.json");
-        Gson gson = DiamondRush.getGson();
-        DRConfig config;
-        if (file.exists()) {
-            JsonReader reader = new JsonReader(new FileReader(file));
-            try {
-                config = gson.fromJson(reader, DRConfig.class);
-            } finally {
-                reader.close();
-            }
-        } else {
-            config = new DRConfig();
-            file.createNewFile();
-        }
-        // This ensures user file is updated with newer fields. 
-        BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+    public DRConfig loadTBNConfig() {
         try {
-            writer.write(gson.toJson(config, DRConfig.class));
-        } finally {
-            writer.close();
+            GConfLoader loader = new GConfLoader(DiamondRush.getGson(), this);
+            return loader.loadOrCreate("config.json", DRConfig.class);
+        } catch (GConfLoadException exc) {
+            getLogger().warning("Impossible de charger le fichier de configuration.");
+            getLogger().warning("Utilisation des valeurs par défaut.");
+            return new DRConfig();
         }
-
-        return config;
     }
 }

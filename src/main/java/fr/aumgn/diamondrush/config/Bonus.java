@@ -3,7 +3,7 @@ package fr.aumgn.diamondrush.config;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-import fr.aumgn.diamondrush.util.Util;
+import fr.aumgn.diamondrush.Util;
 
 public class Bonus {
 

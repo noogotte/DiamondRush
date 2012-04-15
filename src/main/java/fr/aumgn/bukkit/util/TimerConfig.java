@@ -1,4 +1,4 @@
-package fr.aumgn.diamondrush.util;
+package fr.aumgn.bukkit.util;
 
 public class TimerConfig {
 

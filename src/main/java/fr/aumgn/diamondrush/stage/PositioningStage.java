@@ -12,10 +12,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import fr.aumgn.bukkit.util.Vector;
 import fr.aumgn.diamondrush.game.Game;
 import fr.aumgn.diamondrush.game.Team;
 import fr.aumgn.diamondrush.stage.listeners.PositioningListener;
-import fr.aumgn.diamondrush.util.Vector;
 
 public abstract class PositioningStage extends Stage {
 

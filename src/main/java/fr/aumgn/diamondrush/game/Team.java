@@ -6,10 +6,10 @@ import java.util.List;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
+import fr.aumgn.bukkit.util.Vector;
+import fr.aumgn.diamondrush.Util;
 import fr.aumgn.diamondrush.region.TeamSpawn;
 import fr.aumgn.diamondrush.region.Totem;
-import fr.aumgn.diamondrush.util.Util;
-import fr.aumgn.diamondrush.util.Vector;
 
 public class Team {
 

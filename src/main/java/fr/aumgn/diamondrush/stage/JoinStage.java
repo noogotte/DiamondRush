@@ -7,9 +7,9 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 
+import fr.aumgn.diamondrush.Util;
 import fr.aumgn.diamondrush.game.Game;
 import fr.aumgn.diamondrush.game.Team;
-import fr.aumgn.diamondrush.util.Util;
 
 public abstract class JoinStage extends Stage {
 

@@ -3,9 +3,9 @@ package fr.aumgn.diamondrush.region;
 import org.bukkit.Material;
 import org.bukkit.World;
 
+import fr.aumgn.bukkit.util.Vector;
 import fr.aumgn.diamondrush.game.TeamColor;
 import fr.aumgn.diamondrush.region.patterns.FloorPattern;
-import fr.aumgn.diamondrush.util.Vector;
 
 public class TeamSpawn extends Region {
 

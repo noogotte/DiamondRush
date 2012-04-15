@@ -1,7 +1,5 @@
 package fr.aumgn.diamondrush;
 
-import java.io.IOException;
-
 import org.bukkit.Bukkit;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
@@ -58,13 +56,7 @@ public final class DiamondRush {
     }
 
     public static void reloadConfig() {
-        try {
-            DiamondRush.config = plugin.loadTBNConfig();
-        } catch (IOException exc) {
-            plugin.getLogger().warning("Impossible de charger le fichier de configuration.");
-            plugin.getLogger().warning("Utilisation des valeurs par défaut.");
-            DiamondRush.config = new DRConfig();
-        }
+        DiamondRush.config = plugin.loadTBNConfig();
     }
 
     public static DRConfig getConfig() {

@@ -5,8 +5,8 @@ import java.util.List;
 
 import org.bukkit.inventory.ItemStack;
 
-import fr.aumgn.diamondrush.util.TimerConfig;
-import fr.aumgn.diamondrush.util.Util;
+import fr.aumgn.bukkit.util.TimerConfig;
+import fr.aumgn.diamondrush.Util;
 
 public class DRConfig {
 

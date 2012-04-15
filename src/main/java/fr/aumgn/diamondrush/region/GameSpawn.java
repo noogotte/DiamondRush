@@ -6,8 +6,8 @@ import java.util.List;
 import org.bukkit.Material;
 import org.bukkit.World;
 
+import fr.aumgn.bukkit.util.Vector;
 import fr.aumgn.diamondrush.region.patterns.FloorPattern;
-import fr.aumgn.diamondrush.util.Vector;
 
 public class GameSpawn extends Region {
 

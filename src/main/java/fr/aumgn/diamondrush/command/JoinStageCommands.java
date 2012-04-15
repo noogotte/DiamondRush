@@ -8,6 +8,7 @@ import fr.aumgn.bukkit.command.Command;
 import fr.aumgn.bukkit.command.CommandArgs;
 import fr.aumgn.bukkit.command.CommandError;
 import fr.aumgn.bukkit.command.Commands;
+import fr.aumgn.bukkit.util.Vector;
 import fr.aumgn.diamondrush.DiamondRush;
 import fr.aumgn.diamondrush.game.Game;
 import fr.aumgn.diamondrush.game.Team;
@@ -16,7 +17,6 @@ import fr.aumgn.diamondrush.stage.RandomJoinStage;
 import fr.aumgn.diamondrush.stage.SimpleJoinStage;
 import fr.aumgn.diamondrush.stage.Stage;
 import fr.aumgn.diamondrush.stage.TotemStage;
-import fr.aumgn.diamondrush.util.Vector;
 
 public class JoinStageCommands implements Commands {
 

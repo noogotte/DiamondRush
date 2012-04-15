@@ -16,9 +16,9 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
+import fr.aumgn.bukkit.util.Vector;
 import fr.aumgn.diamondrush.game.Team;
 import fr.aumgn.diamondrush.stage.PositioningStage;
-import fr.aumgn.diamondrush.util.Vector;
 
 public class PositioningListener implements Listener {
 

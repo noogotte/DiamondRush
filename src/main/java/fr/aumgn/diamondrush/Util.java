@@ -1,4 +1,4 @@
-package fr.aumgn.diamondrush.util;
+package fr.aumgn.diamondrush;
 
 import java.util.List;
 import java.util.Random;

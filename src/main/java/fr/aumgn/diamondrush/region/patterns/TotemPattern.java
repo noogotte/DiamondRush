@@ -6,7 +6,7 @@ import java.util.List;
 import org.bukkit.Material;
 import org.bukkit.World;
 
-import fr.aumgn.diamondrush.util.Vector;
+import fr.aumgn.bukkit.util.Vector;
 
 public class TotemPattern {
 

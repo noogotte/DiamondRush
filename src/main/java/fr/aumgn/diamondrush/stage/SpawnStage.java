@@ -3,10 +3,10 @@ package fr.aumgn.diamondrush.stage;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 
+import fr.aumgn.bukkit.util.Vector;
 import fr.aumgn.diamondrush.DiamondRush;
 import fr.aumgn.diamondrush.game.Game;
 import fr.aumgn.diamondrush.game.Team;
-import fr.aumgn.diamondrush.util.Vector;
 
 public class SpawnStage extends PositioningStage {
 

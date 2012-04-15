@@ -14,15 +14,15 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 
+import fr.aumgn.bukkit.util.Vector;
 import fr.aumgn.diamondrush.DiamondRush;
+import fr.aumgn.diamondrush.Util;
 import fr.aumgn.diamondrush.exception.NoSuchTeam;
 import fr.aumgn.diamondrush.exception.NotEnoughTeams;
 import fr.aumgn.diamondrush.exception.PlayerNotInGame;
 import fr.aumgn.diamondrush.region.GameSpawn;
 import fr.aumgn.diamondrush.stage.PauseStage;
 import fr.aumgn.diamondrush.stage.Stage;
-import fr.aumgn.diamondrush.util.Util;
-import fr.aumgn.diamondrush.util.Vector;
 
 public class Game {
 

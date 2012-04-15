@@ -12,14 +12,14 @@ import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.PlayerInventory;
 
+import fr.aumgn.bukkit.util.Vector;
+import fr.aumgn.bukkit.util.Vector2D;
 import fr.aumgn.diamondrush.DiamondRush;
+import fr.aumgn.diamondrush.Util;
 import fr.aumgn.diamondrush.game.Game;
 import fr.aumgn.diamondrush.game.Team;
 import fr.aumgn.diamondrush.region.ChestPopulator;
 import fr.aumgn.diamondrush.region.Totem;
-import fr.aumgn.diamondrush.util.Util;
-import fr.aumgn.diamondrush.util.Vector;
-import fr.aumgn.diamondrush.util.Vector2D;
 
 public class TotemStage extends PositioningStage {
 

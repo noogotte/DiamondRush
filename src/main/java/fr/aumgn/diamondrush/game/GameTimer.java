@@ -1,7 +1,7 @@
 package fr.aumgn.diamondrush.game;
 
+import fr.aumgn.bukkit.util.Timer;
 import fr.aumgn.diamondrush.DiamondRush;
-import fr.aumgn.diamondrush.util.Timer;
 
 public class GameTimer extends Timer {
 
