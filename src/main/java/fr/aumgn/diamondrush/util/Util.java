@@ -6,8 +6,6 @@ import java.util.Random;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import fr.aumgn.diamondrush.DiamondRush;
-
 public final class Util {
 
     private static Random random = new Random();
@@ -38,15 +36,5 @@ public final class Util {
             return null;
         }
         return from.get(getRandom().nextInt(from.size()));
-    }
-
-    public static int scheduleDelayed(int delay, Runnable runnable) {
-        return Bukkit.getScheduler().scheduleSyncDelayedTask(
-                DiamondRush.getPlugin(), runnable, delay);
-    }
-
-    public static int scheduleRepeating(int delay, Runnable runnable) {
-        return Bukkit.getScheduler().scheduleSyncRepeatingTask(
-                DiamondRush.getPlugin(), runnable, delay, delay);
     }
 }

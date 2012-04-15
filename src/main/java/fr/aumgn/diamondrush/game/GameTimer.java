@@ -1,5 +1,6 @@
 package fr.aumgn.diamondrush.game;
 
+import fr.aumgn.diamondrush.DiamondRush;
 import fr.aumgn.diamondrush.util.Timer;
 
 public class GameTimer extends Timer {
@@ -7,7 +8,8 @@ public class GameTimer extends Timer {
     private Game game;
 
     public GameTimer(int seconds, Game game, Runnable runnable) {
-        super(seconds, runnable);
+        super(DiamondRush.getPlugin(), 
+                DiamondRush.getConfig().getTimerConfig(), seconds, runnable);
         this.game = game;
     }
 

@@ -4,72 +4,92 @@ import java.util.concurrent.TimeUnit;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-
-import fr.aumgn.diamondrush.DiamondRush;
-
+import org.bukkit.plugin.Plugin;
 
 public abstract class Timer implements Runnable {
 
     private static final int TICKS_PER_SECONDS = 20;
 
+    private final Plugin plugin;
     private final int majorDelay;
     private final int minorDelay;
+    private final String format;
+    private final Runnable runnable;
 
-    private Runnable runnable;
-    private int seconds;
+    private int remainingTime;
 
-    private int currentDelay;
     private int taskId;
     private long taskStartTime;
+    private int currentDelay;
     private int pauseDelay;
 
-    public Timer(int seconds, Runnable runnable) {
-        this.majorDelay = DiamondRush.getConfig().getMajorDelay();
-        this.minorDelay = DiamondRush.getConfig().getMinorDelay();
+    public Timer(Plugin plugin, TimerConfig config, int seconds, Runnable runnable) {
+        this.plugin = plugin;
+        this.majorDelay = config.getMajorDuration();
+        this.minorDelay = config.getMinorDuration();
+        this.format = config.getFormat();
 
-        this.seconds = seconds;
+        this.taskId = -1;
+        this.remainingTime = seconds;
         this.runnable = runnable;
 
         this.currentDelay = 0;
     }
 
-    @Override
-    public void run() {
-        seconds -= currentDelay;
-        if (seconds > majorDelay) {
-            scheduleAndPrintTime(majorDelay);
-        } else if (seconds > minorDelay) {
-            scheduleAndPrintTime(minorDelay);
-        } else if (seconds > 0) {
-            scheduleAndPrintTime(1);
-        } else {
-            runnable.run();
-        }
+    private long getCurrentTimeSeconds() {
+        return TimeUnit.MILLISECONDS.toSeconds(
+                System.currentTimeMillis());
     }
 
     private void scheduleAndPrintTime(int delay) {
-        long minutes = TimeUnit.SECONDS.toMinutes(seconds);
-        String msg = String.format("%02d:%02d", minutes, seconds % 60);
+        long minutes = TimeUnit.SECONDS.toMinutes(remainingTime);
+        String msg = String.format(format, minutes, remainingTime % 60);
         sendTimeMessage(getCurrentColor() + msg);
         currentDelay = delay;
-        taskStartTime = System.currentTimeMillis();
-        taskId = Util.scheduleDelayed(delay * TICKS_PER_SECONDS, this);
+        taskStartTime = getCurrentTimeSeconds();
+        taskId = Bukkit.getScheduler().scheduleSyncDelayedTask(
+                plugin, this, delay * TICKS_PER_SECONDS);
     }
 
     private ChatColor getCurrentColor() {
-        if (seconds > majorDelay) {
+        if (remainingTime >= majorDelay) {
             return ChatColor.YELLOW;
-        } else if (seconds > minorDelay){
+        } else if (remainingTime >= minorDelay){
             return ChatColor.GOLD;
         } else {
             return ChatColor.RED;
         }
     }
 
+    public int getRemainingTime() {
+        return remainingTime;
+    }
+
+    @Override
+    public void run() {
+        remainingTime -= currentDelay;
+        if (remainingTime > majorDelay) {
+            scheduleAndPrintTime(majorDelay);
+        } else if (remainingTime > minorDelay) {
+            scheduleAndPrintTime(minorDelay);
+        } else if (remainingTime > 0) {
+            scheduleAndPrintTime(1);
+        } else {
+            runnable.run();
+        }
+    }
+
+    public void cancel() {
+        if (taskId != -1) {
+            Bukkit.getScheduler().cancelTask(taskId);
+            taskId = -1;
+        }
+    }
+
     public void pause() {
-        Bukkit.getScheduler().cancelTask(taskId);
-        pauseDelay = (int) ((System.currentTimeMillis() - taskStartTime ) / 1000);
-        seconds -= pauseDelay;
+        cancel();
+        pauseDelay = (int) (getCurrentTimeSeconds() - taskStartTime);
+        remainingTime -= pauseDelay;
     }
 
     public void resume() {

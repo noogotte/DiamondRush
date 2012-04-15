@@ -5,13 +5,13 @@ import java.util.List;
 
 import org.bukkit.inventory.ItemStack;
 
+import fr.aumgn.diamondrush.util.TimerConfig;
 import fr.aumgn.diamondrush.util.Util;
 
 public class DRConfig {
 
-    private int timerMajorDelay = 2 * 60;
-    private int timerMinorDelay = 20;
-    
+    private TimerConfig timer;
+
     private int totemDuration = 90;
     private int spawnDuration = 30;
     private int transitionDuration = 10;
@@ -40,6 +40,7 @@ public class DRConfig {
     private List<BonusChest> bonusChests;
 
     public DRConfig() {
+        timer = new TimerConfig(2 * 60, 20, "%02d:%02d");
         bonusChests = new ArrayList<BonusChest>();
         BonusChest bonusChest = new BonusChest();
         bonusChest.add(new Bonus(369, 1, 0));
@@ -56,12 +57,8 @@ public class DRConfig {
         bonusChests.add(bonusChest);
     }
 
-    public int getMajorDelay() {
-        return timerMajorDelay;
-    }
-
-    public int getMinorDelay() {
-        return timerMinorDelay;
+    public TimerConfig getTimerConfig() {
+        return timer;
     }
 
     public int getTotemDuration() {
