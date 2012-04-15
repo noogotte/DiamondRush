@@ -57,7 +57,16 @@ public class FightStage extends Stage {
         deathsCounts.put(team, count);
     }
 
-    public void affect(Team team) {
+    public void surrender(Team team) {
+        affect(team);
+        cancelGameTimer();
+        game.sendMessage("L'équipe " + team.getDisplayName() + " s'est rendu.");
+        scheduleNextStageWithTransition(
+                DiamondRush.getConfig().getTimeLeftAfterSurrender(),
+                new DevelopmentStage(game));
+    }
+
+    private void affect(Team team) {
         PotionEffect effect = new PotionEffect(PotionEffectType.CONFUSION, 
                 DiamondRush.getConfig().getSurrenderMalusDuration(), 10);
         for (Player player : team.getPlayers()) {

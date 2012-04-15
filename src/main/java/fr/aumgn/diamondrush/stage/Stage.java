@@ -11,7 +11,7 @@ import fr.aumgn.diamondrush.util.Timer;
 public abstract class Stage {
 
     protected Game game;
-    protected Timer nextStageTimer = null;
+    private Timer gameTimer = null;
 
     public Stage(Game game) {
         this.game = game;
@@ -24,12 +24,12 @@ public abstract class Stage {
     public abstract List<Listener> getListeners();
 
     public boolean hasNextStageScheduled() {
-        return nextStageTimer != null;
+        return gameTimer != null;
     }
 
     public void schedule(int seconds, Runnable runnable) {
-        nextStageTimer  = new GameTimer(seconds, game, runnable);
-        nextStageTimer.run();
+        gameTimer  = new GameTimer(seconds, game, runnable);
+        gameTimer.run();
     }
 
     public void scheduleNextStage(int seconds, final Stage nextStage) {
@@ -44,6 +44,10 @@ public abstract class Stage {
         scheduleNextStage(seconds, new TransitionStage(game, nextStage));
     }
 
+    public void cancelGameTimer() {
+        gameTimer.cancel();
+    }
+
     public void start() {
     }
 
@@ -52,13 +56,13 @@ public abstract class Stage {
 
     public void pause() {
         if (hasNextStageScheduled()) {
-            nextStageTimer.pause();
+            gameTimer.pause();
         }
     }
 
     public void resume() {
         if (hasNextStageScheduled()) {
-            nextStageTimer.resume();
+            gameTimer.resume();
         }
     }
 }

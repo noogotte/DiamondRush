@@ -29,6 +29,7 @@ public class DRConfig {
 
     private int surrenderItemId = 339;
     private int deathNeededForSurrender = 1;
+    private int timeLeftAfterSurrender = 15;
     private int surrenderMalusDuration = 60;
 
     private int maximumDiamondPerFight = 4;
@@ -104,6 +105,10 @@ public class DRConfig {
 
     public int getDeathNeededForSurrender() {
         return deathNeededForSurrender;
+    }
+
+    public int getTimeLeftAfterSurrender() {
+        return timeLeftAfterSurrender;
     }
 
     public int getSurrenderMalusDuration() {

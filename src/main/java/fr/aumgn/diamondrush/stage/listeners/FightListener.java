@@ -21,9 +21,7 @@ import org.bukkit.inventory.ItemStack;
 import fr.aumgn.diamondrush.DiamondRush;
 import fr.aumgn.diamondrush.game.Game;
 import fr.aumgn.diamondrush.game.Team;
-import fr.aumgn.diamondrush.stage.DevelopmentStage;
 import fr.aumgn.diamondrush.stage.FightStage;
-import fr.aumgn.diamondrush.stage.TransitionStage;
 
 public class FightListener implements Listener {
 
@@ -101,15 +99,13 @@ public class FightListener implements Listener {
 
         Team team = game.getTeam(player);
         if (stage.getDeathCount(team) >= DiamondRush.getConfig().getDeathNeededForSurrender()) {
-            stage.affect(team);
             if (item.getAmount() == 1) {
                 player.setItemInHand(new ItemStack(0));
             } else {
                 item.setAmount(item.getAmount() - 1);
                 player.setItemInHand(item);
             }
-            game.sendMessage("L'équipe " + team.getDisplayName() + " s'est rendu.");
-            game.nextStage(new TransitionStage(game, new DevelopmentStage(game)));
+            stage.surrender(team);
         } else {
             player.sendMessage(ChatColor.RED + 
                     "Il faut au moins une mort dans l'equipe pour pouvoir se rendre.");
