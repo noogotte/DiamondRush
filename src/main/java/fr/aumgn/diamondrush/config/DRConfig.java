@@ -20,7 +20,7 @@ public class DRConfig {
     private int developmentDurationDiff = - 2 * 60;
     private int fightFirstDuration = 2 * 60;
     private int fightDurationDiff = 3 * 60;
-    private int applyDiffUntilTurn = 8;
+    private int applyDiffUntilTurn = 7;
 
     private int totemSpawnMinimumDistance = 20;
 
