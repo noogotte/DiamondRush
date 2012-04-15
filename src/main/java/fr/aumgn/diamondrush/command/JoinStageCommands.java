@@ -96,8 +96,8 @@ public class JoinStageCommands implements Commands {
 
     @Command(name = "start-game", max = 0)
     public void startGame(CommandSender sender, CommandArgs args) {
-        final Game game = DiamondRush.getGame();
-        final Stage stage = game.getStage();
+        Game game = DiamondRush.getGame();
+        Stage stage = game.getStage();
 
         if (!(stage instanceof JoinStage)) {
             throw new CommandError("Cette commande ne peut être utilisée que durant la phase de join.");

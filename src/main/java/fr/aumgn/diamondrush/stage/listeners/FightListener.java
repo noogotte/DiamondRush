@@ -88,19 +88,27 @@ public class FightListener implements Listener {
         }
 
         Player player = event.getPlayer();
-        final Game game = stage.getGame();
+        Game game = stage.getGame();
         if (!game.contains(player)) {
             return;
         }
 
-        int type = player.getItemInHand().getTypeId();
+        ItemStack item = player.getItemInHand();
+        int type = item.getTypeId();
         if (type != DiamondRush.getConfig().getSurrenderItem()) {
             return;
         }
 
-        final Team team = game.getTeam(player);
+        Team team = game.getTeam(player);
         if (stage.getDeathCount(team) >= DiamondRush.getConfig().getDeathNeededForSurrender()) {
-            game.sendMessage("L'equipe " + team.getDisplayName() + " s'est rendu.");
+            stage.affect(team);
+            if (item.getAmount() == 1) {
+                player.setItemInHand(new ItemStack(0));
+            } else {
+                item.setAmount(item.getAmount() - 1);
+                player.setItemInHand(item);
+            }
+            game.sendMessage("L'équipe " + team.getDisplayName() + " s'est rendu.");
             game.nextStage(new TransitionStage(game, new DevelopmentStage(game)));
         } else {
             player.sendMessage(ChatColor.RED + 
