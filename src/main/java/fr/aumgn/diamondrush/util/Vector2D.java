@@ -122,6 +122,11 @@ public class Vector2D implements Iterable<Vector2D> {
     }
 
     @Override
+    public String toString() {
+        return "(" + x + ", " + + z + ")";
+    }
+
+    @Override
     public int hashCode() {
         int hash = 0;
         hash += x;

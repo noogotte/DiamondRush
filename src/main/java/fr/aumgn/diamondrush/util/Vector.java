@@ -144,6 +144,11 @@ public class Vector implements Iterable<Vector> {
     }
 
     @Override
+    public String toString() {
+        return "(" + x + ", " + y + ", " + z + ")";
+    }
+
+    @Override
     public int hashCode() {
         int hash = 0;
         hash += x;

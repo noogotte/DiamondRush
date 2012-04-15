@@ -73,7 +73,7 @@ public class TotemStage extends PositioningStage {
         for (Team team : teams) {
             totems.add(team.getTotem());
         }
-        ChestPopulator chestPopulator = new ChestPopulator(game.getSpawn(), totems);
+        ChestPopulator chestPopulator = new ChestPopulator(game.getSpawn(), totems, 50);
         chestPopulator.populate(game.getWorld(), 2 * teams.size() - 1);
     }
 
