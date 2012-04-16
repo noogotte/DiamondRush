@@ -17,19 +17,21 @@ public class TeamsView implements Iterable<String> {
         for (Team team : teams) {
             StringBuilder message = new StringBuilder();
             message.append(" - ");
+            message.append(ChatColor.BOLD);
             message.append(team.getDisplayName());
+            message.append(ChatColor.BLUE);
             message.append(" (");
             message.append(team.getLives());
             message.append(")");
+            message.append(ChatColor.RESET);
             if (team.size() > 0) {
                 message.append(" : ");
                 Player foreman = team.getForeman();
                 if (foreman != null) {
-                    message.append(ChatColor.GOLD);
-                    message.append(ChatColor.stripColor(foreman.getDisplayName()));
+                    message.append(ChatColor.BOLD);
+                    message.append(foreman.getDisplayName());
                     message.append(" ");
                 }
-                message.append(ChatColor.BLUE);
                 for (Player teamPlayer : team.getPlayers()) {
                     if (teamPlayer.equals(foreman)) {
                         continue;
