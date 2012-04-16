@@ -2,7 +2,6 @@ package fr.aumgn.diamondrush.game;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,13 +33,13 @@ public class Game {
     private Spectators spectators;
     private int turnCount;
 
-    public Game(List<String> teamsName, World world, Vector spawnPoint) {
+    public Game(Map<String, TeamColor> teamsMap, World world, Vector spawnPoint) {
         this.stage = null;
         this.teams = new LinkedHashMap<String, Team>();
-        Iterator<TeamColor> colors = TeamColor.
-                getRandomColors(teamsName.size()).iterator();
-        for (String teamName : teamsName) {
-            teams.put(teamName, new Team(teamName, colors.next()));
+
+        for (Map.Entry<String, TeamColor> teamEntry : teamsMap.entrySet()) {
+            Team team = new Team(teamEntry.getKey(), teamEntry.getValue());
+            teams.put(teamEntry.getKey(), team);
         }
         if (teams.keySet().size() < 2) {
             throw new NotEnoughTeams();

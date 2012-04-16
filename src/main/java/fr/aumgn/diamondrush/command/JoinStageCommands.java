@@ -1,5 +1,10 @@
 package fr.aumgn.diamondrush.command;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -7,11 +12,13 @@ import org.bukkit.entity.Player;
 import fr.aumgn.bukkit.command.Command;
 import fr.aumgn.bukkit.command.CommandArgs;
 import fr.aumgn.bukkit.command.CommandError;
+import fr.aumgn.bukkit.command.CommandUsageError;
 import fr.aumgn.bukkit.command.Commands;
 import fr.aumgn.bukkit.util.Vector;
 import fr.aumgn.diamondrush.DiamondRush;
 import fr.aumgn.diamondrush.game.Game;
 import fr.aumgn.diamondrush.game.Team;
+import fr.aumgn.diamondrush.game.TeamColor;
 import fr.aumgn.diamondrush.stage.JoinStage;
 import fr.aumgn.diamondrush.stage.RandomJoinStage;
 import fr.aumgn.diamondrush.stage.SimpleJoinStage;
@@ -20,19 +27,41 @@ import fr.aumgn.diamondrush.stage.TotemStage;
 
 public class JoinStageCommands implements Commands {
 
-    @Command(name = "init-game", flags = "a")
+    @Command(name = "init-game", min = 1, flags = "cn")
     public void initGame(Player player, CommandArgs args) {
         if (DiamondRush.isRunning()) {
             throw new CommandError("Une partie est déjà en cours.");
         }
 
-        Game game = new Game(args.asList(), player.getWorld(),
-                new Vector(player.getLocation()));
-        JoinStage stage;
-        if (args.hasFlag('a')) {
-            stage = new RandomJoinStage(game);
+        Map<String, TeamColor> teams = new HashMap<String, TeamColor>();
+        if (args.hasFlag('n')) {
+            List<String> teamsNames = args.asList();
+            Iterator<TeamColor> colors = 
+                    TeamColor.getRandomColors(teamsNames.size()).iterator();
+            for (String name : teamsNames) {
+                teams.put(name, colors.next());
+            }
         } else {
+            if (args.length() > 1) {
+                throw new CommandUsageError("Cette commande ne prends qu'un seul argument.");
+            }
+            int amount = Integer.parseInt(args.get(0));
+            Iterator<TeamColor> colors = 
+                    TeamColor.getRandomColors(amount).iterator();
+            for (;amount > 0; amount--) {
+                TeamColor color = colors.next();
+                teams.put(color.getColorName(), color);
+            }
+        }
+
+        Game game = new Game(teams, player.getWorld(),
+                new Vector(player.getLocation()));
+
+        JoinStage stage;
+        if (args.hasFlag('c')) {
             stage = new SimpleJoinStage(game);
+        } else {
+            stage = new RandomJoinStage(game);
         }
         DiamondRush.initGame(game, stage);
     }

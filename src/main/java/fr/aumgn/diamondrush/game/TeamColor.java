@@ -10,25 +10,27 @@ import fr.aumgn.diamondrush.Util;
 
 public enum TeamColor {
 
-    BLUE          (ChatColor.BLUE,          11),
-    RED           (ChatColor.DARK_RED,      14),
-    GREEN         (ChatColor.DARK_GREEN,    13),
-    PURPLE        (ChatColor.LIGHT_PURPLE,   2),
-    ORANGE        (ChatColor.GOLD,           1),
-    WHITE         (ChatColor.WHITE,          0),
-    GRAY          (ChatColor.DARK_GRAY,      8),
-    AQUA          (ChatColor.AQUA,           3),
-    DARK_PURPLE   (ChatColor.DARK_PURPLE,   10),
-    LIGHT_GREEN   (ChatColor.GREEN,          5),
-    BLACK         (ChatColor.BLACK,         15),
-    YELLOW        (ChatColor.YELLOW,         4);
+    BLUE          (ChatColor.BLUE,          11,     "Bleu"         ),
+    RED           (ChatColor.DARK_RED,      14,     "Rouge"        ),
+    GREEN         (ChatColor.DARK_GREEN,    13,     "Vert"         ),
+    PURPLE        (ChatColor.LIGHT_PURPLE,   2,     "Violet"       ),
+    ORANGE        (ChatColor.GOLD,           1,     "Orange"       ),
+    WHITE         (ChatColor.WHITE,          0,     "White"        ),
+    GRAY          (ChatColor.DARK_GRAY,      8,     "Gris"         ),
+    AQUA          (ChatColor.AQUA,           3,     "Turquoise"    ),
+    DARK_PURPLE   (ChatColor.DARK_PURPLE,   10,     "Violet Foncé" ),
+    LIGHT_GREEN   (ChatColor.GREEN,          5,     "Vert clair"   ),
+    BLACK         (ChatColor.BLACK,         15,     "Noir"         ),
+    YELLOW        (ChatColor.YELLOW,         4,     "Jaune"        );
 
     private final ChatColor chat;
     private final byte wool;
+    private final String name;
 
-    private TeamColor(ChatColor chat, int wool) {
+    private TeamColor(ChatColor chat, int wool, String name) {
         this.chat = chat;
         this.wool = (byte) wool;
+        this.name = name;
     }
 
     public ChatColor getChatColor() {
@@ -37,6 +39,10 @@ public enum TeamColor {
 
     public byte getWoolColor() {
         return wool;
+    }
+
+    public String getColorName() {
+        return name;
     }
 
     public static List<TeamColor> getRandomColors(int count) {
