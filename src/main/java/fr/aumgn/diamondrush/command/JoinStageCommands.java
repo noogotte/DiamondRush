@@ -120,6 +120,7 @@ public class JoinStageCommands implements Commands {
             }
 
             game.removePlayer(player);
+            player.sendMessage(ChatColor.GREEN + "Vous avez quitté la partie.");
         }
     }
 

@@ -33,6 +33,8 @@ public class SpectatorsCommands implements Commands {
             throw new CommandError("Vous êtes déjà spectateur.");
         }
 
+        game.sendMessage(player.getDisplayName() + ChatColor.YELLOW +
+                " est maintenant spectateur.");
         spectators.add(player);
         player.sendMessage(ChatColor.GREEN + "Vous êtes maintenant spectateur.");
     }
@@ -50,6 +52,8 @@ public class SpectatorsCommands implements Commands {
         Game game = DiamondRush.getGame();
         game.getSpectators().remove(player);
         player.sendMessage(ChatColor.GREEN + "Vous n'êtes plus spectateur.");
+        game.sendMessage(player.getDisplayName() + ChatColor.YELLOW +
+                " n'est plus spectateur.");
     }
 
     @Command(name = "teleport-player", min = 1, max = 1)
@@ -71,7 +75,7 @@ public class SpectatorsCommands implements Commands {
             throw new PlayerNotInGame();
         }
         player.teleport(target);
-        player.sendMessage("Poof !");
+        player.sendMessage(ChatColor.GREEN + "Poof !");
     }
 
     @Command(name = "teleport-team", min = 1, max = 1, flags = "sf")
@@ -103,6 +107,6 @@ public class SpectatorsCommands implements Commands {
             Location loc = totem.getTeleportLocation(game.getWorld(), game.getSpawn());
             player.teleport(loc);
         }
-        player.sendMessage("Poof !");
+        player.sendMessage(ChatColor.GREEN + "Poof !");
     }
 }
