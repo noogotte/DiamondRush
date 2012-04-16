@@ -1,11 +1,14 @@
 package fr.aumgn.diamondrush.stage.listeners;
 
 import org.bukkit.Location;
+import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
@@ -96,6 +99,17 @@ public class StaticListener implements Listener {
         Entity entity = event.getTarget();
         if (entity instanceof Player && game.contains((Player) entity)) {
             event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onExplode(EntityExplodeEvent event) {
+        Entity entity = event.getEntity();
+        if (entity instanceof Creature) {
+            LivingEntity target = ((Creature) entity).getTarget();
+            if (target instanceof Player && game.contains((Player) entity)) {
+                event.setCancelled(true);
+            }
         }
     }
 }
