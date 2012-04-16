@@ -13,12 +13,11 @@ public enum TeamColor {
     BLUE          (ChatColor.BLUE,          11,     "Bleu"         ),
     RED           (ChatColor.DARK_RED,      14,     "Rouge"        ),
     GREEN         (ChatColor.DARK_GREEN,    13,     "Vert"         ),
-    PURPLE        (ChatColor.LIGHT_PURPLE,   2,     "Violet"       ),
     ORANGE        (ChatColor.GOLD,           1,     "Orange"       ),
+    DARK_PURPLE   (ChatColor.DARK_PURPLE,   10,     "Mauve"        ),
     WHITE         (ChatColor.WHITE,          0,     "White"        ),
     GRAY          (ChatColor.DARK_GRAY,      8,     "Gris"         ),
     AQUA          (ChatColor.AQUA,           3,     "Turquoise"    ),
-    DARK_PURPLE   (ChatColor.DARK_PURPLE,   10,     "Violet Foncé" ),
     LIGHT_GREEN   (ChatColor.GREEN,          5,     "Vert clair"   ),
     BLACK         (ChatColor.BLACK,         15,     "Noir"         ),
     YELLOW        (ChatColor.YELLOW,         4,     "Jaune"        );
