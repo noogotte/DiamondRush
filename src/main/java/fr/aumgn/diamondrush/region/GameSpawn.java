@@ -15,22 +15,18 @@ public class GameSpawn extends Region {
         super(pt.subtract(3, 1, 3), pt.add(3, 5, 3));
     }
 
-    public List<Vector> getStartPositions(int size) {
-        List<Vector> list = new ArrayList<Vector>(size);
-        list.add(min.add(3, 1, 0));
-        list.add(min.add(3, 1, 6));
+    public List<Vector> getStartPositions(int amount) {
+        List<Vector> list = new ArrayList<Vector>(amount);
+        double angleDiff = 2 * Math.PI / amount;
+        Vector middle = getMiddle();
 
-        if (size > 2) {
-            list.add(min.add(0, 1, 3));
-        }
-        if (size > 3) {
-            list.add(min.add(6, 1, 3));
+        for (int i = 0; i < amount; i++) {
+            double angle = angleDiff * i;
+            int x = (int) Math.round(Math.cos(angle) * 3);
+            int z = (int) Math.round(Math.sin(angle) * 3);
+            list.add(middle.add(new Vector(x, 0, z)));
         }
 
-        Vector middle = min.getMiddle(max);
-        for (int i = 4; i < size; i++) {
-            list.add(middle);
-        }
         return list;
     }
 
