@@ -36,14 +36,13 @@ public class ChestPopulator {
 
     public void populate(World world, int amount) {
         double maxRadius = getMaxRadius().length();
-        maxRadius += radiusOffset;
 
         Random rand = Util.getRandom();
         double angleDiff = 2 * Math.PI / amount;
         double angleOrigin = rand.nextDouble() * Math.PI;
         double angleOffset = angleDiff / amount;
         for (int i = 0; i < amount; i++) {
-            double radius = rand.nextDouble() * maxRadius;
+            double radius = rand.nextDouble() * maxRadius + radiusOffset;
             double offset = rand.nextDouble() * angleOffset;
             double angle = angleOrigin + i * angleDiff + offset;
             int x = (int) (Math.cos(angle) * radius);
