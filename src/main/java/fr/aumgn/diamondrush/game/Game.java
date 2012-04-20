@@ -38,7 +38,7 @@ public class Game {
         this.teams = new LinkedHashMap<String, Team>();
 
         int lives = DiamondRush.getConfig().getLives();
-        lives = Math.max(5, lives);
+        lives = Math.max(4, lives);
         lives = Math.min(8, lives);
         for (Map.Entry<String, TeamColor> teamEntry : teamsMap.entrySet()) {
             Team team = new Team(teamEntry.getKey(),

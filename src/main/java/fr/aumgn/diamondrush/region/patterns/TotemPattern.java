@@ -23,7 +23,12 @@ public class TotemPattern {
     private void initBlocks() {
         blocks = new ArrayList<Vector>();
 
-        int height = (lives & 1) == 0 ? 4 : 3;
+        int height;
+        if (lives == 4) {
+            height = 2;
+        } else {
+            height = (lives & 1) == 0 ? 4 : 3;
+        }
         int y;
         for (y = 0 ;y < height; y++) {
             blocks.add(origin.add(0, y, 0));
