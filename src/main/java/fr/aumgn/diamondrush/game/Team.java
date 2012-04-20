@@ -21,14 +21,14 @@ public class Team {
     private TeamSpawn spawn;
     private int lives;
 
-    public Team(String name, TeamColor color) {
+    public Team(String name, TeamColor color, int lives) {
         this.name = name;
         this.color = color;
         this.foreman = null;
         this.players = new ArrayList<Player>();
         this.totem = null;
         this.spawn = null;
-        this.lives = 5;
+        this.lives = lives;
     }
 
     public String getName() {

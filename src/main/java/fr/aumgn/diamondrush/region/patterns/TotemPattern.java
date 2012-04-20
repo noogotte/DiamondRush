@@ -11,19 +11,35 @@ import fr.aumgn.bukkit.util.Vector;
 public class TotemPattern {
 
     private Vector origin;
+    private int lives;
+    private List<Vector> blocks;
 
-    public TotemPattern(Vector origin) {
+    public TotemPattern(Vector origin, int lives) {
         this.origin = origin;
+        this.lives = lives;
+        initBlocks();
+    }
+
+    private void initBlocks() {
+        blocks = new ArrayList<Vector>();
+
+        int height = (lives & 1) == 0 ? 4 : 3;
+        int y;
+        for (y = 0 ;y < height; y++) {
+            blocks.add(origin.add(0, y, 0));
+        }
+
+        y = height - 1;
+        blocks.add(origin.add( 1, y, 0));
+        blocks.add(origin.add(-1, y, 0));
+
+        if (lives > 6) {
+            blocks.add(origin.add(0, y,  1));
+            blocks.add(origin.add(0, y, -1));
+        }
     }
 
     public List<Vector> getBlocks() {
-        List<Vector> blocks = new ArrayList<Vector>();
-        Vector pos = origin;
-        for (int i = 0; i <= 2; i++) {
-            blocks.add(pos.add(0, i, 0));
-        }
-        blocks.add(pos.add( 1, 2, 0));
-        blocks.add(pos.add(-1, 2, 0));
         return blocks;
     }
 

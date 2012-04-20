@@ -20,14 +20,14 @@ public class Totem extends Region {
         this.blocks = new ArrayList<Vector>();
     }
 
-    public void create(World world, TeamColor color) {
+    public void create(World world, TeamColor color, int lives) {
         removeEverythingInside(world);
         FloorPattern base = new FloorPattern(
                 min.to2D(), max.to2D(), min.getY(),
                 Material.WOOL, color.getWoolColor(), true);
         base.create(world);
         Vector totemOrigin = getMiddle().setY(min.getY() + 1);
-        TotemPattern totem = new TotemPattern(totemOrigin);
+        TotemPattern totem = new TotemPattern(totemOrigin, lives);
         blocks = totem.getBlocks();
         totem.create(world);
     }

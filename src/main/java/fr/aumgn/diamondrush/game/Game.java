@@ -37,8 +37,12 @@ public class Game {
         this.stage = null;
         this.teams = new LinkedHashMap<String, Team>();
 
+        int lives = DiamondRush.getConfig().getLives();
+        lives = Math.max(5, lives);
+        lives = Math.min(8, lives);
         for (Map.Entry<String, TeamColor> teamEntry : teamsMap.entrySet()) {
-            Team team = new Team(teamEntry.getKey(), teamEntry.getValue());
+            Team team = new Team(teamEntry.getKey(),
+                    teamEntry.getValue(), lives);
             teams.put(teamEntry.getKey(), team);
         }
         if (teams.keySet().size() < 2) {

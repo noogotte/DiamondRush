@@ -12,6 +12,8 @@ public class DRConfig {
 
     private TimerConfig timer;
 
+    private int lives = 5;
+
     private int totemDuration = 90;
     private int spawnDuration = 30;
     private int transitionDuration = 10;
@@ -60,6 +62,10 @@ public class DRConfig {
 
     public TimerConfig getTimerConfig() {
         return timer;
+    }
+
+    public int getLives() {
+        return lives;
     }
 
     public int getTotemDuration() {
