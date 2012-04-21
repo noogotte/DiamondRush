@@ -12,8 +12,8 @@ import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.PlayerInventory;
 
-import fr.aumgn.bukkit.util.Vector;
-import fr.aumgn.bukkit.util.Vector2D;
+import fr.aumgn.bukkitutils.util.Vector;
+import fr.aumgn.bukkitutils.util.Vector2D;
 import fr.aumgn.diamondrush.DiamondRush;
 import fr.aumgn.diamondrush.Util;
 import fr.aumgn.diamondrush.game.Game;

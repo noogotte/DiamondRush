@@ -6,8 +6,8 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.material.Torch;
 
-import fr.aumgn.bukkit.util.Vector;
-import fr.aumgn.bukkit.util.Vector2D;
+import fr.aumgn.bukkitutils.util.Vector;
+import fr.aumgn.bukkitutils.util.Vector2D;
 
 public class FloorPattern {
 

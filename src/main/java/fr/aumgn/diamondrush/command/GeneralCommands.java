@@ -3,10 +3,10 @@ package fr.aumgn.diamondrush.command;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
-import fr.aumgn.bukkit.command.Command;
-import fr.aumgn.bukkit.command.CommandArgs;
-import fr.aumgn.bukkit.command.CommandError;
-import fr.aumgn.bukkit.command.Commands;
+import fr.aumgn.bukkitutils.command.Command;
+import fr.aumgn.bukkitutils.command.CommandArgs;
+import fr.aumgn.bukkitutils.command.exception.CommandError;
+import fr.aumgn.bukkitutils.command.Commands;
 import fr.aumgn.diamondrush.DiamondRush;
 import fr.aumgn.diamondrush.game.Game;
 import fr.aumgn.diamondrush.stage.Stage;

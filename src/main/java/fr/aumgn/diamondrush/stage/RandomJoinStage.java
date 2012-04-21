@@ -7,7 +7,7 @@ import java.util.List;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-import fr.aumgn.bukkit.command.CommandError;
+import fr.aumgn.diamondrush.exception.NotEnoughPlayers;
 import fr.aumgn.diamondrush.game.Game;
 import fr.aumgn.diamondrush.game.Team;
 import fr.aumgn.diamondrush.game.TeamsView;
@@ -58,7 +58,7 @@ public class RandomJoinStage extends JoinStage {
     @Override
     public void ensureIsReady() {
         if (game.getTeams().size() > players.size()) {
-            throw new CommandError("Il n'y a pas assez de joueur");
+            throw new NotEnoughPlayers();
         }
     }
 

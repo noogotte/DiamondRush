@@ -9,7 +9,7 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
 
-import fr.aumgn.bukkit.util.Vector2D;
+import fr.aumgn.bukkitutils.util.Vector2D;
 import fr.aumgn.diamondrush.DiamondRush;
 import fr.aumgn.diamondrush.Util;
 

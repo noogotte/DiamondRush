@@ -1,6 +1,6 @@
 package fr.aumgn.diamondrush.exception;
 
-import fr.aumgn.bukkit.command.CommandError;
+import fr.aumgn.bukkitutils.command.exception.CommandError;
 
 public class NoGameRunning extends CommandError {
 

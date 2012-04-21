@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.bukkit.event.Listener;
 
-import fr.aumgn.bukkit.util.Timer;
+import fr.aumgn.bukkitutils.util.Timer;
 import fr.aumgn.diamondrush.game.Game;
 import fr.aumgn.diamondrush.game.GameTimer;
 

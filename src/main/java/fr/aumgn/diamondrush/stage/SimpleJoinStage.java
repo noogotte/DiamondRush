@@ -3,7 +3,7 @@ package fr.aumgn.diamondrush.stage;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-import fr.aumgn.bukkit.command.CommandError;
+import fr.aumgn.diamondrush.exception.NotEnoughPlayers;
 import fr.aumgn.diamondrush.game.Game;
 import fr.aumgn.diamondrush.game.Team;
 
@@ -37,7 +37,7 @@ public class SimpleJoinStage extends JoinStage {
     public void ensureIsReady() {
         for (Team team : game.getTeams()) {
             if (team.size() < 1) {
-                throw new CommandError("L'équipe " + 
+                throw new NotEnoughPlayers("L'équipe " + 
                         team.getDisplayName() + " n'a aucun joueur.");
             }
         }

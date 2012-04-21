@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 
-import fr.aumgn.bukkit.util.Vector;
+import fr.aumgn.bukkitutils.util.Vector;
 import fr.aumgn.diamondrush.DiamondRush;
 import fr.aumgn.diamondrush.Util;
 import fr.aumgn.diamondrush.exception.NoSuchTeam;

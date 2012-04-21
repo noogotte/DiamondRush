@@ -2,9 +2,9 @@ package fr.aumgn.diamondrush.command;
 
 import org.bukkit.command.CommandSender;
 
-import fr.aumgn.bukkit.command.Command;
-import fr.aumgn.bukkit.command.CommandArgs;
-import fr.aumgn.bukkit.command.Commands;
+import fr.aumgn.bukkitutils.command.Command;
+import fr.aumgn.bukkitutils.command.CommandArgs;
+import fr.aumgn.bukkitutils.command.Commands;
 import fr.aumgn.diamondrush.DiamondRush;
 import fr.aumgn.diamondrush.game.Game;
 import fr.aumgn.diamondrush.game.TeamsView;

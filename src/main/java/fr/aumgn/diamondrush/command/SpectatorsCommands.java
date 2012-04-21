@@ -7,10 +7,10 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-import fr.aumgn.bukkit.command.Command;
-import fr.aumgn.bukkit.command.CommandArgs;
-import fr.aumgn.bukkit.command.CommandError;
-import fr.aumgn.bukkit.command.Commands;
+import fr.aumgn.bukkitutils.command.Command;
+import fr.aumgn.bukkitutils.command.CommandArgs;
+import fr.aumgn.bukkitutils.command.exception.CommandError;
+import fr.aumgn.bukkitutils.command.Commands;
 import fr.aumgn.diamondrush.DiamondRush;
 import fr.aumgn.diamondrush.exception.PlayerNotInGame;
 import fr.aumgn.diamondrush.game.Game;

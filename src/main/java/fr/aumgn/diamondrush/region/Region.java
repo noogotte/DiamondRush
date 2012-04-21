@@ -4,8 +4,8 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 
-import fr.aumgn.bukkit.util.Vector;
-import fr.aumgn.bukkit.util.Vector2D;
+import fr.aumgn.bukkitutils.util.Vector;
+import fr.aumgn.bukkitutils.util.Vector2D;
 
 public class Region {
 

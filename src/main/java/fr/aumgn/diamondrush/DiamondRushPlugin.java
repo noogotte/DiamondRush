@@ -2,9 +2,10 @@ package fr.aumgn.diamondrush;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
-import fr.aumgn.bukkit.command.CommandsManager;
-import fr.aumgn.bukkit.gconf.GConfLoadException;
-import fr.aumgn.bukkit.gconf.GConfLoader;
+import fr.aumgn.bukkitutils.command.CommandsRegistration;
+import fr.aumgn.bukkitutils.command.messages.FrenchMessages;
+import fr.aumgn.bukkitutils.gconf.GConfLoadException;
+import fr.aumgn.bukkitutils.gconf.GConfLoader;
 import fr.aumgn.diamondrush.command.GeneralCommands;
 import fr.aumgn.diamondrush.command.InfoCommands;
 import fr.aumgn.diamondrush.command.JoinStageCommands;
@@ -16,7 +17,7 @@ public class DiamondRushPlugin extends JavaPlugin {
     public void onEnable() {
         DiamondRush.init(this);
 
-        CommandsManager commandsManager = new CommandsManager(this); 
+        CommandsRegistration commandsManager = new CommandsRegistration(this, new FrenchMessages()); 
         commandsManager.register(new GeneralCommands());
         commandsManager.register(new InfoCommands());
         commandsManager.register(new JoinStageCommands());
