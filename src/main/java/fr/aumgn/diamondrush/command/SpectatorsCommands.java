@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 
 import fr.aumgn.bukkitutils.command.Command;
 import fr.aumgn.bukkitutils.command.CommandArgs;
+import fr.aumgn.bukkitutils.command.NestedCommands;
 import fr.aumgn.bukkitutils.command.exception.CommandError;
 import fr.aumgn.bukkitutils.command.Commands;
 import fr.aumgn.diamondrush.DiamondRush;
@@ -19,9 +20,10 @@ import fr.aumgn.diamondrush.game.Team;
 import fr.aumgn.diamondrush.region.TeamSpawn;
 import fr.aumgn.diamondrush.region.Totem;
 
+@NestedCommands(name = "diamondrush")
 public class SpectatorsCommands implements Commands {
 
-    @Command(name = "watch-game", max = 0)
+    @Command(name = "watch", max = 0)
     public void watchGame(Player player, CommandArgs args) {
         Game game = DiamondRush.getGame();
         if (game.contains(player)) {
@@ -46,7 +48,7 @@ public class SpectatorsCommands implements Commands {
         }
     }
 
-    @Command(name = "unwatch-game", max = 0)
+    @Command(name = "unwatch", max = 0)
     public void unwatchGame(Player player, CommandArgs args) {
         ensureIsSpectator(player);
         Game game = DiamondRush.getGame();
@@ -56,7 +58,7 @@ public class SpectatorsCommands implements Commands {
                 " n'est plus spectateur.");
     }
 
-    @Command(name = "teleport-player", min = 1, max = 1)
+    @Command(name = "tp-player", min = 1, max = 1)
     public void tpPlayer(Player player, CommandArgs args) {
         ensureIsSpectator(player);
 
@@ -78,7 +80,7 @@ public class SpectatorsCommands implements Commands {
         player.sendMessage(ChatColor.GREEN + "Poof !");
     }
 
-    @Command(name = "teleport-team", min = 1, max = 1, flags = "sf")
+    @Command(name = "tp-team", min = 1, max = 1, flags = "sf")
     public void tpTeam(Player player, CommandArgs args) {
         ensureIsSpectator(player);
 

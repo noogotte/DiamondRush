@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 
 import fr.aumgn.bukkitutils.command.Command;
 import fr.aumgn.bukkitutils.command.CommandArgs;
+import fr.aumgn.bukkitutils.command.NestedCommands;
 import fr.aumgn.bukkitutils.command.exception.CommandError;
 import fr.aumgn.bukkitutils.command.exception.CommandUsageError;
 import fr.aumgn.bukkitutils.command.Commands;
@@ -25,9 +26,10 @@ import fr.aumgn.diamondrush.stage.SimpleJoinStage;
 import fr.aumgn.diamondrush.stage.Stage;
 import fr.aumgn.diamondrush.stage.TotemStage;
 
+@NestedCommands(name = "diamondrush")
 public class JoinStageCommands implements Commands {
 
-    @Command(name = "init-game", min = 1, flags = "cn")
+    @Command(name = "init", min = 1, flags = "cn")
     public void initGame(Player player, CommandArgs args) {
         if (DiamondRush.isRunning()) {
             throw new CommandError("Une partie est déjà en cours.");
@@ -66,7 +68,7 @@ public class JoinStageCommands implements Commands {
         DiamondRush.initGame(game, stage);
     }
 
-    @Command(name = "join-game", max = 1)
+    @Command(name = "join", max = 1)
     public void joinTeam(Player player, CommandArgs args) {
         Game game = DiamondRush.getGame();
         Stage stage = game.getStage();
@@ -102,7 +104,7 @@ public class JoinStageCommands implements Commands {
         }
     }
 
-    @Command(name = "quit-game", max = 0)
+    @Command(name = "quit", max = 0)
     public void quitGame(Player player, CommandArgs args) {
         Game game = DiamondRush.getGame();
         Stage stage = game.getStage();
@@ -124,7 +126,7 @@ public class JoinStageCommands implements Commands {
         }
     }
 
-    @Command(name = "start-game", max = 0)
+    @Command(name = "start", max = 0)
     public void startGame(CommandSender sender, CommandArgs args) {
         Game game = DiamondRush.getGame();
         Stage stage = game.getStage();

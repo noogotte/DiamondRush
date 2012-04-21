@@ -1,72 +1,75 @@
 name: ${project.name}
 version: ${project.version}
 description: DiamondRush
-authors: [aumgn, first4ever]
+authors: [aumgn]
 website: https://github.com/aumgn/DiamondRush
 
 main: fr.aumgn.diamondrush.DiamondRushPlugin
 
 commands:
-    stop-game:
+    diamondrush:
+        description: "Commande principale"
+        usage: "init | join | start | quit | pause | resume | teams | watch | unwatch | tp-player | tp-team"
+        aliases: ["dr"]
+    "diamondrush stop":
         description: "Stoppe la partie en cours."
-        usage: "/<command>"
+        usage: ""
         permission: "dr.cmd.stop"
-        aliases: ["stg"]
-    pause-game:
+    "diamondrush pause":
         description: "Met en pause la partie en cours."
-        usage: "/<command>"
-        aliases: ["pause", "pg"]
+        usage: ""
+        aliases: ["pause"]
         permission: "dr.cmd.stop"
-    resume-game:
+    "diamondrush game":
         description: "Redémarre la partie."
-        usage: "/<command>"
-        aliases: ["resume", "rsg"]
+        usage: ""
+        aliases: ["resume", "rsm"]
         permission: "dr.cmd.stop"
-    show-teams:
+    "diamondrush teams":
         description: "Affiche les équipes"
-        usage: "/<command>"
+        usage: ""
         permission: "dr.cmd.showteams"
-        aliases: ["showteams", "st"]
+        aliases: ["st"]
 
-    init-game:
+    "diamondrush init":
         description: "Initie une partie de TBN."
-        usage: "/<command> [-a] <equipe1> <equipe2> [...]"
+        usage: "[-a] <equipe1> <equipe2> [...]"
         permission: "dr.cmd.init"
-        aliases: ["init", "ig"]
-    join-game:
+        aliases: ["init"]
+    "diamondrush join":
         description: "Rejoint (ou crée) une équipe."
-        usage: "/<command> <equipe>"
+        usage: "[equipe]"
         permission: "dr.cmd.jointeam"
-        aliases: ["join", "jg"]
-    quit-game:
+        aliases: ["join"]
+    "diamondrush quit":
         description: "Quitte la partie."
-        usage: "/<command>"
+        usage: ""
         permission: "dr.cmd.jointeam"
-        aliases: ["quit", "qg"]
-    start-game:
+        aliases: ["quit"]
+    "diamondrush start":
         description: "Débute la partie."
-        usage: "/<command>"
+        usage: ""
         permission: "dr.cmd.start"
-        aliases: ["start", "sg"]
+        aliases: ["start"]
 
-    watch-game:
+    "diamondrush watch":
         description: "Inscrit en tant que spectateur de la partie."
-        usage: "/<command>"
+        usage: ""
         permission: "dr.cmd.watch"
-        aliases: ["watch", "spect-game", "spect"]
-    unwatch-game:
+        aliases: ["watch", "spect"]
+    "diamondrush unwatch":
         description: "Désinscrit en tant que spectateur de la partie."
-        usage: "/<command>"
+        usage: ""
         permission: "dr.cmd.watch"
-        aliases: ["unwatch", "unspect-game", "unspect"]
-    teleport-player:
+        aliases: ["unwatch", "unspect"]
+    "diamondrush tp-player":
         description: "Téléporte à un joueur."
-        usage: "/<command> <player>"
+        usage: "<player>"
         permission: "dr.cmd.tpplayer"
         aliases: ["tpp"]
-    teleport-team:
+    "diamondrush tp-team":
         description: "Téléporte à un point stratégique d'une équipe."
-        usage: "/<command> [-fs] <team>"
+        usage: "[-fs] <team>"
         permission: "dr.cmd.tpteam"
         aliases: ["tpt"]
 

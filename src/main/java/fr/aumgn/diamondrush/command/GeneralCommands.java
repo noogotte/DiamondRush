@@ -5,22 +5,24 @@ import org.bukkit.command.CommandSender;
 
 import fr.aumgn.bukkitutils.command.Command;
 import fr.aumgn.bukkitutils.command.CommandArgs;
+import fr.aumgn.bukkitutils.command.NestedCommands;
 import fr.aumgn.bukkitutils.command.exception.CommandError;
 import fr.aumgn.bukkitutils.command.Commands;
 import fr.aumgn.diamondrush.DiamondRush;
 import fr.aumgn.diamondrush.game.Game;
 import fr.aumgn.diamondrush.stage.Stage;
 
+@NestedCommands(name = "diamondrush")
 public class GeneralCommands implements Commands {
 
-    @Command(name = "stop-game", max = 0)
+    @Command(name = "stop", max = 0)
     public void stopGame(CommandSender sender, CommandArgs args) {
         Game game = DiamondRush.getGame();
         DiamondRush.forceStop();
         game.sendMessage(ChatColor.RED + "La partie a été arretée.");
     }
 
-    @Command(name = "pause-game", max = 0)
+    @Command(name = "pause", max = 0)
     public void pauseGame(CommandSender sender, CommandArgs args) {
         Game game = DiamondRush.getGame();
         if (game.isPaused()) {
@@ -29,7 +31,7 @@ public class GeneralCommands implements Commands {
         game.pause();
     }
 
-    @Command(name = "resume-game", max = 0)
+    @Command(name = "resume", max = 0)
     public void resumeGame(CommandSender sender, CommandArgs args) {
         final Game game = DiamondRush.getGame();
         if (!game.isPaused()) {
