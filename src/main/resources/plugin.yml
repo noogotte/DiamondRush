@@ -60,7 +60,7 @@ commands:
     "diamondrush unwatch":
         description: "Désinscrit en tant que spectateur de la partie."
         usage: ""
-        permission: "dr.cmd.watch"
+        permission: "dr.cmd.unwatch"
         aliases: ["unwatch", "unspect"]
     "diamondrush tp-player":
         description: "Téléporte à un joueur."
@@ -80,6 +80,7 @@ permissions:
             dr.cmd.stop: true
             dr.cmd.init: true
             dr.cmd.start: true
+            dr.cmd.unwatch: true
             dr.play: true
     dr.play:
         default: true

@@ -17,6 +17,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 import fr.aumgn.bukkitutils.util.Vector;
+import fr.aumgn.diamondrush.game.Game;
 import fr.aumgn.diamondrush.game.Team;
 import fr.aumgn.diamondrush.stage.PositioningStage;
 
@@ -53,7 +54,14 @@ public class PositioningListener implements Listener {
             return;
         }
 
-        Team team = stage.getGame().getTeam(event.getPlayer());
+        Game game = stage.getGame();
+        Player player = event.getPlayer();
+
+        if (!game.contains(player)) {
+            return;
+        }
+
+        Team team = game.getTeam(player);
         if (!positions.containsKey(team)) {
             return;
         }

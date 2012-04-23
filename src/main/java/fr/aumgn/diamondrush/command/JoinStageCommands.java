@@ -73,6 +73,11 @@ public class JoinStageCommands implements Commands {
         Game game = DiamondRush.getGame();
         Stage stage = game.getStage();
 
+        if (game.getSpectators().contains(player)) {
+            throw new CommandError(
+                    "Vous ne pouvez pas rejoindre la partie tant que vous etre spectateur.");
+        }
+
         Team team = null;
         if (args.length() > 0) {
             team = game.getTeam(args.get(0));

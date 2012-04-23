@@ -19,6 +19,7 @@ import fr.aumgn.diamondrush.game.Spectators;
 import fr.aumgn.diamondrush.game.Team;
 import fr.aumgn.diamondrush.region.TeamSpawn;
 import fr.aumgn.diamondrush.region.Totem;
+import fr.aumgn.diamondrush.stage.JoinStage;
 
 @NestedCommands(name = "diamondrush")
 public class SpectatorsCommands implements Commands {
@@ -26,8 +27,14 @@ public class SpectatorsCommands implements Commands {
     @Command(name = "watch")
     public void watchGame(Player player, CommandArgs args) {
         Game game = DiamondRush.getGame();
+
         if (game.contains(player)) {
             throw new CommandError("Vous êtes déjà dans la partie.");
+        }
+
+        if (game.getStage() instanceof JoinStage) {
+            throw new CommandError(
+                    "Impossible de passer en spectateur durant une phase de join.");
         }
 
         Spectators spectators = game.getSpectators();
@@ -48,11 +55,30 @@ public class SpectatorsCommands implements Commands {
         }
     }
 
-    @Command(name = "unwatch")
+    private Player matchPlayer(String name) {
+        List<Player> players = Bukkit.matchPlayer(name);
+        if (players.size() > 1) {
+            throw new CommandError("Plus d'un joueur trouvés avec le motif " + name + ".");
+        } else if (players.size() < 1) {
+            throw new CommandError("Aucun joueur trouvé.");
+        }
+
+        return players.get(0);
+    }
+
+    @Command(name = "unwatch", max = 1)
     public void unwatchGame(Player player, CommandArgs args) {
         ensureIsSpectator(player);
         Game game = DiamondRush.getGame();
-        game.getSpectators().remove(player);
+
+        Player spectator;
+        if (args.length() == 0) {
+            spectator = player;
+        } else {
+            spectator = matchPlayer(args.get(0));
+        }
+
+        game.getSpectators().remove(spectator);
         player.sendMessage(ChatColor.GREEN + "Vous n'êtes plus spectateur.");
         game.sendMessage(player.getDisplayName() + ChatColor.YELLOW +
                 " n'est plus spectateur.");
@@ -63,16 +89,8 @@ public class SpectatorsCommands implements Commands {
         ensureIsSpectator(player);
 
         Game game = DiamondRush.getGame();
-        String arg = args.get(0);
 
-        List<Player> players = Bukkit.matchPlayer(arg);
-        if (players.size() > 1) {
-            throw new CommandError("Plus d'un joueur trouvés avec le motif " + arg + ".");
-        } else if (players.size() < 1) {
-            throw new CommandError("Aucun joueur trouvé.");
-        }
-
-        Player target = players.get(0);
+        Player target = matchPlayer(args.get(0));
         if (!game.contains(target) || !game.getSpectators().contains(player)) {
             throw new PlayerNotInGame();
         }
