@@ -84,12 +84,17 @@ public class DevelopmentListener implements Listener {
         Player player = event.getPlayer();
         Game game = stage.getGame();
         if (game.contains(player)) {
-            event.setMessage(ChatColor.ITALIC + event.getMessage());
-            Set<Player> receivers = event.getRecipients();
-            receivers.clear();
-            Team team = game.getTeam(player);
-            receivers.addAll(team.getPlayers());
-            receivers.addAll(game.getSpectators().asCollection());
+            String message = event.getMessage();
+            if (message.charAt(0) == '!') {
+                event.setMessage(message.substring(1));
+            } else {
+                event.setMessage(ChatColor.ITALIC + event.getMessage());
+                Set<Player> receivers = event.getRecipients();
+                receivers.clear();
+                Team team = game.getTeam(player);
+                receivers.addAll(team.getPlayers());
+                receivers.addAll(game.getSpectators().asCollection());
+            }
         }
     }
 }
