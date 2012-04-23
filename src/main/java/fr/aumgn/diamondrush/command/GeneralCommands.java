@@ -15,14 +15,14 @@ import fr.aumgn.diamondrush.stage.Stage;
 @NestedCommands(name = "diamondrush")
 public class GeneralCommands implements Commands {
 
-    @Command(name = "stop", max = 0)
+    @Command(name = "stop")
     public void stopGame(CommandSender sender, CommandArgs args) {
         Game game = DiamondRush.getGame();
         DiamondRush.forceStop();
         game.sendMessage(ChatColor.RED + "La partie a été arretée.");
     }
 
-    @Command(name = "pause", max = 0)
+    @Command(name = "pause")
     public void pauseGame(CommandSender sender, CommandArgs args) {
         Game game = DiamondRush.getGame();
         if (game.isPaused()) {
@@ -31,7 +31,7 @@ public class GeneralCommands implements Commands {
         game.pause();
     }
 
-    @Command(name = "resume", max = 0)
+    @Command(name = "resume")
     public void resumeGame(CommandSender sender, CommandArgs args) {
         final Game game = DiamondRush.getGame();
         if (!game.isPaused()) {

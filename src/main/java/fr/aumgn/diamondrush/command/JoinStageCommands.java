@@ -29,7 +29,7 @@ import fr.aumgn.diamondrush.stage.TotemStage;
 @NestedCommands(name = "diamondrush")
 public class JoinStageCommands implements Commands {
 
-    @Command(name = "init", min = 1, flags = "cn")
+    @Command(name = "init", min = 1, max = -1, flags = "cn")
     public void initGame(Player player, CommandArgs args) {
         if (DiamondRush.isRunning()) {
             throw new CommandError("Une partie est déjà en cours.");
@@ -104,7 +104,7 @@ public class JoinStageCommands implements Commands {
         }
     }
 
-    @Command(name = "quit", max = 0)
+    @Command(name = "quit")
     public void quitGame(Player player, CommandArgs args) {
         Game game = DiamondRush.getGame();
         Stage stage = game.getStage();
@@ -126,7 +126,7 @@ public class JoinStageCommands implements Commands {
         }
     }
 
-    @Command(name = "start", max = 0)
+    @Command(name = "start")
     public void startGame(CommandSender sender, CommandArgs args) {
         Game game = DiamondRush.getGame();
         Stage stage = game.getStage();

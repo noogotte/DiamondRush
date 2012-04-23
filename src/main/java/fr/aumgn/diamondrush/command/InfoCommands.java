@@ -13,7 +13,7 @@ import fr.aumgn.diamondrush.game.TeamsView;
 @NestedCommands(name = "diamondrush")
 public class InfoCommands implements Commands {
 
-    @Command(name = "teams", max = 0)
+    @Command(name = "teams")
     public void showTeams(CommandSender sender, CommandArgs args) {
         Game game = DiamondRush.getGame();
         TeamsView view = new TeamsView(game.getTeams());

@@ -23,7 +23,7 @@ import fr.aumgn.diamondrush.region.Totem;
 @NestedCommands(name = "diamondrush")
 public class SpectatorsCommands implements Commands {
 
-    @Command(name = "watch", max = 0)
+    @Command(name = "watch")
     public void watchGame(Player player, CommandArgs args) {
         Game game = DiamondRush.getGame();
         if (game.contains(player)) {
@@ -48,7 +48,7 @@ public class SpectatorsCommands implements Commands {
         }
     }
 
-    @Command(name = "unwatch", max = 0)
+    @Command(name = "unwatch")
     public void unwatchGame(Player player, CommandArgs args) {
         ensureIsSpectator(player);
         Game game = DiamondRush.getGame();
