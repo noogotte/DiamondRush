@@ -4,6 +4,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -16,6 +17,7 @@ import org.bukkit.event.block.BlockPistonRetractEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
+import org.bukkit.event.world.StructureGrowEvent;
 
 import fr.aumgn.bukkitutils.util.Vector;
 import fr.aumgn.diamondrush.DiamondRush;
@@ -81,6 +83,16 @@ public class RegionsListener implements Listener {
     public void onForm(BlockFormEvent event) {
         if (isProtected(event.getBlock())) {
             event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onStructureGrow(StructureGrowEvent event) {
+        for (BlockState state : event.getBlocks()) {
+            if (isProtected(state.getBlock())) {
+                event.setCancelled(true);
+                return;
+            }
         }
     }
 
