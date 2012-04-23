@@ -1,6 +1,6 @@
 package fr.aumgn.diamondrush.stage;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.ChatColor;
@@ -8,20 +8,23 @@ import org.bukkit.event.Listener;
 
 import fr.aumgn.diamondrush.DiamondRush;
 import fr.aumgn.diamondrush.game.Game;
+import fr.aumgn.diamondrush.stage.listeners.NoPVPListener;
 import fr.aumgn.diamondrush.stage.listeners.DevelopmentListener;
 
 public class DevelopmentStage extends Stage {
 
-    private DevelopmentListener listener;
+    private List<Listener> listeners;
 
     public DevelopmentStage(Game game) {
         super(game);
-        this.listener = new DevelopmentListener(this);
+        this.listeners = new ArrayList<Listener>();
+        listeners.add(new NoPVPListener(this));
+        listeners.add(new DevelopmentListener(this));
     }
 
     @Override
     public List<Listener> getListeners() {
-        return Collections.<Listener>singletonList(listener);
+        return listeners;
     }
 
     @Override

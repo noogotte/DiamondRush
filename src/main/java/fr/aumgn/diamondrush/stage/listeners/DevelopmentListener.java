@@ -26,10 +26,11 @@ public class DevelopmentListener implements Listener {
         this.stage = stage;
     }
 
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onDamage(EntityDamageByEntityEvent event) {
         Entity targetEntity = event.getEntity();
         Entity damagerEntity = event.getDamager();
+
         if (damagerEntity instanceof Projectile) {
             damagerEntity = ((Projectile) damagerEntity).getShooter();
         }
@@ -42,14 +43,10 @@ public class DevelopmentListener implements Listener {
         Player target = (Player) targetEntity;
         Player damager = (Player) damagerEntity;
         Game game = stage.getGame();
-        if (!game.contains(damager) && !game.contains(target)) {
-            return;
-        }
-        event.setCancelled(true);
-
         if (!game.contains(damager) || !game.contains(target)) {
             return;
         }
+
         Team damagerTeam = game.getTeam(damager);
         if (game.getTeam(target) == damagerTeam) {
             return;

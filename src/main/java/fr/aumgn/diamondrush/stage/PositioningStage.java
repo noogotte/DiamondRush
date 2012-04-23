@@ -1,6 +1,6 @@
 package fr.aumgn.diamondrush.stage;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,22 +15,25 @@ import org.bukkit.inventory.ItemStack;
 import fr.aumgn.bukkitutils.util.Vector;
 import fr.aumgn.diamondrush.game.Game;
 import fr.aumgn.diamondrush.game.Team;
+import fr.aumgn.diamondrush.stage.listeners.NoPVPListener;
 import fr.aumgn.diamondrush.stage.listeners.PositioningListener;
 
 public abstract class PositioningStage extends Stage {
 
     private Map<Team, Vector> positions;
-    private Listener listener;
+    private List<Listener> listeners;
 
     public PositioningStage(Game game) {
         super(game);
         this.positions = new HashMap<Team, Vector>();
-        this.listener = new PositioningListener(this, positions);
+        this.listeners = new ArrayList<Listener>();
+        this.listeners.add(new NoPVPListener(this));
+        this.listeners.add(new PositioningListener(this, positions));
     }
 
     @Override
     public List<Listener> getListeners() {
-        return Collections.<Listener>singletonList(listener);
+        return listeners;
     }
 
     @Override
