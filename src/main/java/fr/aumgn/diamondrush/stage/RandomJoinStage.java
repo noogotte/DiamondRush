@@ -7,6 +7,7 @@ import java.util.List;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
+import fr.aumgn.diamondrush.Util;
 import fr.aumgn.diamondrush.exception.NotEnoughPlayers;
 import fr.aumgn.diamondrush.game.Game;
 import fr.aumgn.diamondrush.game.Team;
@@ -33,14 +34,14 @@ public class RandomJoinStage extends JoinStage {
                    "Les équipes sont constituées aléatoirement.");
         }
 
+        Util.broadcast(player.getDisplayName() +
+                ChatColor.YELLOW + " a rejoint la partie.");
         if (players.size() > 0) {
             player.sendMessage(ChatColor.YELLOW + "Joueur actuels : ");
         }
         for (Player playerInStage : players) {
             player.sendMessage(ChatColor.YELLOW + " - " +
                     playerInStage.getDisplayName());
-            playerInStage.sendMessage(player.getDisplayName() +
-                    ChatColor.YELLOW + " a rejoint la partie.");
         }
         players.add(player);
     }
@@ -50,9 +51,7 @@ public class RandomJoinStage extends JoinStage {
         players.remove(player);
         String msg = player.getDisplayName() + ChatColor.YELLOW +
                 " a quitté la partie.";
-        for (Player playerInStage : players) {
-            playerInStage.sendMessage(msg);
-        }
+        Util.broadcast(msg);
     }
 
     @Override
