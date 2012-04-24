@@ -3,6 +3,7 @@ package fr.aumgn.diamondrush.stage.listeners;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
@@ -17,6 +18,8 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import fr.aumgn.diamondrush.DiamondRush;
 import fr.aumgn.diamondrush.game.Game;
@@ -26,11 +29,11 @@ import fr.aumgn.diamondrush.stage.FightStage;
 public class FightListener implements Listener {
 
     private FightStage stage;
-    private Set<Player> itemsToGiveAterRespawn;
+    private Set<Player> pvpDeaths;
 
     public FightListener(FightStage stage) {
         this.stage = stage;
-        this.itemsToGiveAterRespawn = new HashSet<Player>();
+        this.pvpDeaths = new HashSet<Player>();
     }
 
     @EventHandler
@@ -60,22 +63,46 @@ public class FightListener implements Listener {
             return;
         }
 
-        stage.incrementDeathCount(team);
+        stage.incrementDeathCount(team, player);
         if (stage.getDeathCount(team) > DiamondRush.getConfig().getMaxDiamond()) {
             event.getDrops().add(DiamondRush.getConfig().getItemForKill());
         } else {
             event.getDrops().add(new ItemStack(Material.DIAMOND));
         }
-        itemsToGiveAterRespawn.add(player);
+        pvpDeaths.add(player);
     }
 
     @EventHandler
     public void onRespawn(PlayerRespawnEvent event) {
-        Player player = event.getPlayer();
-        if (itemsToGiveAterRespawn.contains(player)) {
-            player.getInventory().addItem(DiamondRush.getConfig().getItemForDeath());
-            itemsToGiveAterRespawn.remove(player);
+        final Player player = event.getPlayer();
+        Bukkit.getScheduler().scheduleSyncDelayedTask(DiamondRush.getPlugin(), new Runnable() {
+            @Override
+            public void run() {
+                if (pvpDeaths.contains(player)) {
+                    player.getInventory().addItem(DiamondRush.getConfig().getItemForDeath());
+                    affectPlayer(player);
+                    pvpDeaths.remove(player);
+                }
+            }
+        }, 0);
+    }
+
+    private void affectPlayer(Player player) {
+        int duration = (stage.getDeathCount(player) - 1)
+                * DiamondRush.getConfig().getDeathMalusDuration();
+        for (PotionEffect potionEffect : player.getActivePotionEffects()) {
+            if (potionEffect.getType() == PotionEffectType.SLOW) {
+                duration += potionEffect.getDuration();
+                PotionEffect newEffect = new PotionEffect(
+                        PotionEffectType.SLOW, duration, 10);
+                player.addPotionEffect(newEffect, true);
+                return;
+            }
         }
+        System.out.println("Yeah : " + duration);
+        PotionEffect newEffect = new PotionEffect(
+                PotionEffectType.SLOW, duration, 10);
+        player.addPotionEffect(newEffect);
     }
 
     @EventHandler

@@ -30,6 +30,8 @@ public class DRConfig {
     private int spottedTotemDistance = 30;
     private int spottedSpawnDistance = 20;
 
+    private int deathMalusDuration = 5;
+
     private int surrenderItemId = 339;
     private int deathNeededForSurrender = 1;
     private int timeLeftAfterSurrender = 15;
@@ -42,6 +44,7 @@ public class DRConfig {
     private int itemForDeathAmount = 3;
 
     private List<BonusChest> bonusChests;
+
 
     public DRConfig() {
         timer = new TimerConfig(2 * 60, 20, "%02d:%02d");
@@ -108,6 +111,10 @@ public class DRConfig {
     public int getSpottedSpawnDistance() {
         return spottedSpawnDistance
                 * spottedSpawnDistance;
+    }
+
+    public int getDeathMalusDuration() {
+        return deathMalusDuration * 20;
     }
 
     public int getSurrenderItem() {

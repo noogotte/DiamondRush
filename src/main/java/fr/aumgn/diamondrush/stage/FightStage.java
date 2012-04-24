@@ -19,13 +19,15 @@ import fr.aumgn.diamondrush.stage.listeners.FightListener;
 public class FightStage extends Stage {
 
     private FightListener listener;
-    private Map<Team, Integer> deathsCounts;
+    private Map<Team, Integer> deathsByTeam;
+    private Map<Player, Integer> deathsByPlayer;
     private boolean surrender;
 
     public FightStage(Game game) {
         super(game);
         this.listener = new FightListener(this);
-        this.deathsCounts = new HashMap<Team, Integer>();
+        this.deathsByTeam = new HashMap<Team, Integer>();
+        this.deathsByPlayer = new HashMap<Player, Integer>();
         this.surrender = false;
     }
 
@@ -38,7 +40,10 @@ public class FightStage extends Stage {
     public void start() {
         game.sendMessage(ChatColor.GREEN + "La phase de combat commence.");
         for (Team team : game.getTeams()) {
-            deathsCounts.put(team, 0);
+            deathsByTeam.put(team, 0);
+            for (Player player : team.getPlayers()) {
+                deathsByPlayer.put(player, 0);
+            }
         }
         int duration = DiamondRush.getConfig().getFightDuration(game.getTurnCount());
         scheduleNextStageWithTransition(duration, new DevelopmentStage(game));
@@ -55,12 +60,18 @@ public class FightStage extends Stage {
     }
 
     public int getDeathCount(Team team) {
-        return deathsCounts.get(team);
+        return deathsByTeam.get(team);
     }
 
-    public void incrementDeathCount(Team team) {
+    public int getDeathCount(Player player) {
+        return deathsByPlayer.get(player);
+    }
+
+    public void incrementDeathCount(Team team, Player player) {
         int count = getDeathCount(team) + 1;
-        deathsCounts.put(team, count);
+        deathsByTeam.put(team, count);
+        count = getDeathCount(player) + 1;
+        deathsByPlayer.put(player, count);
     }
 
     public void surrender(Team team) {
