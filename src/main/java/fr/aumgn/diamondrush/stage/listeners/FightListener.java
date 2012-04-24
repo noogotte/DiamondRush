@@ -97,6 +97,11 @@ public class FightListener implements Listener {
             return;
         }
 
+        if (!stage.canSurrender()) {
+            player.sendMessage("Une équipe s'est déjà rendu");
+            return;
+        }
+
         Team team = game.getTeam(player);
         if (stage.getDeathCount(team) >= DiamondRush.getConfig().getDeathNeededForSurrender()) {
             if (item.getAmount() == 1) {

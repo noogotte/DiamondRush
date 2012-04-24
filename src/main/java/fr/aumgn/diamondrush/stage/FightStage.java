@@ -20,11 +20,13 @@ public class FightStage extends Stage {
 
     private FightListener listener;
     private Map<Team, Integer> deathsCounts;
+    private boolean surrender;
 
     public FightStage(Game game) {
         super(game);
         this.listener = new FightListener(this);
         this.deathsCounts = new HashMap<Team, Integer>();
+        this.surrender = false;
     }
 
     @Override
@@ -48,6 +50,10 @@ public class FightStage extends Stage {
         game.sendMessage(ChatColor.GREEN + "Fin de la phase de combat.");
     }
 
+    public boolean canSurrender() {
+        return !surrender;
+    }
+
     public int getDeathCount(Team team) {
         return deathsCounts.get(team);
     }
@@ -58,6 +64,7 @@ public class FightStage extends Stage {
     }
 
     public void surrender(Team team) {
+        surrender = true;
         affect(team);
         cancelGameTimer();
         game.sendMessage("L'équipe " + team.getDisplayName() + " s'est rendu.");
