@@ -78,6 +78,11 @@ public class JoinStageCommands implements Commands {
                     "Vous ne pouvez pas rejoindre la partie tant que vous etre spectateur.");
         }
 
+        if (game.isPaused()) {
+            throw new CommandError(
+                    "Impossible de rejoindre la partie durant une phase de pause.");
+        }
+
         Team team = null;
         if (args.length() > 0) {
             team = game.getTeam(args.get(0));
