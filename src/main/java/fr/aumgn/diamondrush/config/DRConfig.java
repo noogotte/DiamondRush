@@ -14,6 +14,7 @@ public class DRConfig {
 
     private int lives = 5;
 
+    private int startDuration = 20;
     private int totemDuration = 90;
     private int spawnDuration = 30;
     private int transitionDuration = 10;
@@ -66,6 +67,10 @@ public class DRConfig {
 
     public int getLives() {
         return lives;
+    }
+
+    public int getStartDuration() {
+        return startDuration;
     }
 
     public int getTotemDuration() {

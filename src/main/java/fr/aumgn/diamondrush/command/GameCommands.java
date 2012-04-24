@@ -23,6 +23,7 @@ import fr.aumgn.diamondrush.stage.JoinStage;
 import fr.aumgn.diamondrush.stage.RandomJoinStage;
 import fr.aumgn.diamondrush.stage.SimpleJoinStage;
 import fr.aumgn.diamondrush.stage.Stage;
+import fr.aumgn.diamondrush.stage.StartStage;
 import fr.aumgn.diamondrush.stage.TotemStage;
 
 @NestedCommands(name = "diamondrush")
@@ -86,7 +87,7 @@ public class GameCommands implements Commands {
 
         joinStage.prepare();
         game.sendMessage(ChatColor.GREEN + "La partie va commencer.");
-        stage.scheduleNextStage(15, new TotemStage(game));
+        game.nextStage(new StartStage(game, new TotemStage(game)));
     }
 
     @Command(name = "stop")
