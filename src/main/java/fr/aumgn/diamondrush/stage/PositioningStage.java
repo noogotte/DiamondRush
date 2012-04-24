@@ -67,8 +67,16 @@ public abstract class PositioningStage extends Stage {
 
     protected void giveBlocks() {
         for (Team team : game.getTeams()) {
-            Player player = team.getForeman();
-            player.setItemInHand(new ItemStack(getMaterial(), 1));
+            giveBlock(team.getForeman());
+        }
+    }
+
+    public void giveBlock(Player player) {
+        ItemStack stack = new ItemStack(getMaterial(), 1);
+        if (player.getItemInHand().getType() == Material.AIR) {
+            player.setItemInHand(stack);
+        } else {
+            player.getInventory().addItem(stack);
         }
     }
 
@@ -84,20 +92,26 @@ public abstract class PositioningStage extends Stage {
     protected void removeBlocksFromInventories() {
         for (Team team : game.getTeams()) {
             for (Player player : team.getPlayers()) {
-                Inventory inventory = player.getInventory();
-                int index = inventory.first(getMaterial());
-                if (index == -1) {
-                    continue;
+                if (removeBlockFromInventory(player)) {
+                    break;
                 }
-                ItemStack stack = inventory.getItem(index);
-                if (stack.getAmount() > 1) {
-                    stack.setAmount(stack.getAmount() - 1);
-                } else {
-                    inventory.clear(index);
-                }
-                return;
             }
         }
+    }
+
+    public boolean removeBlockFromInventory(Player player) {
+        Inventory inventory = player.getInventory();
+        int index = inventory.first(getMaterial());
+        if (index == -1) {
+            return false;
+        }
+        ItemStack stack = inventory.getItem(index);
+        if (stack.getAmount() > 1) {
+            stack.setAmount(stack.getAmount() - 1);
+        } else {
+            inventory.clear(index);
+        }
+        return true;
     }
 
     public abstract void initPosition(Team team, Vector vector);

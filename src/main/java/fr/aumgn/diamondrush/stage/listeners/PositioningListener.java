@@ -1,18 +1,24 @@
 package fr.aumgn.diamondrush.stage.listeners;
 
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
@@ -25,10 +31,34 @@ public class PositioningListener implements Listener {
 
     private PositioningStage stage;
     private Map<Team, Vector> positions;
+    private Set<Player> blockToGiveBackAtRespawn;
 
     public PositioningListener(PositioningStage stage, Map<Team, Vector> positions) {
         this.stage = stage;
         this.positions = positions;
+        this.blockToGiveBackAtRespawn = new HashSet<Player>();
+    }
+
+    @EventHandler(priority = EventPriority.HIGH)
+    public void onDeath(PlayerDeathEvent event) {
+        Iterator<ItemStack> it = event.getDrops().iterator();
+        while (it.hasNext()) {
+            ItemStack stack = it.next();
+            if (stack.getType() == stage.getMaterial()) {
+                it.remove();
+                blockToGiveBackAtRespawn.add(event.getEntity());
+                return;
+            }
+        }
+    }
+
+    @EventHandler(priority = EventPriority.HIGH)
+    public void onRespawn(PlayerRespawnEvent event) {
+        Player player = event.getPlayer();
+        if (blockToGiveBackAtRespawn.contains(player)) {
+            stage.giveBlock(player);
+            blockToGiveBackAtRespawn.remove(player);
+        }
     }
 
     @EventHandler
