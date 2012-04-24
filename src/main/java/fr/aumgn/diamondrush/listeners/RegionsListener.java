@@ -1,5 +1,7 @@
 package fr.aumgn.diamondrush.listeners;
 
+import java.util.Iterator;
+
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -64,10 +66,11 @@ public class RegionsListener implements Listener {
 
     @EventHandler
     public void onExplode(EntityExplodeEvent event) {
-        for (Block block : event.blockList()) {
+        Iterator<Block> it = event.blockList().iterator();
+        while (it.hasNext()) {
+            Block block = it.next();
             if (isProtected(block)) {
-                event.setCancelled(true);
-                return;
+                it.remove();
             }
         }
     }
@@ -88,11 +91,15 @@ public class RegionsListener implements Listener {
 
     @EventHandler
     public void onStructureGrow(StructureGrowEvent event) {
-        for (BlockState state : event.getBlocks()) {
-            if (isProtected(state.getBlock())) {
-                event.setCancelled(true);
-                return;
+        Iterator<BlockState> it = event.getBlocks().iterator();
+        while (it.hasNext()) {
+            Block block = it.next().getBlock();
+            if (isProtected(block)) {
+                it.remove();
             }
+        }
+        if (event.getBlocks().size() < 1) {
+            event.setCancelled(true);
         }
     }
 
