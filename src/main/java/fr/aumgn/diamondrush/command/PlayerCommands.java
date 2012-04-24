@@ -14,6 +14,7 @@ import fr.aumgn.diamondrush.game.Game;
 import fr.aumgn.diamondrush.game.Team;
 import fr.aumgn.diamondrush.stage.JoinStage;
 import fr.aumgn.diamondrush.stage.Stage;
+import fr.aumgn.diamondrush.stage.StaticStage;
 
 @NestedCommands(name = "diamondrush")
 public class PlayerCommands implements Commands {
@@ -28,7 +29,7 @@ public class PlayerCommands implements Commands {
                     "Vous ne pouvez pas rejoindre la partie tant que vous etre spectateur.");
         }
 
-        if (game.isPaused()) {
+        if (game.getStage() instanceof StaticStage) {
             throw new CommandError(
                     "Impossible de rejoindre la partie durant une phase de pause.");
         }
