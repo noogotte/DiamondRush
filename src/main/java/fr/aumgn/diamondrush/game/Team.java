@@ -22,6 +22,7 @@ public class Team {
     private Totem totem;
     private TeamSpawn spawn;
     private int lives;
+    private int surrenders;
 
     public Team(String name, TeamColor color, int lives) {
         this.name = name;
@@ -31,6 +32,7 @@ public class Team {
         this.totem = null;
         this.spawn = null;
         this.lives = lives;
+        this.surrenders = 0;
     }
 
     public String getName() {
@@ -80,6 +82,10 @@ public class Team {
         return lives;
     }
 
+    public int getSurrenders() {
+        return surrenders;
+    }
+
     public void sendMessage(String message) {
         for (Player player : players) {
             player.sendMessage(message);
@@ -127,5 +133,9 @@ public class Team {
 
     void decreaseLives() {
         --lives;
+    }
+
+    public void incrementSurrenders() {
+        ++surrenders;
     }
 }

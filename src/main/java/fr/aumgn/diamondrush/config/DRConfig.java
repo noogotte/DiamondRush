@@ -36,6 +36,7 @@ public class DRConfig {
     private int deathNeededForSurrender = 1;
     private int timeLeftAfterSurrender = 15;
     private int surrenderMalusDuration = 60;
+    private int surrenderMalusStep = 1;
 
     private int maximumDiamondPerFight = 4;
     private int itemForKillId = 266;
@@ -44,7 +45,6 @@ public class DRConfig {
     private int itemForDeathAmount = 3;
 
     private List<BonusChest> bonusChests;
-
 
     public DRConfig() {
         timer = new TimerConfig(2 * 60, 20, "%02d:%02d");
@@ -127,6 +127,10 @@ public class DRConfig {
 
     public int getTimeLeftAfterSurrender() {
         return timeLeftAfterSurrender;
+    }
+
+    public int getSurrenderMalusStep() {
+        return surrenderMalusStep;
     }
 
     public int getSurrenderMalusDuration() {

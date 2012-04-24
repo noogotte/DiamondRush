@@ -76,6 +76,7 @@ public class FightStage extends Stage {
 
     public void surrender(Team team) {
         surrender = true;
+        team.incrementSurrenders();
         affect(team);
         cancelGameTimer();
         game.sendMessage("L'équipe " + team.getDisplayName() + " s'est rendu.");
@@ -85,10 +86,21 @@ public class FightStage extends Stage {
     }
 
     private void affect(Team team) {
-        PotionEffect effect = new PotionEffect(PotionEffectType.CONFUSION, 
+        PotionEffect effect = new PotionEffect(malusTypeFor(team), 
                 DiamondRush.getConfig().getSurrenderMalusDuration(), 10);
         for (Player player : team.getPlayers()) {
             player.addPotionEffect(effect);
+        }
+    }
+
+    private PotionEffectType malusTypeFor(Team team) {
+        int step = team.getSurrenders() / DiamondRush.getConfig().getSurrenderMalusStep();
+        if (step > 2) {
+            return PotionEffectType.SLOW;
+        } else if (step == 2) {
+            return PotionEffectType.BLINDNESS;
+        } else {
+            return PotionEffectType.CONFUSION;
         }
     }
 }
