@@ -6,6 +6,7 @@ import fr.aumgn.bukkitutils.command.CommandsRegistration;
 import fr.aumgn.bukkitutils.command.messages.FrenchMessages;
 import fr.aumgn.bukkitutils.gconf.GConfLoadException;
 import fr.aumgn.bukkitutils.gconf.GConfLoader;
+import fr.aumgn.diamondrush.command.AdminCommands;
 import fr.aumgn.diamondrush.command.GameCommands;
 import fr.aumgn.diamondrush.command.InfoCommands;
 import fr.aumgn.diamondrush.command.PlayerCommands;
@@ -19,6 +20,7 @@ public class DiamondRushPlugin extends JavaPlugin {
 
         CommandsRegistration commandsRegistration = new CommandsRegistration(
                 this, new FrenchMessages());
+        commandsRegistration.register(new AdminCommands());
         commandsRegistration.register(new GameCommands());
         commandsRegistration.register(new SpectatorsCommands());
         commandsRegistration.register(new PlayerCommands());

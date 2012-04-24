@@ -11,6 +11,13 @@ commands:
         description: "Commande principale"
         usage: "init | join | start | quit | pause | resume | teams | watch | unwatch | tp-player | tp-team"
         aliases: ["dr"]
+
+    "diamondrush reload":
+        description: "Recharge la configuration."
+        usage: ""
+        aliases: ["rl"]
+        permission: "dr.cmd.reload"
+
     "diamondrush stop":
         description: "Stoppe la partie en cours."
         usage: ""
@@ -77,6 +84,7 @@ permissions:
     dr.manage:
         default: op
         children:
+            dr.cmd.reload: true
             dr.cmd.stop: true
             dr.cmd.init: true
             dr.cmd.start: true
