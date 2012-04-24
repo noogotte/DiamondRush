@@ -35,6 +35,7 @@ public class GameListener implements Listener {
             }
             Team team = game.getTeam(player);
             team.setTeamName(player);
+            team.setCompassTarget(player, game.getWorld());
         }
     }
 

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import fr.aumgn.bukkitutils.util.Vector;
@@ -67,8 +69,11 @@ public class Team {
         return spawn;
     }
 
-    public void setSpawn(Vector pos, int worldHeight) {
+    public void setSpawn(Vector pos, World world) {
         spawn = new TeamSpawn(pos);
+        for (Player player: players) {
+            setCompassTarget(player, world);
+        }
     }
 
     public int getLives() {
@@ -96,9 +101,17 @@ public class Team {
         }
     }
 
-    void addPlayer(Player player) {
+    public void setCompassTarget(Player player, World world) {
+        Location compassTarget = spawn.getMiddle().toLocation(world);
+        player.setCompassTarget(compassTarget);
+    }
+
+    void addPlayer(Player player, World world) {
         players.add(player);
         setTeamName(player);
+        if (spawn != null) {
+            setCompassTarget(player, world);
+        }
     }
 
     void removePlayer(Player player) {

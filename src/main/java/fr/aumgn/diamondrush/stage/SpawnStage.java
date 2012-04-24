@@ -35,7 +35,7 @@ public class SpawnStage extends PositioningStage {
 
     @Override
     public void initPosition(Team team, Vector pos) {
-        team.setSpawn(pos, game.getWorld().getMaxHeight());
+        team.setSpawn(pos, game.getWorld());
         team.getSpawn().create(game.getWorld(), team.getColor());
     }
 

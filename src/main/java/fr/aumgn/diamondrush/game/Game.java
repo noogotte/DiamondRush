@@ -181,7 +181,7 @@ public class Game {
             team = getTeamWithMinimumPlayers();
         }
 
-        team.addPlayer(player);
+        team.addPlayer(player, world);
         players.put(player, team);
     }
 
