@@ -5,6 +5,7 @@ import java.util.List;
 import org.bukkit.event.Listener;
 
 import fr.aumgn.bukkitutils.util.Timer;
+import fr.aumgn.diamondrush.DiamondRush;
 import fr.aumgn.diamondrush.game.Game;
 import fr.aumgn.diamondrush.game.GameTimer;
 
@@ -41,7 +42,13 @@ public abstract class Stage {
     }
 
     public void scheduleNextStageWithTransition(int seconds, Stage nextStage) {
-        scheduleNextStage(seconds, new TransitionStage(game, nextStage));
+        int duration = DiamondRush.getConfig().getTransitionDuration();
+        if (duration > 0) {
+            scheduleNextStage(seconds, new TransitionStage(
+                    game, nextStage, duration));
+        } else {
+            scheduleNextStage(seconds, nextStage);
+        }
     }
 
     public void cancelGameTimer() {
