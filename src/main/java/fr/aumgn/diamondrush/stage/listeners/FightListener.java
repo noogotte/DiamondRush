@@ -99,7 +99,6 @@ public class FightListener implements Listener {
                 return;
             }
         }
-        System.out.println("Yeah : " + duration);
         PotionEffect newEffect = new PotionEffect(
                 PotionEffectType.SLOW, duration, 10);
         player.addPotionEffect(newEffect);
