@@ -196,16 +196,20 @@ public class Game {
         if (team.getLives() == 0) {
             teams.remove(team.getName());
             if (teams.size() > 1) {
-                for (Player player : team.getPlayers()) {
-                    players.remove(player);
-                }
                 String msg = ChatColor.RED +"L'équipe " + team.getDisplayName() 
                         + ChatColor.RED + " a perdu la partie.";
                 sendMessage(msg);
                 team.sendMessage(msg);
+                for (Player player : team.getPlayers()) {
+                    players.remove(player);
+                    spectators.add(player);
+                    player.sendMessage(ChatColor.GREEN + 
+                            "Vous êtes maintenant spectateur.");
+                }
             } else {
                 Team winningTeam = teams.values().iterator().next();
-                String msg = ChatColor.GREEN + "L'équipe " + winningTeam.getDisplayName() +
+                String msg = ChatColor.GREEN +
+                        "L'équipe " + winningTeam.getDisplayName() +
                         ChatColor.GREEN + " a gagné la partie.";
                 sendMessage(msg);
                 team.sendMessage(msg);
