@@ -86,15 +86,24 @@ commands:
         aliases: ["inv"]
 
 permissions:
-    dr.manage:
+    "dr.*":
+        default: false
+        children:
+            dr.admin: true
+    dr.admin:
         default: op
         children:
             dr.cmd.reload: true
+            dr.manage: true
+    dr.manage:
+        default: false
+        children:
             dr.cmd.stop: true
             dr.cmd.init: true
             dr.cmd.start: true
             dr.cmd.unwatch: true
             dr.play: true
+            dr.watch: true
     dr.play:
         default: true
         children:
