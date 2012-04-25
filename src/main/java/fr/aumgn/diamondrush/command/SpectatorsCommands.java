@@ -51,7 +51,7 @@ public class SpectatorsCommands implements Commands {
     private void ensureIsSpectator(Player player) {
         Game game = DiamondRush.getGame();
         if (!game.getSpectators().contains(player)) {
-            throw new CommandError("Cette commande n'est utilisable qu'en tant que spectateur.");
+            throw new CommandError("Cette commande n'est utilisable que pour un spectateur.");
         }
     }
 
@@ -68,9 +68,6 @@ public class SpectatorsCommands implements Commands {
 
     @Command(name = "unwatch", max = 1)
     public void unwatchGame(Player player, CommandArgs args) {
-        ensureIsSpectator(player);
-        Game game = DiamondRush.getGame();
-
         Player spectator;
         if (args.length() == 0) {
             spectator = player;
@@ -78,9 +75,12 @@ public class SpectatorsCommands implements Commands {
             spectator = matchPlayer(args.get(0));
         }
 
+        ensureIsSpectator(spectator);
+        Game game = DiamondRush.getGame();
+
         game.getSpectators().remove(spectator);
-        player.sendMessage(ChatColor.GREEN + "Vous n'êtes plus spectateur.");
-        game.sendMessage(player.getDisplayName() + ChatColor.YELLOW +
+        spectator.sendMessage(ChatColor.GREEN + "Vous n'êtes plus spectateur.");
+        game.sendMessage(spectator.getDisplayName() + ChatColor.YELLOW +
                 " n'est plus spectateur.");
     }
 
