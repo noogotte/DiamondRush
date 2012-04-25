@@ -6,6 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 
 import fr.aumgn.bukkitutils.command.Command;
 import fr.aumgn.bukkitutils.command.CommandArgs;
@@ -128,5 +129,18 @@ public class SpectatorsCommands implements Commands {
             player.teleport(loc);
         }
         player.sendMessage(ChatColor.GREEN + "Poof !");
+    }
+
+    @Command(name= "inventory", min = 1, max = 1)
+    public void inv(Player spectator, CommandArgs args) {
+        Player player = matchPlayer(args.get(0));
+
+        Game game = DiamondRush.getGame();
+        if (!game.contains(player)) {
+            throw new CommandError("Le joueur n'est pas en jeu.");
+        }
+
+        Inventory inventory = player.getInventory();
+        spectator.openInventory(inventory);
     }
 }

@@ -79,6 +79,11 @@ commands:
         usage: "[-fs] <team>"
         permission: "dr.cmd.tpteam"
         aliases: ["tpt"]
+    "diamondrush inventory":
+        description: "Ouvre l'inventaire d'un joueur."
+        usage: "<player>"
+        permission: "dr.cmd.inventory"
+        aliases: ["inv"]
 
 permissions:
     dr.manage:
@@ -101,3 +106,4 @@ permissions:
             dr.cmd.watch: true
             dr.cmd.tpplayer: true
             dr.cmd.tpteam: true
+            dr.cmd.inventory: true

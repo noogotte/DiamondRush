@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 
 public class Spectators implements Iterable<Player> {
@@ -34,7 +33,8 @@ public class Spectators implements Iterable<Player> {
                 player.hidePlayer(spectator);
             }
         }
-        spectator.setGameMode(GameMode.CREATIVE);
+        spectator.setAllowFlight(true);
+        spectator.setFlying(true);
         spectator.setSleepingIgnored(true);
     }
 
@@ -45,7 +45,8 @@ public class Spectators implements Iterable<Player> {
                 player.showPlayer(spectator);
             }
         }
-        spectator.setGameMode(GameMode.SURVIVAL);
+        spectator.setAllowFlight(false);
+        spectator.setFlying(false);
         spectator.setSleepingIgnored(false);
     }
 
