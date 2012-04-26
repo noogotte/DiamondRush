@@ -1,6 +1,7 @@
 package fr.aumgn.diamondrush.listeners;
 
 import org.bukkit.GameMode;
+import org.bukkit.ChatColor;
 import org.bukkit.block.BlockState;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.HumanEntity;
@@ -29,12 +30,23 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 
 import fr.aumgn.diamondrush.DiamondRush;
+import fr.aumgn.diamondrush.event.players.DRPlayerJoinEvent;
 import fr.aumgn.diamondrush.game.Spectators;
 
 public class SpectatorsListener implements Listener {
 
     private boolean isSpectator(Player player) {
         return DiamondRush.getGame().getSpectators().contains(player);
+    }
+
+    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
+    public void onPlayerJoinGame(DRPlayerJoinEvent event) {
+        Player player = event.getPlayer();
+        if (isSpectator(event.getPlayer())) {
+            player.sendMessage(ChatColor.RED +
+                    "Vous ne pouvez pas rejoindre la partie tant que vous êtes spectateur.");
+            event.setCancelled(true);
+        }
     }
 
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)

@@ -5,6 +5,7 @@ import java.util.Random;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 
 public final class Util {
 
@@ -36,5 +37,9 @@ public final class Util {
             return null;
         }
         return from.get(getRandom().nextInt(from.size()));
+    }
+
+    public static void callEvent(Event event) {
+        Bukkit.getPluginManager().callEvent(event);
     }
 }

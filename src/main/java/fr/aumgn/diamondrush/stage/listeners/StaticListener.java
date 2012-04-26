@@ -1,6 +1,7 @@
 package fr.aumgn.diamondrush.stage.listeners;
 
 import org.bukkit.GameMode;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
@@ -22,6 +23,7 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 
+import fr.aumgn.diamondrush.event.players.DRPlayerJoinEvent;
 import fr.aumgn.diamondrush.game.Game;
 import fr.aumgn.diamondrush.stage.StaticStage;
 
@@ -33,6 +35,13 @@ public class StaticListener implements Listener {
     public StaticListener(StaticStage stage) {
         this.stage = stage;
         this.game = stage.getGame();
+    }
+
+    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
+    public void onPlayerJoinGame(DRPlayerJoinEvent event) {
+        event.getPlayer().sendMessage(ChatColor.RED +
+                "Impossible de rejoindre la partie durant une phase de pause.");
+        event.setCancelled(true);
     }
 
     @EventHandler

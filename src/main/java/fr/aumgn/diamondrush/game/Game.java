@@ -159,7 +159,7 @@ public class Game {
         return new ArrayList<Team>(teams.values());
     }
 
-    private Team getTeamWithMinimumPlayers() {
+    public Team getTeamWithMinimumPlayers() {
         int minimum = Integer.MAX_VALUE;
         List<Team> roulette = null; 
         for (Team team : getTeams()) {
@@ -177,10 +177,6 @@ public class Game {
     }
 
     public void addPlayer(Player player, Team team) {
-        if (team == null) {
-            team = getTeamWithMinimumPlayers();
-        }
-
         team.addPlayer(player, world);
         players.put(player, team);
     }

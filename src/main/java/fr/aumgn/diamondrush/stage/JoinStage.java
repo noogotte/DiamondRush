@@ -4,7 +4,6 @@ import java.util.Collections;
 import java.util.List;
 
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 
 import fr.aumgn.diamondrush.Util;
@@ -29,16 +28,5 @@ public abstract class JoinStage extends Stage {
         for (Team team : game.getTeams()) {
             Util.broadcast(" - " + team.getDisplayName());
         }
-    }
-
-    public abstract boolean contains(Player player);
-
-    public abstract void addPlayer(Player player, Team team);
-
-    public abstract void removePlayer(Player player);
-
-    public abstract void ensureIsReady();
-
-    public void prepare() {
     }
 }

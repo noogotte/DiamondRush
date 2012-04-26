@@ -17,6 +17,7 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 
 import fr.aumgn.bukkitutils.util.Vector;
 import fr.aumgn.diamondrush.DiamondRush;
+import fr.aumgn.diamondrush.event.players.DRPlayerJoinEvent;
 import fr.aumgn.diamondrush.game.Game;
 import fr.aumgn.diamondrush.game.Team;
 
@@ -37,6 +38,19 @@ public class GameListener implements Listener {
             team.setTeamName(player);
             team.setCompassTarget(player, game.getWorld());
         }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    public void onJoinGame(DRPlayerJoinEvent event) {
+        Player player = event.getPlayer();
+        Team team = event.getTeam();
+        Vector pos;
+        if (team.getTotem() != null) {
+            pos = team.getTotem().getTeleportPoint();
+        } else {
+            pos = new Vector(team.getForeman().getLocation());
+        } 
+        player.teleport(pos.toLocation(DiamondRush.getGame().getWorld()));
     }
 
     @EventHandler

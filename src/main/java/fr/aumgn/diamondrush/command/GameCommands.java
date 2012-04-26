@@ -17,14 +17,13 @@ import fr.aumgn.bukkitutils.command.exception.CommandUsageError;
 import fr.aumgn.bukkitutils.command.Commands;
 import fr.aumgn.bukkitutils.util.Vector;
 import fr.aumgn.diamondrush.DiamondRush;
+import fr.aumgn.diamondrush.event.game.DRGameStartEvent;
 import fr.aumgn.diamondrush.game.Game;
 import fr.aumgn.diamondrush.game.TeamColor;
 import fr.aumgn.diamondrush.stage.JoinStage;
 import fr.aumgn.diamondrush.stage.RandomJoinStage;
 import fr.aumgn.diamondrush.stage.SimpleJoinStage;
 import fr.aumgn.diamondrush.stage.Stage;
-import fr.aumgn.diamondrush.stage.StartStage;
-import fr.aumgn.diamondrush.stage.TotemStage;
 
 @NestedCommands(name = "diamondrush")
 public class GameCommands implements Commands {
@@ -71,23 +70,8 @@ public class GameCommands implements Commands {
     @Command(name = "start")
     public void startGame(CommandSender sender, CommandArgs args) {
         Game game = DiamondRush.getGame();
-        Stage stage = game.getStage();
-
-        if (!(stage instanceof JoinStage)) {
-            throw new CommandError("Cette commande ne peut être utilisée que durant la phase de join.");
-        }
-
-        JoinStage joinStage = (JoinStage) stage;
-        joinStage.ensureIsReady();
-
-        if (stage.hasNextStageScheduled()) {
-            throw new CommandError(
-                    "La partie est déjà sur le point de démarrer.");
-        }
-
-        joinStage.prepare();
-        game.sendMessage(ChatColor.GREEN + "La partie va commencer.");
-        game.nextStage(new StartStage(game, new TotemStage(game)));
+        DRGameStartEvent event = new DRGameStartEvent(game);
+        DiamondRush.getController().handleGameStartEvent(event);
     }
 
     @Command(name = "stop")

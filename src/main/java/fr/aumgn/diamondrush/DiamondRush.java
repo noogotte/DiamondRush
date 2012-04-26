@@ -74,6 +74,10 @@ public final class DiamondRush {
         return game;
     }
 
+    public static DiamondRushController getController() {
+        return new DiamondRushController(game);
+    }
+
     public static void initGame(Game game, JoinStage stage) {
         DiamondRush.game = game;
         PluginManager pm = Bukkit.getPluginManager();
