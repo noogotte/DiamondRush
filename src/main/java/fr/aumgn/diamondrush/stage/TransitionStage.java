@@ -18,7 +18,7 @@ public class TransitionStage extends StaticStage {
     @Override
     public void start() {
         super.start();
-        game.sendMessage(ChatColor.YELLOW + "C'est le moment de changer de channel.");
+        game.sendMessage(ChatColor.YELLOW + "C'est le moment de changer de canal.");
         scheduleNextStage(duration, nextStage);
     }
 }

@@ -37,7 +37,7 @@ public class RandomJoinStage extends JoinStage {
         Util.broadcast(player.getDisplayName() +
                 ChatColor.YELLOW + " a rejoint la partie.");
         if (players.size() > 0) {
-            player.sendMessage(ChatColor.YELLOW + "Joueur actuels : ");
+            player.sendMessage(ChatColor.YELLOW + "Joueurs actuels : ");
         }
         for (Player playerInStage : players) {
             player.sendMessage(ChatColor.YELLOW + " - " +

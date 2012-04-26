@@ -125,7 +125,7 @@ public class FightListener implements Listener {
         }
 
         if (!stage.canSurrender()) {
-            player.sendMessage("Une équipe s'est déjà rendu");
+            player.sendMessage("Une équipe s'est déjà rendue.");
             return;
         }
 
@@ -140,7 +140,7 @@ public class FightListener implements Listener {
             stage.surrender(team);
         } else {
             player.sendMessage(ChatColor.RED + 
-                    "Il faut au moins une mort dans l'equipe pour pouvoir se rendre.");
+                    "Il faut au moins une mort (PvP) dans l'équipe pour pouvoir se rendre.");
         }
     }
 }

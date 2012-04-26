@@ -24,7 +24,7 @@ public abstract class JoinStage extends Stage {
 
     @Override
     public void start() {
-        Util.broadcast(ChatColor.YELLOW + "Une nouvelle partie de DiamondRush va commencer !");
+        Util.broadcast(ChatColor.YELLOW + "Une nouvelle partie de Diamond Rush va commencer !");
         Util.broadcast(ChatColor.YELLOW + "Equipes : ");
         for (Team team : game.getTeams()) {
             Util.broadcast(" - " + team.getDisplayName());

@@ -17,7 +17,7 @@ public class PauseStage extends StaticStage {
     public void start() {
         super.start();
         game.sendMessage(ChatColor.RED +
-                "TBN est en pause, vous ne pouvez rien faire !");
+                "Diamond Rush est en pause, vous ne pouvez rien faire !");
     }
 
     @Override

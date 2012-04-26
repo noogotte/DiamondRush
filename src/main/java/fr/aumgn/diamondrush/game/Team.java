@@ -126,7 +126,7 @@ public class Team {
             foreman = Util.pickRandom(players);
             if (foreman != null) {
                 sendMessage(foreman.getDisplayName() + 
-                    " est maintenant le chef d'equipe.");
+                    " est maintenant le chef d'équipe.");
             }
         }
     }

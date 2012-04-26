@@ -45,7 +45,7 @@ public class GameCommands implements Commands {
             }
         } else {
             if (args.length() > 1) {
-                throw new CommandUsageError("Cette commande ne prends qu'un seul argument.");
+                throw new CommandUsageError("Cette commande ne prend qu'un seul argument.");
             }
             int amount = Integer.parseInt(args.get(0));
             Iterator<TeamColor> colors = 
@@ -119,7 +119,7 @@ public class GameCommands implements Commands {
                     "La partie est déjà sur le point de redémarrer.");
         }
 
-        game.sendMessage(ChatColor.GREEN + "La partie va reprendre");
+        game.sendMessage(ChatColor.GREEN + "La partie va reprendre.");
         stage.schedule(3, new Runnable() {
             public void run() {
                 game.resume();

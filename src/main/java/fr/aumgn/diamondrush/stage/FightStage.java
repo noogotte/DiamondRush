@@ -79,7 +79,7 @@ public class FightStage extends Stage {
         team.incrementSurrenders();
         affect(team);
         cancelGameTimer();
-        game.sendMessage("L'équipe " + team.getDisplayName() + " s'est rendu.");
+        game.sendMessage("L'équipe " + team.getDisplayName() + " s'est rendue.");
         scheduleNextStageWithTransition(
                 DiamondRush.getConfig().getTimeLeftAfterSurrender(),
                 new DevelopmentStage(game));

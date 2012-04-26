@@ -39,7 +39,7 @@ commands:
         aliases: ["st"]
 
     "diamondrush init":
-        description: "Initie une partie de TBN."
+        description: "Initie une partie de Diamond Rush."
         usage: "[-a] <equipe1> <equipe2> [...]"
         permission: "dr.cmd.init"
         aliases: ["init"]

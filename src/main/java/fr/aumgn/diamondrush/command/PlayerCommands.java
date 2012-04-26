@@ -26,7 +26,7 @@ public class PlayerCommands implements Commands {
 
         if (game.getSpectators().contains(player)) {
             throw new CommandError(
-                    "Vous ne pouvez pas rejoindre la partie tant que vous etre spectateur.");
+                    "Vous ne pouvez pas rejoindre la partie tant que vous êtes spectateur.");
         }
 
         if (game.getStage() instanceof StaticStage) {
@@ -61,7 +61,7 @@ public class PlayerCommands implements Commands {
             } 
             player.teleport(pos.toLocation(game.getWorld()));
             game.sendMessage(player.getDisplayName() + ChatColor.YELLOW +
-                    " a rejoint l'équipe " + team.getDisplayName());
+                    " a rejoint l'équipe " + team.getDisplayName() + ChatColor.YELLOW + ".");
         }
     }
 
