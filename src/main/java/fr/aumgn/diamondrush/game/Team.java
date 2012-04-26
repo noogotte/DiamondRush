@@ -8,7 +8,6 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
-import fr.aumgn.bukkitutils.util.Vector;
 import fr.aumgn.diamondrush.Util;
 import fr.aumgn.diamondrush.region.TeamSpawn;
 import fr.aumgn.diamondrush.region.Totem;
@@ -63,19 +62,19 @@ public class Team {
         return totem;
     }
 
-    public void setTotem(Vector pos, int worldHeight) {
-        totem = new Totem(pos, worldHeight);
+    public void setTotem(Totem totem) {
+        this.totem = totem;
     }
 
     public TeamSpawn getSpawn() {
         return spawn;
     }
 
-    public void setSpawn(Vector pos, World world) {
-        spawn = new TeamSpawn(pos);
-        for (Player player: players) {
+    public void setSpawn(TeamSpawn spawn) {
+        this.spawn = spawn;
+        /*for (Player player: players) {
             setCompassTarget(player, world);
-        }
+        }*/
     }
 
     public int getLives() {

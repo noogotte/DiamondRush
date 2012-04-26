@@ -9,9 +9,12 @@ import fr.aumgn.diamondrush.event.game.DRGameWinEvent;
 import fr.aumgn.diamondrush.event.players.DRPlayerJoinEvent;
 import fr.aumgn.diamondrush.event.players.DRPlayerQuitEvent;
 import fr.aumgn.diamondrush.event.team.DRTeamLooseEvent;
+import fr.aumgn.diamondrush.event.team.DRTeamSpawnSetEvent;
 import fr.aumgn.diamondrush.event.team.DRTotemMinedEvent;
+import fr.aumgn.diamondrush.event.team.DRTotemSetEvent;
 import fr.aumgn.diamondrush.game.Game;
 import fr.aumgn.diamondrush.game.Team;
+import fr.aumgn.diamondrush.region.TeamSpawn;
 import fr.aumgn.diamondrush.region.Totem;
 import fr.aumgn.diamondrush.stage.JoinStage;
 import fr.aumgn.diamondrush.stage.Stage;
@@ -116,5 +119,21 @@ public class DiamondRushController {
                 ChatColor.GREEN + " a gagné la partie.";
         game.sendMessage(msg);
         DiamondRush.forceStop();
+    }
+
+    public void handleTotemSetEvent(DRTotemSetEvent event) {
+        Util.callEvent(event);
+        Team team = event.getTeam();
+        Totem totem = event.getRegion();
+        team.setTotem(totem);
+        totem.create(game.getWorld(), team.getColor(), team.getLives());
+    }
+
+    public void handleTeamSpawnSetEvent(DRTeamSpawnSetEvent event) {
+        Util.callEvent(event);
+        Team team = event.getTeam();
+        TeamSpawn spawn = event.getRegion();
+        team.setSpawn(spawn);
+        team.getSpawn().create(game.getWorld(), team.getColor());
     }
 }

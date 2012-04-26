@@ -5,8 +5,10 @@ import org.bukkit.Material;
 
 import fr.aumgn.bukkitutils.util.Vector;
 import fr.aumgn.diamondrush.DiamondRush;
+import fr.aumgn.diamondrush.event.team.DRTeamSpawnSetEvent;
 import fr.aumgn.diamondrush.game.Game;
 import fr.aumgn.diamondrush.game.Team;
+import fr.aumgn.diamondrush.region.TeamSpawn;
 
 public class SpawnStage extends PositioningStage {
 
@@ -33,17 +35,6 @@ public class SpawnStage extends PositioningStage {
         });
     }
 
-    @Override
-    public void initPosition(Team team, Vector pos) {
-        team.setSpawn(pos, game.getWorld());
-        team.getSpawn().create(game.getWorld(), team.getColor());
-    }
-
-    @Override
-    public Material getMaterial() {
-        return Material.SMOOTH_BRICK;
-    }
-
     public void nextStage() {
         for (Team team : game.getTeams()) {
             if (validatePosition(team)) {
@@ -66,5 +57,17 @@ public class SpawnStage extends PositioningStage {
         Vector totemPos = team.getTotem().getMiddle();
         int distance = totemPos.distanceSq(pos);
         return distance > DiamondRush.getConfig().getTotemSpawnMinDistance();
+    }
+
+    @Override
+    public Material getMaterial() {
+        return Material.SMOOTH_BRICK;
+    }
+
+    @Override
+    public void initPosition(Team team, Vector pos) {
+        TeamSpawn spawn = new TeamSpawn(pos);
+        DRTeamSpawnSetEvent event = new DRTeamSpawnSetEvent(game, team, spawn);
+        DiamondRush.getController().handleTeamSpawnSetEvent(event);
     }
 }

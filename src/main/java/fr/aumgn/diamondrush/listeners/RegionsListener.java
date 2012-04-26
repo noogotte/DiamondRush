@@ -35,20 +35,20 @@ public class RegionsListener implements Listener {
     public void onBreak(BlockBreakEvent event) {
         Vector pos = new Vector(event.getBlock());
         Game game = DiamondRush.getGame();
-        for (Team team : game.getTeams()) {
-            Totem totem = team.getTotem();
-            if (totem != null && totem.isTotemBlock(pos) 
-                    && event.getBlock().getType() == Material.OBSIDIAN) {
-                Player player = event.getPlayer();
-                if (player.getItemInHand().getType() 
-                        == Material.DIAMOND_PICKAXE) {
-                    DRTotemMinedEvent totemMinedEvent =
-                            new DRTotemMinedEvent(game, team, totem, player);
-                    DiamondRush.getController().handleTotemMinedEvent(totemMinedEvent);
-                    if (totemMinedEvent.isCancelled()) {
-                        event.setCancelled(true);
-                    }
-                } else {
+        Player player = event.getPlayer();
+
+        if (event.getBlock().getType() == Material.OBSIDIAN &&
+                player.getItemInHand().getType() == Material.DIAMOND_PICKAXE) {
+            for (Team team : game.getTeams()) {
+                Totem totem = team.getTotem();
+                if (totem == null || !totem.isTotemBlock(pos)) {
+                    continue;
+                }
+
+                DRTotemMinedEvent totemMinedEvent =
+                        new DRTotemMinedEvent(game, team, totem, player);
+                DiamondRush.getController().handleTotemMinedEvent(totemMinedEvent);
+                if (totemMinedEvent.isCancelled()) {
                     event.setCancelled(true);
                 }
                 return;

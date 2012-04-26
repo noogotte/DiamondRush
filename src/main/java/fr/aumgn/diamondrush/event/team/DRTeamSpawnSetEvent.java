@@ -1,6 +1,5 @@
 package fr.aumgn.diamondrush.event.team;
 
-import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
@@ -12,20 +11,18 @@ import fr.aumgn.diamondrush.game.Team;
 import fr.aumgn.diamondrush.region.TeamSpawn;
 
 public class DRTeamSpawnSetEvent extends Event
-        implements DRGameEvent, DRTeamEvent, DRRegionEvent, Cancellable {
+        implements DRGameEvent, DRTeamEvent, DRRegionEvent {
 
     private static final HandlerList HANDLERS = new HandlerList();
 
     private final Game game;
     private final Team team;
     private final TeamSpawn spawn;
-    private boolean cancelled;
 
     public DRTeamSpawnSetEvent(Game game, Team team, TeamSpawn spawn) {
         this.game = game;
         this.team = team;
         this.spawn = spawn;
-        this.cancelled = false;
     }
 
     @Override
@@ -41,16 +38,6 @@ public class DRTeamSpawnSetEvent extends Event
     @Override
     public TeamSpawn getRegion() {
         return spawn;
-    }
-
-    @Override
-    public boolean isCancelled() {
-        return cancelled;
-    }
-
-    @Override
-    public void setCancelled(boolean cancelled) {
-        this.cancelled = cancelled;
     }
 
     @Override
