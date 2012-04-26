@@ -187,33 +187,13 @@ public class Game {
         players.remove(player);
     }
 
-    public void decreaseLives(Team team) {
-        team.decreaseLives();
-        if (team.getLives() == 0) {
-            teams.remove(team.getName());
-            if (teams.size() > 1) {
-                String msg = ChatColor.RED +"L'équipe " + team.getDisplayName() 
-                        + ChatColor.RED + " a perdu la partie.";
-                sendMessage(msg);
-                team.sendMessage(msg);
-                for (Player player : team.getPlayers()) {
-                    players.remove(player);
-                    spectators.add(player);
-                    player.sendMessage(ChatColor.GREEN + 
-                            "Vous êtes maintenant spectateur.");
-                }
-            } else {
-                Team winningTeam = teams.values().iterator().next();
-                String msg = ChatColor.GREEN +
-                        "L'équipe " + winningTeam.getDisplayName() +
-                        ChatColor.GREEN + " a gagné la partie.";
-                sendMessage(msg);
-                team.sendMessage(msg);
-                DiamondRush.forceStop();
-            }
-        } else {
-            sendMessage(ChatColor.YELLOW + "L'équipe " + team.getDisplayName() + 
-                    ChatColor.YELLOW + " a perdu une vie. " + team.getLives() + " restantes.");
+    public void removeTeam(Team team) {
+        teams.remove(team.getName());
+        for (Player player : team.getPlayers()) {
+            players.remove(player);
+            spectators.add(player);
+            player.sendMessage(ChatColor.GREEN + 
+                    "Vous êtes maintenant spectateur.");
         }
     }
 }

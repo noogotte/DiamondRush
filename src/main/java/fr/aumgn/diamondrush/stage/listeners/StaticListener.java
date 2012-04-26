@@ -24,6 +24,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 import fr.aumgn.diamondrush.event.players.DRPlayerJoinEvent;
+import fr.aumgn.diamondrush.event.team.DRTotemMinedEvent;
 import fr.aumgn.diamondrush.game.Game;
 import fr.aumgn.diamondrush.stage.StaticStage;
 
@@ -41,6 +42,11 @@ public class StaticListener implements Listener {
     public void onPlayerJoinGame(DRPlayerJoinEvent event) {
         event.getPlayer().sendMessage(ChatColor.RED +
                 "Impossible de rejoindre la partie durant une phase de pause.");
+        event.setCancelled(true);
+    }
+
+    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
+    public void onTotemMined(DRTotemMinedEvent event) {
         event.setCancelled(true);
     }
 

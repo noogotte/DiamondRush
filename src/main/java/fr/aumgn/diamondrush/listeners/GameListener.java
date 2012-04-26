@@ -31,9 +31,6 @@ public class GameListener implements Listener {
         Player player = event.getPlayer();
         Game game = DiamondRush.getGame();
         if (game.contains(player)) {
-            for (Player spectator : game.getSpectators()) {
-                player.hidePlayer(spectator);
-            }
             Team team = game.getTeam(player);
             team.setTeamName(player);
             team.setCompassTarget(player, game.getWorld());

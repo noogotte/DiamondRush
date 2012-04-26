@@ -7,6 +7,7 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -23,8 +24,10 @@ import org.bukkit.event.world.StructureGrowEvent;
 
 import fr.aumgn.bukkitutils.util.Vector;
 import fr.aumgn.diamondrush.DiamondRush;
+import fr.aumgn.diamondrush.event.team.DRTotemMinedEvent;
 import fr.aumgn.diamondrush.game.Game;
 import fr.aumgn.diamondrush.game.Team;
+import fr.aumgn.diamondrush.region.Totem;
 
 public class RegionsListener implements Listener {
 
@@ -33,11 +36,18 @@ public class RegionsListener implements Listener {
         Vector pos = new Vector(event.getBlock());
         Game game = DiamondRush.getGame();
         for (Team team : game.getTeams()) {
-            if (team.getTotem() != null && team.getTotem().isTotemBlock(pos) 
+            Totem totem = team.getTotem();
+            if (totem != null && totem.isTotemBlock(pos) 
                     && event.getBlock().getType() == Material.OBSIDIAN) {
-                if (event.getPlayer().getItemInHand().getType() 
+                Player player = event.getPlayer();
+                if (player.getItemInHand().getType() 
                         == Material.DIAMOND_PICKAXE) {
-                    game.decreaseLives(team);
+                    DRTotemMinedEvent totemMinedEvent =
+                            new DRTotemMinedEvent(game, team, totem, player);
+                    DiamondRush.getController().handleTotemMinedEvent(totemMinedEvent);
+                    if (totemMinedEvent.isCancelled()) {
+                        event.setCancelled(true);
+                    }
                 } else {
                     event.setCancelled(true);
                 }

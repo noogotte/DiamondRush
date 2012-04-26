@@ -131,7 +131,7 @@ public class Team {
         }
     }
 
-    void decreaseLives() {
+    public void decreaseLives() {
         --lives;
     }
 
