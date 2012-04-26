@@ -49,6 +49,14 @@ public class SpectatorsListener implements Listener {
         }
     }
 
+   @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+   public void onRealPlayerJoinGame(DRPlayerJoinEvent event) {
+        Player player = event.getPlayer();
+        for (Player spectator : DiamondRush.getGame().getSpectators()) {
+            player.hidePlayer(spectator);
+        }
+    }
+
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onInteract(PlayerInteractEvent event) {
         if (!isSpectator(event.getPlayer())) {
