@@ -7,12 +7,14 @@ import java.util.List;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
 import fr.aumgn.diamondrush.Util;
 import fr.aumgn.diamondrush.event.game.DRGameStartEvent;
 import fr.aumgn.diamondrush.event.players.DRPlayerJoinEvent;
 import fr.aumgn.diamondrush.event.players.DRPlayerQuitEvent;
+import fr.aumgn.diamondrush.event.spectators.DRSpectatorJoinEvent;
 import fr.aumgn.diamondrush.exception.NotEnoughPlayers;
 import fr.aumgn.diamondrush.game.Game;
 import fr.aumgn.diamondrush.game.Team;
@@ -83,5 +85,12 @@ public class RandomJoinStage extends JoinStage implements Listener {
         for (String message : view) {
             game.sendMessage(message);
         }
+    }
+
+    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
+    public void onSpectatorJoin(DRSpectatorJoinEvent event) {
+        event.setCancelled(true);
+        event.getSpectator().sendMessage(ChatColor.RED + 
+                "Impossible de passer en spectateur durant une phase de join aléatoire.");
     }
 }

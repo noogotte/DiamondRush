@@ -31,12 +31,41 @@ import org.bukkit.inventory.InventoryHolder;
 
 import fr.aumgn.diamondrush.DiamondRush;
 import fr.aumgn.diamondrush.event.players.DRPlayerJoinEvent;
+import fr.aumgn.diamondrush.event.spectators.DRSpectatorJoinEvent;
+import fr.aumgn.diamondrush.event.spectators.DRSpectatorQuitEvent;
 import fr.aumgn.diamondrush.game.Spectators;
+import fr.aumgn.diamondrush.game.Team;
 
 public class SpectatorsListener implements Listener {
 
     private boolean isSpectator(Player player) {
         return DiamondRush.getGame().getSpectators().contains(player);
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    public void onSpectatorJoin(DRSpectatorJoinEvent event) {
+        Player spectator = event.getSpectator();
+        for (Team team : DiamondRush.getGame().getTeams()) {
+            for (Player player : team.getPlayers()) {
+                player.hidePlayer(spectator);
+            }
+        }
+        spectator.setAllowFlight(true);
+        spectator.setFlying(true);
+        spectator.setSleepingIgnored(true);
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    public void onSpectatorQuit(DRSpectatorQuitEvent event) {
+        Player spectator = event.getSpectator();
+        for (Team team : DiamondRush.getGame().getTeams()) {
+            for (Player player : team.getPlayers()) {
+                player.showPlayer(spectator);
+            }
+        }
+        spectator.setAllowFlight(false);
+        spectator.setFlying(false);
+        spectator.setSleepingIgnored(false);
     }
 
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)

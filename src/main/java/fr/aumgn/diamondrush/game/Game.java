@@ -51,7 +51,7 @@ public class Game {
         this.world = world;
         spawn = new GameSpawn(spawnPoint);
         players = new HashMap<Player, Team>();
-        spectators = new Spectators(this);
+        spectators = new Spectators();
         turnCount = -1;
     }
 

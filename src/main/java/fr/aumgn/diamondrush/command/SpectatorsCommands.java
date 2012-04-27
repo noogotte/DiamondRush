@@ -14,13 +14,13 @@ import fr.aumgn.bukkitutils.command.NestedCommands;
 import fr.aumgn.bukkitutils.command.exception.CommandError;
 import fr.aumgn.bukkitutils.command.Commands;
 import fr.aumgn.diamondrush.DiamondRush;
+import fr.aumgn.diamondrush.event.spectators.DRSpectatorJoinEvent;
+import fr.aumgn.diamondrush.event.spectators.DRSpectatorQuitEvent;
 import fr.aumgn.diamondrush.exception.PlayerNotInGame;
 import fr.aumgn.diamondrush.game.Game;
-import fr.aumgn.diamondrush.game.Spectators;
 import fr.aumgn.diamondrush.game.Team;
 import fr.aumgn.diamondrush.region.TeamSpawn;
 import fr.aumgn.diamondrush.region.Totem;
-import fr.aumgn.diamondrush.stage.JoinStage;
 
 @NestedCommands(name = "diamondrush")
 public class SpectatorsCommands implements Commands {
@@ -28,25 +28,8 @@ public class SpectatorsCommands implements Commands {
     @Command(name = "watch")
     public void watchGame(Player player, CommandArgs args) {
         Game game = DiamondRush.getGame();
-
-        if (game.contains(player)) {
-            throw new CommandError("Vous êtes déjà dans la partie.");
-        }
-
-        if (game.getStage() instanceof JoinStage) {
-            throw new CommandError(
-                    "Impossible de passer en spectateur durant une phase de join.");
-        }
-
-        Spectators spectators = game.getSpectators();
-        if (spectators.contains(player)) {
-            throw new CommandError("Vous êtes déjà spectateur.");
-        }
-
-        game.sendMessage(player.getDisplayName() + ChatColor.YELLOW +
-                " est maintenant spectateur.");
-        spectators.add(player);
-        player.sendMessage(ChatColor.GREEN + "Vous êtes maintenant spectateur.");
+        DRSpectatorJoinEvent event = new DRSpectatorJoinEvent(game, player);
+        DiamondRush.getController().handleSpectatorJoinEvent(event);
     }
 
     private void ensureIsSpectator(Player player) {
@@ -76,13 +59,9 @@ public class SpectatorsCommands implements Commands {
             spectator = matchPlayer(args.get(0));
         }
 
-        ensureIsSpectator(spectator);
         Game game = DiamondRush.getGame();
-
-        game.getSpectators().remove(spectator);
-        spectator.sendMessage(ChatColor.GREEN + "Vous n'êtes plus spectateur.");
-        game.sendMessage(spectator.getDisplayName() + ChatColor.YELLOW +
-                " n'est plus spectateur.");
+        DRSpectatorQuitEvent event = new DRSpectatorQuitEvent(game, spectator);
+        DiamondRush.getController().handleSpectatorQuitEvent(event);
     }
 
     @Command(name = "tp-player", min = 1, max = 1)

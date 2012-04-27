@@ -8,6 +8,8 @@ import fr.aumgn.diamondrush.event.game.DRGameStartEvent;
 import fr.aumgn.diamondrush.event.game.DRGameWinEvent;
 import fr.aumgn.diamondrush.event.players.DRPlayerJoinEvent;
 import fr.aumgn.diamondrush.event.players.DRPlayerQuitEvent;
+import fr.aumgn.diamondrush.event.spectators.DRSpectatorJoinEvent;
+import fr.aumgn.diamondrush.event.spectators.DRSpectatorQuitEvent;
 import fr.aumgn.diamondrush.event.team.DRTeamLooseEvent;
 import fr.aumgn.diamondrush.event.team.DRTeamSpawnSetEvent;
 import fr.aumgn.diamondrush.event.team.DRTotemMinedEvent;
@@ -32,32 +34,61 @@ public class DiamondRushController {
     }
 
     public void handlePlayerJoinEvent(DRPlayerJoinEvent event) {
-        Util.callEvent(event);
-        if (!event.isCancelled()) {
-            Player player = event.getPlayer();
-            if (game.contains(player)) {
-                player.sendMessage(ChatColor.RED + 
-                        "Vous êtes déjà dans la partie.");
-            } else {
+        Player player = event.getPlayer();
+        if (!game.contains(player)) {
+            Util.callEvent(event);
+            if (!event.isCancelled()) {
                 game.addPlayer(player, event.getTeam());
                 Util.broadcast(player.getDisplayName() + ChatColor.YELLOW +
                         " a rejoint l'équipe " + event.getTeam().getDisplayName());
             }
+        } else {
+            player.sendMessage(ChatColor.RED + 
+                    "Vous êtes déjà dans la partie.");
         }
     }
 
     public void handlePlayerQuitEvent(DRPlayerQuitEvent event) {
-        Util.callEvent(event);
-        if (!event.isCancelled()) {
-            Player player = event.getPlayer();
-            if (game.contains(player)) {
+        Player player = event.getPlayer();
+        if (game.contains(player)) {
+            Util.callEvent(event);
+            if (!event.isCancelled()) {
                 game.removePlayer(player);
                 Util.broadcast(player.getDisplayName() + ChatColor.YELLOW +
                         " a quitté la partie.");
-            } else {
-                player.sendMessage(ChatColor.RED + 
-                        "Vous n'êtes pas dans la partie.");
             }
+        } else {
+            player.sendMessage(ChatColor.RED + 
+                    "Vous n'êtes pas dans la partie.");
+        }
+    }
+
+    public void handleSpectatorJoinEvent(DRSpectatorJoinEvent event) {
+        Player spectator = event.getSpectator();
+        if (!game.getSpectators().contains(spectator)) {
+            Util.callEvent(event);
+            if (!event.isCancelled()) {
+                Player player = event.getSpectator();
+                game.sendMessage(player.getDisplayName() + ChatColor.YELLOW +
+                        " est maintenant spectateur.");
+                game.getSpectators().add(player);
+                player.sendMessage(ChatColor.GREEN + "Vous êtes maintenant spectateur.");
+            }
+        } else {
+            spectator.sendMessage(ChatColor.RED + "Vous êtes déjà spectateur.");
+        }
+    }
+
+    public void handleSpectatorQuitEvent(DRSpectatorQuitEvent event) {
+        Player spectator = event.getSpectator();
+        if (game.getSpectators().contains(spectator)) {
+            Util.callEvent(event);
+            game.getSpectators().remove(spectator);
+            spectator.sendMessage(ChatColor.GREEN + "Vous n'êtes plus spectateur.");
+            game.sendMessage(spectator.getDisplayName() + ChatColor.YELLOW +
+                    " n'est plus spectateur.");
+        } else {
+            spectator.sendMessage(spectator.getDisplayName() + "n'est pas spectateur.");
         }
     }
 

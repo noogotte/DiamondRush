@@ -9,11 +9,9 @@ import org.bukkit.entity.Player;
 
 public class Spectators implements Iterable<Player> {
 
-    private Game game;
     private Set<Player> spectators;
 
-    public Spectators(Game game) {
-        this.game = game;
+    public Spectators() {
         spectators = new HashSet<Player>();
     }
 
@@ -28,26 +26,10 @@ public class Spectators implements Iterable<Player> {
 
     public void add(Player spectator) {
         spectators.add(spectator);
-        for (Team team : game.getTeams()) {
-            for (Player player : team.getPlayers()) {
-                player.hidePlayer(spectator);
-            }
-        }
-        spectator.setAllowFlight(true);
-        spectator.setFlying(true);
-        spectator.setSleepingIgnored(true);
     }
 
     public void remove(Player spectator) {
         spectators.remove(spectator);
-        for (Team team : game.getTeams()) {
-            for (Player player : team.getPlayers()) {
-                player.showPlayer(spectator);
-            }
-        }
-        spectator.setAllowFlight(false);
-        spectator.setFlying(false);
-        spectator.setSleepingIgnored(false);
     }
 
     public Collection<Player> asCollection() {

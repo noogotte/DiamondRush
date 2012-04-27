@@ -3,6 +3,7 @@ package fr.aumgn.diamondrush.listeners;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -18,6 +19,7 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import fr.aumgn.bukkitutils.util.Vector;
 import fr.aumgn.diamondrush.DiamondRush;
 import fr.aumgn.diamondrush.event.players.DRPlayerJoinEvent;
+import fr.aumgn.diamondrush.event.spectators.DRSpectatorJoinEvent;
 import fr.aumgn.diamondrush.event.team.DRTeamSpawnSetEvent;
 import fr.aumgn.diamondrush.game.Game;
 import fr.aumgn.diamondrush.game.Team;
@@ -49,6 +51,15 @@ public class GameListener implements Listener {
             pos = new Vector(team.getForeman().getLocation());
         } 
         player.teleport(pos.toLocation(DiamondRush.getGame().getWorld()));
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onSpectatorJoin(DRSpectatorJoinEvent event) {
+        Player player = event.getSpectator();
+        if (DiamondRush.getGame().contains(player)) {
+            event.setCancelled(true);
+            player.sendMessage(ChatColor.RED + "Vous êtes déjà dans la partie.");
+        }
     }
 
     @EventHandler
