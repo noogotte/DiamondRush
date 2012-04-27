@@ -5,6 +5,7 @@ import org.bukkit.entity.Player;
 
 import fr.aumgn.bukkitutils.command.exception.CommandError;
 import fr.aumgn.diamondrush.event.game.DRGameStartEvent;
+import fr.aumgn.diamondrush.event.game.DRGameStopEvent;
 import fr.aumgn.diamondrush.event.game.DRGameWinEvent;
 import fr.aumgn.diamondrush.event.players.DRPlayerJoinEvent;
 import fr.aumgn.diamondrush.event.players.DRPlayerQuitEvent;
@@ -166,5 +167,11 @@ public class DiamondRushController {
         TeamSpawn spawn = event.getRegion();
         team.setSpawn(spawn);
         team.getSpawn().create(game.getWorld(), team.getColor());
+    }
+
+    public void handleGameStopEvent(DRGameStopEvent event) {
+        Util.callEvent(event);
+        DiamondRush.forceStop();
+        game.sendMessage(ChatColor.RED + "La partie a été arretée.");
     }
 }

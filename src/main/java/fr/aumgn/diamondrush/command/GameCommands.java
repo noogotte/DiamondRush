@@ -18,6 +18,7 @@ import fr.aumgn.bukkitutils.command.Commands;
 import fr.aumgn.bukkitutils.util.Vector;
 import fr.aumgn.diamondrush.DiamondRush;
 import fr.aumgn.diamondrush.event.game.DRGameStartEvent;
+import fr.aumgn.diamondrush.event.game.DRGameStopEvent;
 import fr.aumgn.diamondrush.game.Game;
 import fr.aumgn.diamondrush.game.TeamColor;
 import fr.aumgn.diamondrush.stage.JoinStage;
@@ -77,8 +78,8 @@ public class GameCommands implements Commands {
     @Command(name = "stop")
     public void stopGame(CommandSender sender, CommandArgs args) {
         Game game = DiamondRush.getGame();
-        DiamondRush.forceStop();
-        game.sendMessage(ChatColor.RED + "La partie a été arretée.");
+        DRGameStopEvent event = new DRGameStopEvent(game);
+        DiamondRush.getController().handleGameStopEvent(event);
     }
 
     @Command(name = "pause")
