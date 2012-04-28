@@ -118,7 +118,7 @@ public class SpectatorsListener implements Listener {
         }
 
         Entity clicked = event.getRightClicked();
-        if (clicked instanceof InventoryHolder) {
+        if (clicked instanceof Player && game.contains((Player) clicked)) {
             Inventory inventory = ((InventoryHolder) clicked).getInventory();
             event.getPlayer().openInventory(inventory);
         }
