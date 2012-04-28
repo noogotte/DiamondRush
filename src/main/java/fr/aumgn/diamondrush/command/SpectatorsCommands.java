@@ -12,10 +12,7 @@ import fr.aumgn.bukkitutils.command.Command;
 import fr.aumgn.bukkitutils.command.CommandArgs;
 import fr.aumgn.bukkitutils.command.NestedCommands;
 import fr.aumgn.bukkitutils.command.exception.CommandError;
-import fr.aumgn.bukkitutils.command.Commands;
 import fr.aumgn.diamondrush.DiamondRush;
-import fr.aumgn.diamondrush.event.spectators.DRSpectatorJoinEvent;
-import fr.aumgn.diamondrush.event.spectators.DRSpectatorQuitEvent;
 import fr.aumgn.diamondrush.exception.PlayerNotInGame;
 import fr.aumgn.diamondrush.game.Game;
 import fr.aumgn.diamondrush.game.Team;
@@ -23,22 +20,20 @@ import fr.aumgn.diamondrush.region.TeamSpawn;
 import fr.aumgn.diamondrush.region.Totem;
 
 @NestedCommands(name = "diamondrush")
-public class SpectatorsCommands implements Commands {
+public class SpectatorsCommands extends DiamondRushCommands {
 
-    private final DiamondRush dr;
-
-    public SpectatorsCommands(DiamondRush diamondRush) {
-        this.dr = diamondRush;
+    public SpectatorsCommands(DiamondRush dr) {
+        super(dr);
     }
 
     @Command(name = "watch")
     public void watchGame(Player player, CommandArgs args) {
-        Game game = dr.getGame();
-        DRSpectatorJoinEvent event = new DRSpectatorJoinEvent(game, player);
-        dr.handleSpectatorJoinEvent(event);
+        ensureIsRunning();
+        dr.spectatorJoin(player);
     }
 
     private void ensureIsSpectator(Player player) {
+        ensureIsRunning();
         Game game = dr.getGame();
         if (!game.getSpectators().contains(player)) {
             throw new CommandError("Cette commande n'est utilisable que pour un spectateur.");
@@ -58,6 +53,8 @@ public class SpectatorsCommands implements Commands {
 
     @Command(name = "unwatch", max = 1)
     public void unwatchGame(Player player, CommandArgs args) {
+        ensureIsRunning();
+
         Player spectator;
         if (args.length() == 0) {
             spectator = player;
@@ -65,9 +62,7 @@ public class SpectatorsCommands implements Commands {
             spectator = matchPlayer(args.get(0));
         }
 
-        Game game = dr.getGame();
-        DRSpectatorQuitEvent event = new DRSpectatorQuitEvent(game, spectator);
-        dr.handleSpectatorQuitEvent(event);
+        dr.spectatorQuit(spectator);
     }
 
     @Command(name = "tp-player", min = 1, max = 1)
@@ -75,11 +70,11 @@ public class SpectatorsCommands implements Commands {
         ensureIsSpectator(player);
 
         Game game = dr.getGame();
-
         Player target = matchPlayer(args.get(0));
         if (!game.contains(target) || !game.getSpectators().contains(player)) {
             throw new PlayerNotInGame();
         }
+
         player.teleport(target);
         player.sendMessage(ChatColor.GREEN + "Poof !");
     }
@@ -118,6 +113,7 @@ public class SpectatorsCommands implements Commands {
 
     @Command(name= "inventory", min = 1, max = 1)
     public void inv(Player spectator, CommandArgs args) {
+        ensureIsSpectator(spectator);
         Player player = matchPlayer(args.get(0));
 
         Game game = dr.getGame();

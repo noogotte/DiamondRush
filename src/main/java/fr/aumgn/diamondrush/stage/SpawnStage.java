@@ -5,7 +5,6 @@ import org.bukkit.Material;
 
 import fr.aumgn.bukkitutils.util.Vector;
 import fr.aumgn.diamondrush.DiamondRush;
-import fr.aumgn.diamondrush.event.team.DRTeamSpawnSetEvent;
 import fr.aumgn.diamondrush.game.Team;
 import fr.aumgn.diamondrush.region.TeamSpawn;
 
@@ -66,7 +65,6 @@ public class SpawnStage extends PositioningStage {
     @Override
     public void initPosition(Team team, Vector pos) {
         TeamSpawn spawn = new TeamSpawn(pos);
-        DRTeamSpawnSetEvent event = new DRTeamSpawnSetEvent(dr.getGame(), team, spawn);
-        dr.handleTeamSpawnSetEvent(event);
+        dr.teamSpawnSet(team, spawn);
     }
 }

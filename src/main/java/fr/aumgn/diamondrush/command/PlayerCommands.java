@@ -5,26 +5,22 @@ import org.bukkit.entity.Player;
 import fr.aumgn.bukkitutils.command.Command;
 import fr.aumgn.bukkitutils.command.CommandArgs;
 import fr.aumgn.bukkitutils.command.NestedCommands;
-import fr.aumgn.bukkitutils.command.Commands;
 import fr.aumgn.diamondrush.DiamondRush;
-import fr.aumgn.diamondrush.event.players.DRPlayerJoinEvent;
-import fr.aumgn.diamondrush.event.players.DRPlayerQuitEvent;
 import fr.aumgn.diamondrush.game.Game;
 import fr.aumgn.diamondrush.game.Team;
 
 @NestedCommands(name = "diamondrush")
-public class PlayerCommands implements Commands {
+public class PlayerCommands extends DiamondRushCommands {
 
-    private final DiamondRush dr;
-
-    public PlayerCommands(DiamondRush diamondRush) {
-        this.dr = diamondRush;
+    public PlayerCommands(DiamondRush dr) {
+        super(dr);
     }
 
     @Command(name = "join", max = 1)
     public void joinTeam(Player player, CommandArgs args) {
-        Game game = dr.getGame();
+        ensureIsRunning();
 
+        Game game = dr.getGame();
         Team team;
         if (args.length() > 0) {
             team = game.getTeam(args.get(0));
@@ -32,15 +28,12 @@ public class PlayerCommands implements Commands {
             team = game.getTeamWithMinimumPlayers();
         }
 
-        DRPlayerJoinEvent event = new DRPlayerJoinEvent(game, team, player);
-        dr.handlePlayerJoinEvent(event);
+        dr.playerJoin(team, player);
     }
 
     @Command(name = "quit")
     public void quitGame(Player player, CommandArgs args) {
-        Game game = dr.getGame();
-
-        DRPlayerQuitEvent event = new DRPlayerQuitEvent(game, player);
-        dr.handlePlayerQuitEvent(event);
+        ensureIsRunning();
+        dr.playerQuit(player);
     }
 }

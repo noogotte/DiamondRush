@@ -24,7 +24,6 @@ import org.bukkit.event.world.StructureGrowEvent;
 
 import fr.aumgn.bukkitutils.util.Vector;
 import fr.aumgn.diamondrush.DiamondRush;
-import fr.aumgn.diamondrush.event.team.DRTotemMinedEvent;
 import fr.aumgn.diamondrush.game.Game;
 import fr.aumgn.diamondrush.game.Team;
 import fr.aumgn.diamondrush.region.Totem;
@@ -51,10 +50,7 @@ public class RegionsListener implements Listener {
                     continue;
                 }
 
-                DRTotemMinedEvent totemMinedEvent =
-                        new DRTotemMinedEvent(game, team, totem, player);
-                dr.handleTotemMinedEvent(totemMinedEvent);
-                if (totemMinedEvent.isCancelled()) {
+                if (dr.totemBreak(team, totem, player)) {
                     event.setCancelled(true);
                 }
                 return;

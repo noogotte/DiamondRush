@@ -14,11 +14,8 @@ import fr.aumgn.bukkitutils.command.CommandArgs;
 import fr.aumgn.bukkitutils.command.NestedCommands;
 import fr.aumgn.bukkitutils.command.exception.CommandError;
 import fr.aumgn.bukkitutils.command.exception.CommandUsageError;
-import fr.aumgn.bukkitutils.command.Commands;
 import fr.aumgn.bukkitutils.util.Vector;
 import fr.aumgn.diamondrush.DiamondRush;
-import fr.aumgn.diamondrush.event.game.DRGameStartEvent;
-import fr.aumgn.diamondrush.event.game.DRGameStopEvent;
 import fr.aumgn.diamondrush.game.Game;
 import fr.aumgn.diamondrush.game.TeamColor;
 import fr.aumgn.diamondrush.stage.JoinStage;
@@ -27,12 +24,10 @@ import fr.aumgn.diamondrush.stage.SimpleJoinStage;
 import fr.aumgn.diamondrush.stage.Stage;
 
 @NestedCommands(name = "diamondrush")
-public class GameCommands implements Commands {
+public class GameCommands extends DiamondRushCommands {
 
-    private final DiamondRush dr;
-
-    public GameCommands(DiamondRush diamondRush) {
-        this.dr = diamondRush;
+    public GameCommands(DiamondRush dr) {
+        super(dr);
     }
 
     @Command(name = "init", min = 1, max = -1, flags = "cn")
@@ -76,20 +71,19 @@ public class GameCommands implements Commands {
 
     @Command(name = "start")
     public void startGame(CommandSender sender, CommandArgs args) {
-        Game game = dr.getGame();
-        DRGameStartEvent event = new DRGameStartEvent(game);
-        dr.handleGameStartEvent(event);
+        ensureIsRunning();
+        dr.startGame();
     }
 
     @Command(name = "stop")
     public void stopGame(CommandSender sender, CommandArgs args) {
-        Game game = dr.getGame();
-        DRGameStopEvent event = new DRGameStopEvent(game);
-        dr.handleGameStopEvent(event);
+        ensureIsRunning();
+        dr.gameStop();
     }
 
     @Command(name = "pause")
     public void pauseGame(CommandSender sender, CommandArgs args) {
+        ensureIsRunning();
         if (dr.isPaused()) {
             throw new CommandError("Le jeu est déjà en pause.");
         }
@@ -98,11 +92,12 @@ public class GameCommands implements Commands {
 
     @Command(name = "resume")
     public void resumeGame(CommandSender sender, CommandArgs args) {
-        final Game game = dr.getGame();
+        ensureIsRunning();
         if (!dr.isPaused()) {
             throw new CommandError("Le jeu n'est pas en pause.");
         }
 
+        Game game = dr.getGame();
         Stage stage = dr.getStage();
         if (stage.hasNextStageScheduled()) {
             throw new CommandError(

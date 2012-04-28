@@ -13,7 +13,7 @@ import fr.aumgn.diamondrush.game.Game;
 import fr.aumgn.diamondrush.game.Team;
 import fr.aumgn.diamondrush.region.Totem;
 
-public class DRTotemMinedEvent extends Event
+public class DRTotemBreakEvent extends Event
         implements DRGameEvent, DRTeamEvent, DRRegionEvent, DRPlayerEvent, Cancellable {
 
     private static final HandlerList HANDLERS = new HandlerList();
@@ -24,7 +24,7 @@ public class DRTotemMinedEvent extends Event
     private final Player player;
     private boolean cancelled;
 
-    public DRTotemMinedEvent(Game game, Team team, Totem totem, Player player) {
+    public DRTotemBreakEvent(Game game, Team team, Totem totem, Player player) {
         this.game = game;
         this.team = team;
         this.totem = null;

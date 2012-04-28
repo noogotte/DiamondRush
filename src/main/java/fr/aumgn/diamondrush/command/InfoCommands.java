@@ -4,19 +4,16 @@ import org.bukkit.command.CommandSender;
 
 import fr.aumgn.bukkitutils.command.Command;
 import fr.aumgn.bukkitutils.command.CommandArgs;
-import fr.aumgn.bukkitutils.command.Commands;
 import fr.aumgn.bukkitutils.command.NestedCommands;
 import fr.aumgn.diamondrush.DiamondRush;
 import fr.aumgn.diamondrush.game.Game;
 import fr.aumgn.diamondrush.game.TeamsView;
 
 @NestedCommands(name = "diamondrush")
-public class InfoCommands implements Commands {
+public class InfoCommands extends DiamondRushCommands {
 
-    private final DiamondRush dr;
-
-    public InfoCommands(DiamondRush diamondRush) {
-        this.dr = diamondRush;
+    public InfoCommands(DiamondRush dr) {
+        super(dr);
     }
 
     @Command(name = "teams")

@@ -26,7 +26,7 @@ public class DiamondRushPlugin extends JavaPlugin {
         
         CommandsRegistration commandsRegistration = new CommandsRegistration(
                 this, new FrenchMessages());
-        commandsRegistration.register(new AdminCommands(this));
+        commandsRegistration.register(new AdminCommands(diamondRush));
         commandsRegistration.register(new GameCommands(diamondRush));
         commandsRegistration.register(new SpectatorsCommands(diamondRush));
         commandsRegistration.register(new PlayerCommands(diamondRush));
@@ -47,7 +47,7 @@ public class DiamondRushPlugin extends JavaPlugin {
         getLogger().info("Disabled.");
     }
 
-    public DRConfig loadTBNConfig() {
+    public DRConfig loadDRConfig() {
         try {
             GConfLoader loader = new GConfLoader(gson(), this);
             return loader.loadOrCreate("config.json", DRConfig.class);

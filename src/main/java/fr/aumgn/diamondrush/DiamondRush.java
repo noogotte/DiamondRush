@@ -18,9 +18,8 @@ import fr.aumgn.diamondrush.event.spectators.DRSpectatorJoinEvent;
 import fr.aumgn.diamondrush.event.spectators.DRSpectatorQuitEvent;
 import fr.aumgn.diamondrush.event.team.DRTeamLooseEvent;
 import fr.aumgn.diamondrush.event.team.DRTeamSpawnSetEvent;
-import fr.aumgn.diamondrush.event.team.DRTotemMinedEvent;
+import fr.aumgn.diamondrush.event.team.DRTotemBreakEvent;
 import fr.aumgn.diamondrush.event.team.DRTotemSetEvent;
-import fr.aumgn.diamondrush.exception.NoGameRunning;
 import fr.aumgn.diamondrush.game.Game;
 import fr.aumgn.diamondrush.game.Team;
 import fr.aumgn.diamondrush.listeners.GameListener;
@@ -44,6 +43,7 @@ public final class DiamondRush {
 
     public DiamondRush(DiamondRushPlugin plugin) {
         this.plugin = plugin;
+        reloadConfig();
         this.game = null;
         this.stage = null;
         this.listeners = new Listener[3];
@@ -62,9 +62,6 @@ public final class DiamondRush {
     }
 
     public Game getGame() {
-        if (!isRunning()) {
-            throw new NoGameRunning();
-        }
         return game;
     }
 
@@ -82,6 +79,10 @@ public final class DiamondRush {
             pm.registerEvents(listener, plugin);
         }
         nextStage(stage);
+    }
+
+    public void reloadConfig() {
+        this.config = plugin.loadDRConfig();
     }
 
     private void unregisterStageListeners() {
@@ -126,6 +127,9 @@ public final class DiamondRush {
     }
 
     public void resume() {
+        if (stage == null) {
+            throw new UnsupportedOperationException();
+        }
         unregisterStageListeners();
         stage.stop();
         stage = ((PauseStage) stage).getOldStage();
@@ -145,9 +149,9 @@ public final class DiamondRush {
         game = null;
     }
 
-    public void handlePlayerJoinEvent(DRPlayerJoinEvent event) {
-        Player player = event.getPlayer();
+    public void playerJoin(Team team, Player player) {
         if (!game.contains(player)) {
+            DRPlayerJoinEvent event = new DRPlayerJoinEvent(game, team, player);
             Util.callEvent(event);
             if (!event.isCancelled()) {
                 game.addPlayer(player, event.getTeam());
@@ -160,9 +164,9 @@ public final class DiamondRush {
         }
     }
 
-    public void handlePlayerQuitEvent(DRPlayerQuitEvent event) {
-        Player player = event.getPlayer();
+    public void playerQuit(Player player) {
         if (game.contains(player)) {
+            DRPlayerQuitEvent event = new DRPlayerQuitEvent(game, player); 
             Util.callEvent(event);
             if (!event.isCancelled()) {
                 game.removePlayer(player);
@@ -175,8 +179,8 @@ public final class DiamondRush {
         }
     }
 
-    public void handleSpectatorJoinEvent(DRSpectatorJoinEvent event) {
-        Player spectator = event.getSpectator();
+    public void spectatorJoin(Player spectator) {
+        DRSpectatorJoinEvent event = new DRSpectatorJoinEvent(game, spectator);
         if (!game.getSpectators().contains(spectator)) {
             Util.callEvent(event);
             if (!event.isCancelled()) {
@@ -187,12 +191,13 @@ public final class DiamondRush {
                 player.sendMessage(ChatColor.GREEN + "Vous êtes maintenant spectateur.");
             }
         } else {
+            event.setCancelled(true);
             spectator.sendMessage(ChatColor.RED + "Vous êtes déjà spectateur.");
         }
     }
 
-    public void handleSpectatorQuitEvent(DRSpectatorQuitEvent event) {
-        Player spectator = event.getSpectator();
+    public void spectatorQuit(Player spectator) {
+        DRSpectatorQuitEvent event = new DRSpectatorQuitEvent(game, spectator);
         if (game.getSpectators().contains(spectator)) {
             Util.callEvent(event);
             game.getSpectators().remove(spectator);
@@ -204,7 +209,7 @@ public final class DiamondRush {
         }
     }
 
-    public void handleGameStartEvent(DRGameStartEvent event) {
+    public void startGame() {
         if (!(stage instanceof JoinStage)) {
             throw new CommandError("Cette commande ne peut être utilisée que durant la phase de join.");
         }
@@ -214,6 +219,7 @@ public final class DiamondRush {
                     "La partie est déjà sur le point de démarrer.");
         }
 
+        DRGameStartEvent event = new DRGameStartEvent(game);
         Util.callEvent(event);
         if (!event.isCancelled()) {
             game.sendMessage(ChatColor.GREEN + "La partie va commencer.");
@@ -221,31 +227,46 @@ public final class DiamondRush {
         }
     }
 
-    public void handleTotemMinedEvent(DRTotemMinedEvent event) {
+    public void gameWin(Team team) {
+        DRGameWinEvent event = new DRGameWinEvent(game, team);
+        Util.callEvent(event);
+        Team winningTeam = game.getTeams().get(0);
+        String msg = ChatColor.GREEN +
+                "L'équipe " + winningTeam.getDisplayName() +
+                ChatColor.GREEN + " a gagné la partie.";
+        Util.broadcast(msg);
+        forceStop();
+    }
+
+    public void gameStop() {
+        DRGameStopEvent event = new DRGameStopEvent(game);
+        Util.callEvent(event);
+        game.sendMessage(ChatColor.RED + "La partie a été arretée.");
+        forceStop();
+    }
+
+    public boolean totemBreak(Team team, Totem totem, Player player) {
+        DRTotemBreakEvent event = new DRTotemBreakEvent(game, team, totem, player);
         Util.callEvent(event);
         if (!event.isCancelled()) {
-            Team team = event.getTeam();
             team.decreaseLives();
             if (team.getLives() == 0) {
-                Team responsible = game.getTeam(event.getPlayer());
-                Totem totem = event.getRegion();
-                DRTeamLooseEvent teamLooseEvent = 
-                        new DRTeamLooseEvent(game, team, responsible, totem);
-                handleTeamLooseEvent(teamLooseEvent);
+                Team responsible = game.getTeam(player);
+                teamLoose(team, responsible, totem);
             } else {
                 game.sendMessage(ChatColor.YELLOW + "L'équipe " + team.getDisplayName() + 
                         ChatColor.YELLOW + " a perdu une vie. " + team.getLives() + " restantes.");
             }
         }
+        return event.isCancelled();
     }
 
-    public void handleTeamLooseEvent(DRTeamLooseEvent event) {
+    public void teamLoose(Team team, Team responsible, Totem totem) {
+        DRTeamLooseEvent event = new DRTeamLooseEvent(game, team, responsible, totem);
         Util.callEvent(event);
-        Team team = event.getTeam();
         game.removeTeam(team);
         if (game.getTeams().size() == 1) {
-            DRGameWinEvent winEvent = new DRGameWinEvent(game, team);
-            handleGameWinEvent(winEvent);
+            gameWin(team);
         } else {
             String msg = ChatColor.RED +"L'équipe " + team.getDisplayName() 
                     + ChatColor.RED + " a perdu la partie.";
@@ -254,35 +275,17 @@ public final class DiamondRush {
         }
     }
 
-    public void handleGameWinEvent(DRGameWinEvent event) {
+    public void totemSet(Team team, Totem totem) {
+        DRTotemSetEvent event = new DRTotemSetEvent(game, team, totem);
         Util.callEvent(event);
-        Team winningTeam = game.getTeams().get(0);
-        String msg = ChatColor.GREEN +
-                "L'équipe " + winningTeam.getDisplayName() +
-                ChatColor.GREEN + " a gagné la partie.";
-        game.sendMessage(msg);
-        forceStop();
-    }
-
-    public void handleTotemSetEvent(DRTotemSetEvent event) {
-        Util.callEvent(event);
-        Team team = event.getTeam();
-        Totem totem = event.getRegion();
         team.setTotem(totem);
         totem.create(game.getWorld(), team.getColor(), team.getLives());
     }
 
-    public void handleTeamSpawnSetEvent(DRTeamSpawnSetEvent event) {
+    public void teamSpawnSet(Team team, TeamSpawn spawn) {
+        DRTeamSpawnSetEvent event = new DRTeamSpawnSetEvent(game, team, spawn); 
         Util.callEvent(event);
-        Team team = event.getTeam();
-        TeamSpawn spawn = event.getRegion();
         team.setSpawn(spawn);
         team.getSpawn().create(game.getWorld(), team.getColor());
-    }
-
-    public void handleGameStopEvent(DRGameStopEvent event) {
-        Util.callEvent(event);
-        forceStop();
-        game.sendMessage(ChatColor.RED + "La partie a été arretée.");
     }
 }

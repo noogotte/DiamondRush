@@ -24,7 +24,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 import fr.aumgn.diamondrush.event.players.DRPlayerJoinEvent;
-import fr.aumgn.diamondrush.event.team.DRTotemMinedEvent;
+import fr.aumgn.diamondrush.event.team.DRTotemBreakEvent;
 import fr.aumgn.diamondrush.game.Game;
 import fr.aumgn.diamondrush.stage.StaticStage;
 
@@ -46,11 +46,11 @@ public class StaticListener implements Listener {
     }
 
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
-    public void onTotemMined(DRTotemMinedEvent event) {
+    public void onTotemMined(DRTotemBreakEvent event) {
         event.setCancelled(true);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOW)
     public void onMove(PlayerMoveEvent event) {
         Player player = event.getPlayer();
         Location from = event.getFrom();
@@ -144,7 +144,7 @@ public class StaticListener implements Listener {
         Entity entity = event.getEntity();
         if (entity instanceof Creature) {
             LivingEntity target = ((Creature) entity).getTarget();
-            if (target instanceof Player && game.contains((Player) entity)) {
+            if (target instanceof Player && game.contains((Player) target)) {
                 event.setCancelled(true);
             }
         }

@@ -8,7 +8,6 @@ import org.bukkit.inventory.ItemStack;
 
 import fr.aumgn.bukkitutils.util.Vector;
 import fr.aumgn.diamondrush.DiamondRush;
-import fr.aumgn.diamondrush.event.team.DRTotemSetEvent;
 import fr.aumgn.diamondrush.game.Team;
 import fr.aumgn.diamondrush.region.ChestPopulator;
 import fr.aumgn.diamondrush.region.Totem;
@@ -51,7 +50,6 @@ public class TotemStage extends PositioningStage {
     @Override
     public void initPosition(Team team, Vector pos) {
         Totem totem = new Totem(pos, dr.getGame().getWorld().getMaxHeight());
-        DRTotemSetEvent event = new DRTotemSetEvent(dr.getGame(), team, totem);
-        dr.handleTotemSetEvent(event);
+        dr.totemSet(team, totem);
     }
 }
