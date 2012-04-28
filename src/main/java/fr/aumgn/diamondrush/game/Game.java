@@ -101,7 +101,13 @@ public class Game {
         int minimum = Integer.MAX_VALUE;
         List<Team> roulette = null; 
         for (Team team : getTeams()) {
-            int size = team.size();
+            int size = 0;
+            for (Player player : team.getPlayers()) {
+                if (player.isOnline()) {
+                    size++;
+                }
+            }
+
             if (size < minimum) {
                 minimum = size;
                 roulette = new ArrayList<Team>();
