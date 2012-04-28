@@ -52,12 +52,12 @@ commands:
     "diamondrush join":
         description: "Rejoint (ou crée) une équipe."
         usage: "[equipe]"
-        permission: "dr.cmd.jointeam"
+        permission: "dr.cmd.join"
         aliases: ["join"]
     "diamondrush quit":
         description: "Quitte la partie."
         usage: ""
-        permission: "dr.cmd.jointeam"
+        permission: "dr.cmd.quit"
         aliases: ["quit"]
     "diamondrush start":
         description: "Débute la partie."
@@ -107,7 +107,10 @@ permissions:
             dr.cmd.stop: true
             dr.cmd.init: true
             dr.cmd.start: true
+            dr.cmd.quit: true
+            dr.cmd.quit.others: true
             dr.cmd.unwatch: true
+            dr.cmd.unwatch.others: true
             dr.play: true
             dr.watch: true
     dr.play:

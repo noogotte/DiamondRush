@@ -1,7 +1,5 @@
 package fr.aumgn.diamondrush.command;
 
-import java.util.List;
-
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -12,7 +10,6 @@ import fr.aumgn.bukkitutils.command.CommandArgs;
 import fr.aumgn.bukkitutils.command.NestedCommands;
 import fr.aumgn.bukkitutils.command.exception.CommandError;
 import fr.aumgn.diamondrush.DiamondRush;
-import fr.aumgn.diamondrush.Util;
 import fr.aumgn.diamondrush.exception.PlayerNotInGame;
 import fr.aumgn.diamondrush.game.Game;
 import fr.aumgn.diamondrush.game.Team;
@@ -40,17 +37,6 @@ public class SpectatorsCommands extends DiamondRushCommands {
         }
     }
 
-    private Player matchPlayer(String name) {
-        List<Player> players = Util.matchPlayer(name);
-        if (players.size() > 1) {
-            throw new CommandError("Plus d'un joueur trouvés avec le motif " + name + ".");
-        } else if (players.size() < 1) {
-            throw new CommandError("Aucun joueur trouvé.");
-        }
-
-        return players.get(0);
-    }
-
     @Command(name = "unwatch", max = 1)
     public void unwatchGame(Player player, CommandArgs args) {
         ensureIsRunning();
@@ -59,6 +45,9 @@ public class SpectatorsCommands extends DiamondRushCommands {
         if (args.length() == 0) {
             spectator = player;
         } else {
+            if (!player.hasPermission("dr.cmd.unwatch.others")) {
+                throw new CommandError("Vous n'avez pas la permi");
+            }
             spectator = matchPlayer(args.get(0));
         }
 
