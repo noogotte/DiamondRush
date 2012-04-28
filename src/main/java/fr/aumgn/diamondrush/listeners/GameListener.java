@@ -26,13 +26,17 @@ import fr.aumgn.diamondrush.game.Team;
 
 public class GameListener implements Listener {
 
+    private final Game game;
     private boolean handleMove = false;
     private Set<Player> playersInSpawn = new HashSet<Player>();
+
+    public GameListener(DiamondRush diamondRush) {
+        this.game = diamondRush.getGame();
+    }
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        Game game = DiamondRush.getGame();
         if (game.contains(player)) {
             Team team = game.getTeam(player);
             team.setTeamName(player);
@@ -50,13 +54,13 @@ public class GameListener implements Listener {
         } else {
             pos = new Vector(team.getForeman().getLocation());
         } 
-        player.teleport(pos.toLocation(DiamondRush.getGame().getWorld()));
+        player.teleport(pos.toLocation(game.getWorld()));
     }
 
     @EventHandler(ignoreCancelled = true)
     public void onSpectatorJoin(DRSpectatorJoinEvent event) {
         Player player = event.getSpectator();
-        if (DiamondRush.getGame().contains(player)) {
+        if (game.contains(player)) {
             event.setCancelled(true);
             player.sendMessage(ChatColor.RED + "Vous êtes déjà dans la partie.");
         }
@@ -65,7 +69,6 @@ public class GameListener implements Listener {
     @EventHandler
     public void onRespawn(PlayerRespawnEvent event) {
         Player player = event.getPlayer();
-        Game game = DiamondRush.getGame();
         if (!game.contains(player)) {
             return;
         }
@@ -89,7 +92,7 @@ public class GameListener implements Listener {
     public void onSpawnSetEvent(DRTeamSpawnSetEvent event) {
         for (Player player : event.getTeam().getPlayers()) {
             Location target = event.getRegion().getMiddle()
-                    .toLocation(DiamondRush.getGame().getWorld());
+                    .toLocation(game.getWorld());
             player.setCompassTarget(target);
         }
     }
@@ -97,11 +100,6 @@ public class GameListener implements Listener {
     @EventHandler
     public void onMove(PlayerMoveEvent event) {
         if (!handleMove) {
-            return;
-        }
-
-        Game game = DiamondRush.getGame();
-        if (game.isPaused()) {
             return;
         }
 
@@ -155,7 +153,6 @@ public class GameListener implements Listener {
         }
 
         Player damager = (Player) damagerEntity;
-        Game game = DiamondRush.getGame();
         if ((game.contains(target) != game.contains(damager))) {
             event.setCancelled(true);
         }

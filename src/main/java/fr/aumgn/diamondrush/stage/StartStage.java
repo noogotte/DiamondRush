@@ -14,33 +14,32 @@ import fr.aumgn.bukkitutils.util.Vector;
 import fr.aumgn.bukkitutils.util.Vector2D;
 import fr.aumgn.diamondrush.DiamondRush;
 import fr.aumgn.diamondrush.Util;
-import fr.aumgn.diamondrush.game.Game;
 import fr.aumgn.diamondrush.game.Team;
 
 public class StartStage extends TransitionStage {
 
-    public StartStage(Game game, Stage nextStage) {
-        super(game, nextStage, DiamondRush.getConfig().getStartDuration());
+    public StartStage(DiamondRush dr, Stage nextStage) {
+        super(dr, nextStage, dr.getConfig().getStartDuration());
     }
 
     @Override
     public void start() {
-        List<Team> teams = game.getTeams();
-        Vector spawnPos = game.getSpawn().getMiddle(); 
-        Iterator<Vector> positions = game.getSpawn().
+        List<Team> teams = dr.getGame().getTeams();
+        Vector spawnPos = dr.getGame().getSpawn().getMiddle(); 
+        Iterator<Vector> positions = dr.getGame().getSpawn().
                 getStartPositions(teams.size()).iterator();
         for (Team team : teams) {
             Vector pos = positions.next();
             Vector2D dir = pos.subtract(spawnPos).to2D();
-            initTeam(team, game.getWorld(), pos, dir);
+            initTeam(team, dr.getGame().getWorld(), pos, dir);
         }
-        for (Monster monster : game.getWorld().getEntitiesByClass(Monster.class)) {
+        for (Monster monster : dr.getGame().getWorld().getEntitiesByClass(Monster.class)) {
             monster.remove();
         }
 
-        game.getSpawn().create(game.getWorld());
-        game.getWorld().setTime(0);
-        game.sendMessage(ChatColor.GREEN + "La partie débute !");
+        dr.getGame().getSpawn().create(dr.getGame().getWorld());
+        dr.getGame().getWorld().setTime(0);
+        dr.getGame().sendMessage(ChatColor.GREEN + "La partie débute !");
         super.start();
     }
 

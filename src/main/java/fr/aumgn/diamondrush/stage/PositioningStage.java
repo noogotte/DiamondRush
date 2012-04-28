@@ -13,7 +13,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import fr.aumgn.bukkitutils.util.Vector;
-import fr.aumgn.diamondrush.game.Game;
+import fr.aumgn.diamondrush.DiamondRush;
 import fr.aumgn.diamondrush.game.Team;
 import fr.aumgn.diamondrush.stage.listeners.NoPVPListener;
 import fr.aumgn.diamondrush.stage.listeners.PositioningListener;
@@ -23,12 +23,12 @@ public abstract class PositioningStage extends Stage {
     private Map<Team, Vector> positions;
     private List<Listener> listeners;
 
-    public PositioningStage(Game game) {
-        super(game);
+    public PositioningStage(DiamondRush dr) {
+        super(dr);
         this.positions = new HashMap<Team, Vector>();
         this.listeners = new ArrayList<Listener>();
-        this.listeners.add(new NoPVPListener(this));
-        this.listeners.add(new PositioningListener(this, positions));
+        this.listeners.add(new NoPVPListener(dr.getGame()));
+        this.listeners.add(new PositioningListener(dr, this, positions));
     }
 
     @Override
@@ -45,7 +45,7 @@ public abstract class PositioningStage extends Stage {
     public void stop() {
         removeBlocksFromInventories();
         removeBlocksFromWorld();
-        for (Team team : game.getTeams()) {
+        for (Team team : dr.getGame().getTeams()) {
             Vector pos = getPosition(team);
             initPosition(team, pos);
         }
@@ -56,7 +56,7 @@ public abstract class PositioningStage extends Stage {
         if (pos == null) {
             Player foreman = team.getForeman();
             pos = new Vector(foreman.getLocation());
-            foreman.teleport(pos.add(0, 0, 1).toLocation(game.getWorld()));
+            foreman.teleport(pos.add(0, 0, 1).toLocation(dr.getGame().getWorld()));
         }
         return pos;
     }
@@ -66,7 +66,7 @@ public abstract class PositioningStage extends Stage {
     }
 
     protected void giveBlocks() {
-        for (Team team : game.getTeams()) {
+        for (Team team : dr.getGame().getTeams()) {
             giveBlock(team.getForeman());
         }
     }
@@ -82,7 +82,7 @@ public abstract class PositioningStage extends Stage {
 
     protected void removeBlocksFromWorld() {
         for (Vector pos : positions.values()) {
-            Block block = pos.toBlock(game.getWorld());
+            Block block = pos.toBlock(dr.getGame().getWorld());
             if (block.getType() == getMaterial()) {
                 block.setType(Material.AIR);
             }
@@ -90,7 +90,7 @@ public abstract class PositioningStage extends Stage {
     }
 
     protected void removeBlocksFromInventories() {
-        for (Team team : game.getTeams()) {
+        for (Team team : dr.getGame().getTeams()) {
             for (Player player : team.getPlayers()) {
                 if (removeBlockFromInventory(player)) {
                     break;

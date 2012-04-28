@@ -14,7 +14,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.potion.PotionEffect;
 
-import fr.aumgn.diamondrush.game.Game;
+import fr.aumgn.diamondrush.DiamondRush;
 import fr.aumgn.diamondrush.game.Team;
 import fr.aumgn.diamondrush.stage.listeners.StaticListener;
 
@@ -73,9 +73,9 @@ public class StaticStage extends Stage {
     private long time;
     private Map<Player, PlayerStatus> status;
 
-    public StaticStage(Game game) {
-        super(game);
-        this.listener = new StaticListener(this);
+    public StaticStage(DiamondRush dr) {
+        super(dr);
+        this.listener = new StaticListener(this, dr.getGame());
         this.status = new HashMap<Player, PlayerStatus>();
     }
 
@@ -86,8 +86,8 @@ public class StaticStage extends Stage {
 
     @Override
     public void start() {
-        this.time = game.getWorld().getTime();
-        for (Team team : game.getTeams()) {
+        this.time = dr.getGame().getWorld().getTime();
+        for (Team team : dr.getGame().getTeams()) {
             for (Player player : team.getPlayers()) {
                 status.put(player, new PlayerStatus(player));
             }
@@ -96,7 +96,7 @@ public class StaticStage extends Stage {
 
     @Override
     public void stop() {
-        game.getWorld().setTime(time);
+        dr.getGame().getWorld().setTime(time);
         for (Map.Entry<Player, PlayerStatus> playerStatus : status.entrySet()) {
             Player player = playerStatus.getKey();
             playerStatus.getValue().restore(player);

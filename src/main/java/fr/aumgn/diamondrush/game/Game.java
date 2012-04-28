@@ -6,26 +6,19 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
-import org.bukkit.event.HandlerList;
-import org.bukkit.event.Listener;
 
 import fr.aumgn.bukkitutils.util.Vector;
-import fr.aumgn.diamondrush.DiamondRush;
 import fr.aumgn.diamondrush.Util;
 import fr.aumgn.diamondrush.exception.NoSuchTeam;
 import fr.aumgn.diamondrush.exception.NotEnoughTeams;
 import fr.aumgn.diamondrush.exception.PlayerNotInGame;
 import fr.aumgn.diamondrush.region.GameSpawn;
-import fr.aumgn.diamondrush.stage.PauseStage;
-import fr.aumgn.diamondrush.stage.Stage;
 
 public class Game {
 
-    private Stage stage;
     private World world;
     private GameSpawn spawn;
     private Map<String, Team> teams;
@@ -33,11 +26,9 @@ public class Game {
     private Spectators spectators;
     private int turnCount;
 
-    public Game(Map<String, TeamColor> teamsMap, World world, Vector spawnPoint) {
-        this.stage = null;
+    public Game(Map<String, TeamColor> teamsMap, World world, Vector spawnPoint, int lives) {
         this.teams = new LinkedHashMap<String, Team>();
 
-        int lives = DiamondRush.getConfig().getLives();
         lives = Math.max(4, lives);
         lives = Math.min(8, lives);
         for (Map.Entry<String, TeamColor> teamEntry : teamsMap.entrySet()) {
@@ -53,59 +44,6 @@ public class Game {
         players = new HashMap<Player, Team>();
         spectators = new Spectators();
         turnCount = -1;
-    }
-
-    public Stage getStage() {
-        return stage;
-    }
-
-    private void unregisterStageListeners() {
-        for (Listener listener : stage.getListeners()) {
-            HandlerList.unregisterAll(listener);
-        }
-    }
-
-    private void registerStageListeners() {
-        for (Listener listener : stage.getListeners()) {
-            Bukkit.getPluginManager().registerEvents(listener, DiamondRush.getPlugin());
-        }
-    }
-
-    public void nextStage(Stage newStage) {
-        if (newStage == null) {
-            throw new IllegalArgumentException("New stage cannot be null");
-        }
-        if (stage != null) {
-            unregisterStageListeners();
-            Bukkit.getScheduler().cancelTasks(DiamondRush.getPlugin());
-            stage.stop();
-        }
-        stage = newStage;
-        registerStageListeners();
-        stage.start();
-    }
-
-    public boolean isPaused() {
-        return (stage instanceof PauseStage);
-    }
-
-    public void pause() {
-        if (stage == null) {
-            throw new UnsupportedOperationException();
-        }
-        unregisterStageListeners();
-        stage.pause();
-        stage = new PauseStage(this, stage);
-        stage.start();
-        registerStageListeners();
-    }
-
-    public void resume() {
-        unregisterStageListeners();
-        stage.stop();
-        stage = ((PauseStage) stage).getOldStage();
-        registerStageListeners();
-        stage.resume();
     }
 
     public World getWorld() {

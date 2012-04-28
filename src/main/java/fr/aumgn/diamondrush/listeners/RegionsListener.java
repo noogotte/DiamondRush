@@ -31,10 +31,16 @@ import fr.aumgn.diamondrush.region.Totem;
 
 public class RegionsListener implements Listener {
 
+    private final DiamondRush dr;
+
+    public RegionsListener(DiamondRush diamondRush) {
+        this.dr = diamondRush;
+    }
+
     @EventHandler
     public void onBreak(BlockBreakEvent event) {
         Vector pos = new Vector(event.getBlock());
-        Game game = DiamondRush.getGame();
+        Game game = dr.getGame();
         Player player = event.getPlayer();
 
         if (event.getBlock().getType() == Material.OBSIDIAN &&
@@ -47,7 +53,7 @@ public class RegionsListener implements Listener {
 
                 DRTotemMinedEvent totemMinedEvent =
                         new DRTotemMinedEvent(game, team, totem, player);
-                DiamondRush.getController().handleTotemMinedEvent(totemMinedEvent);
+                dr.handleTotemMinedEvent(totemMinedEvent);
                 if (totemMinedEvent.isCancelled()) {
                     event.setCancelled(true);
                 }
@@ -152,7 +158,7 @@ public class RegionsListener implements Listener {
     }
 
     private boolean isProtected(World world, Vector pos) {
-        Game game = DiamondRush.getGame();
+        Game game = dr.getGame();
 
         if (!world.equals(game.getWorld())) {
             return false;

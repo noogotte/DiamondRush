@@ -6,7 +6,6 @@ import org.bukkit.Material;
 import fr.aumgn.bukkitutils.util.Vector;
 import fr.aumgn.diamondrush.DiamondRush;
 import fr.aumgn.diamondrush.event.team.DRTeamSpawnSetEvent;
-import fr.aumgn.diamondrush.game.Game;
 import fr.aumgn.diamondrush.game.Team;
 import fr.aumgn.diamondrush.region.TeamSpawn;
 
@@ -14,16 +13,16 @@ public class SpawnStage extends PositioningStage {
 
     private int duration; 
 
-    public SpawnStage(Game game) {
-        super(game);
-        this.duration = DiamondRush.getConfig().getSpawnDuration();
+    public SpawnStage(DiamondRush dr) {
+        super(dr);
+        this.duration = dr.getConfig().getSpawnDuration();
     }
 
     @Override
     public void start() {
         super.start();
-        game.sendMessage("Phase de placement du spawn.");
-        scheduleNextStage(duration, new DevelopmentStage(game));
+        dr.getGame().sendMessage("Phase de placement du spawn.");
+        scheduleNextStage(duration, new DevelopmentStage(dr));
     }
 
     @Override
@@ -36,27 +35,27 @@ public class SpawnStage extends PositioningStage {
     }
 
     public void nextStage() {
-        for (Team team : game.getTeams()) {
+        for (Team team : dr.getGame().getTeams()) {
             if (validatePosition(team)) {
                 continue;
             }
-            game.sendMessage(team.getDisplayName() + ChatColor.YELLOW +
+            dr.getGame().sendMessage(team.getDisplayName() + ChatColor.YELLOW +
                     " a placé son spawn trop près du totem.");
             removeBlocksFromWorld();
             removeBlocksFromInventories();
             clearPositions();
             giveBlocks();
-            scheduleNextStage(duration, new DevelopmentStage(game));
+            scheduleNextStage(duration, new DevelopmentStage(dr));
             return;
         }
-        game.nextStage(new DevelopmentStage(game));
+        dr.nextStage(new DevelopmentStage(dr));
     }
 
     private boolean validatePosition(Team team) {
         Vector pos = getPosition(team);
         Vector totemPos = team.getTotem().getMiddle();
         int distance = totemPos.distanceSq(pos);
-        return distance > DiamondRush.getConfig().getTotemSpawnMinDistance();
+        return distance > dr.getConfig().getTotemSpawnMinDistance();
     }
 
     @Override
@@ -67,7 +66,7 @@ public class SpawnStage extends PositioningStage {
     @Override
     public void initPosition(Team team, Vector pos) {
         TeamSpawn spawn = new TeamSpawn(pos);
-        DRTeamSpawnSetEvent event = new DRTeamSpawnSetEvent(game, team, spawn);
-        DiamondRush.getController().handleTeamSpawnSetEvent(event);
+        DRTeamSpawnSetEvent event = new DRTeamSpawnSetEvent(dr.getGame(), team, spawn);
+        dr.handleTeamSpawnSetEvent(event);
     }
 }

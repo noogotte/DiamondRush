@@ -11,14 +11,13 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
 
 import fr.aumgn.diamondrush.game.Game;
-import fr.aumgn.diamondrush.stage.Stage;
 
 public class NoPVPListener implements Listener{
 
-    public Stage stage;
+    public Game game;
 
-    public NoPVPListener(Stage stage) {
-        this.stage = stage;
+    public NoPVPListener(Game game) {
+        this.game = game;
     }
 
     @EventHandler(ignoreCancelled = true)
@@ -51,7 +50,6 @@ public class NoPVPListener implements Listener{
 
         Player target = (Player) targetEntity;
         Player damager = (Player) damagerEntity;
-        Game game = stage.getGame();
         if (game.contains(damager) || game.contains(target)) {
             event.setCancelled(true);
         }
@@ -69,7 +67,7 @@ public class NoPVPListener implements Listener{
             return;
         }
 
-        if (stage.getGame().contains((Player) owner)) {
+        if (game.contains((Player) owner)) {
             event.setCancelled(true);
         }
     }

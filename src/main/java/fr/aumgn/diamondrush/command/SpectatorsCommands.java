@@ -25,15 +25,21 @@ import fr.aumgn.diamondrush.region.Totem;
 @NestedCommands(name = "diamondrush")
 public class SpectatorsCommands implements Commands {
 
+    private final DiamondRush dr;
+
+    public SpectatorsCommands(DiamondRush diamondRush) {
+        this.dr = diamondRush;
+    }
+
     @Command(name = "watch")
     public void watchGame(Player player, CommandArgs args) {
-        Game game = DiamondRush.getGame();
+        Game game = dr.getGame();
         DRSpectatorJoinEvent event = new DRSpectatorJoinEvent(game, player);
-        DiamondRush.getController().handleSpectatorJoinEvent(event);
+        dr.handleSpectatorJoinEvent(event);
     }
 
     private void ensureIsSpectator(Player player) {
-        Game game = DiamondRush.getGame();
+        Game game = dr.getGame();
         if (!game.getSpectators().contains(player)) {
             throw new CommandError("Cette commande n'est utilisable que pour un spectateur.");
         }
@@ -59,16 +65,16 @@ public class SpectatorsCommands implements Commands {
             spectator = matchPlayer(args.get(0));
         }
 
-        Game game = DiamondRush.getGame();
+        Game game = dr.getGame();
         DRSpectatorQuitEvent event = new DRSpectatorQuitEvent(game, spectator);
-        DiamondRush.getController().handleSpectatorQuitEvent(event);
+        dr.handleSpectatorQuitEvent(event);
     }
 
     @Command(name = "tp-player", min = 1, max = 1)
     public void tpPlayer(Player player, CommandArgs args) {
         ensureIsSpectator(player);
 
-        Game game = DiamondRush.getGame();
+        Game game = dr.getGame();
 
         Player target = matchPlayer(args.get(0));
         if (!game.contains(target) || !game.getSpectators().contains(player)) {
@@ -82,7 +88,7 @@ public class SpectatorsCommands implements Commands {
     public void tpTeam(Player player, CommandArgs args) {
         ensureIsSpectator(player);
 
-        Game game = DiamondRush.getGame();
+        Game game = dr.getGame();
         String arg = args.get(0);
 
         Team team = game.getTeam(arg);
@@ -114,7 +120,7 @@ public class SpectatorsCommands implements Commands {
     public void inv(Player spectator, CommandArgs args) {
         Player player = matchPlayer(args.get(0));
 
-        Game game = DiamondRush.getGame();
+        Game game = dr.getGame();
         if (!game.contains(player)) {
             throw new CommandError("Le joueur n'est pas en jeu.");
         }

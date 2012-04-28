@@ -7,9 +7,9 @@ public class GameTimer extends Timer {
 
     private Game game;
 
-    public GameTimer(int seconds, Game game, Runnable runnable) {
-        super(DiamondRush.getPlugin(), 
-                DiamondRush.getConfig().getTimerConfig(), seconds, runnable);
+    public GameTimer(DiamondRush dr, int seconds, Game game, Runnable runnable) {
+        super(dr.getPlugin(), 
+                dr.getConfig().getTimerConfig(), seconds, runnable);
         this.game = game;
     }
 

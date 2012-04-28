@@ -12,7 +12,6 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import fr.aumgn.diamondrush.DiamondRush;
-import fr.aumgn.diamondrush.game.Game;
 import fr.aumgn.diamondrush.game.Team;
 import fr.aumgn.diamondrush.stage.listeners.FightListener;
 
@@ -23,9 +22,9 @@ public class FightStage extends Stage {
     private Map<Player, Integer> deathsByPlayer;
     private boolean surrender;
 
-    public FightStage(Game game) {
-        super(game);
-        this.listener = new FightListener(this);
+    public FightStage(DiamondRush dr) {
+        super(dr);
+        this.listener = new FightListener(dr, this);
         this.deathsByTeam = new HashMap<Team, Integer>();
         this.deathsByPlayer = new HashMap<Player, Integer>();
         this.surrender = false;
@@ -38,21 +37,21 @@ public class FightStage extends Stage {
 
     @Override
     public void start() {
-        game.sendMessage(ChatColor.GREEN + "La phase de combat commence.");
-        for (Team team : game.getTeams()) {
+        dr.getGame().sendMessage(ChatColor.GREEN + "La phase de combat commence.");
+        for (Team team : dr.getGame().getTeams()) {
             deathsByTeam.put(team, 0);
             for (Player player : team.getPlayers()) {
                 deathsByPlayer.put(player, 0);
             }
         }
-        int duration = DiamondRush.getConfig().getFightDuration(game.getTurnCount());
-        scheduleNextStageWithTransition(duration, new DevelopmentStage(game));
+        int duration = dr.getConfig().getFightDuration(dr.getGame().getTurnCount());
+        scheduleNextStageWithTransition(duration, new DevelopmentStage(dr));
     }
 
     @Override
     public void stop() {
         super.stop();
-        game.sendMessage(ChatColor.GREEN + "Fin de la phase de combat.");
+        dr.getGame().sendMessage(ChatColor.GREEN + "Fin de la phase de combat.");
     }
 
     public boolean canSurrender() {
@@ -79,22 +78,22 @@ public class FightStage extends Stage {
         team.incrementSurrenders();
         affect(team);
         cancelGameTimer();
-        game.sendMessage("L'équipe " + team.getDisplayName() + " s'est rendue.");
+        dr.getGame().sendMessage("L'équipe " + team.getDisplayName() + " s'est rendue.");
         scheduleNextStageWithTransition(
-                DiamondRush.getConfig().getTimeLeftAfterSurrender(),
-                new DevelopmentStage(game));
+                dr.getConfig().getTimeLeftAfterSurrender(),
+                new DevelopmentStage(dr));
     }
 
     private void affect(Team team) {
         PotionEffect effect = new PotionEffect(malusTypeFor(team), 
-                DiamondRush.getConfig().getSurrenderMalusDuration(), 10);
+                dr.getConfig().getSurrenderMalusDuration(), 10);
         for (Player player : team.getPlayers()) {
             player.addPotionEffect(effect);
         }
     }
 
     private PotionEffectType malusTypeFor(Team team) {
-        int step = team.getSurrenders() / DiamondRush.getConfig().getSurrenderMalusStep();
+        int step = team.getSurrenders() / dr.getConfig().getSurrenderMalusStep();
         if (step > 2) {
             return PotionEffectType.SLOW;
         } else if (step == 2) {

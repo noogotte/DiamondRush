@@ -23,17 +23,20 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 import fr.aumgn.bukkitutils.util.Vector;
+import fr.aumgn.diamondrush.DiamondRush;
 import fr.aumgn.diamondrush.game.Game;
 import fr.aumgn.diamondrush.game.Team;
 import fr.aumgn.diamondrush.stage.PositioningStage;
 
 public class PositioningListener implements Listener {
 
+    private DiamondRush dr;
     private PositioningStage stage;
     private Map<Team, Vector> positions;
     private Set<Player> blockToGiveBackAtRespawn;
 
-    public PositioningListener(PositioningStage stage, Map<Team, Vector> positions) {
+    public PositioningListener(DiamondRush dr, PositioningStage stage, Map<Team, Vector> positions) {
+        this.dr = dr;
         this.stage = stage;
         this.positions = positions;
         this.blockToGiveBackAtRespawn = new HashSet<Player>();
@@ -65,7 +68,7 @@ public class PositioningListener implements Listener {
     public void onBlockPlace(BlockPlaceEvent event) {
         Block block = event.getBlock();
         if (event.getBlock().getType() == stage.getMaterial()) {
-            Team team = stage.getGame().getTeam(event.getPlayer());
+            Team team = stage.getDiamondRush().getGame().getTeam(event.getPlayer());
             if (team == null) {
                 return;
             }
@@ -84,7 +87,7 @@ public class PositioningListener implements Listener {
             return;
         }
 
-        Game game = stage.getGame();
+        Game game = dr.getGame();
         Player player = event.getPlayer();
 
         if (!game.contains(player)) {
@@ -113,14 +116,14 @@ public class PositioningListener implements Listener {
     public void onFoodLevelChange(FoodLevelChangeEvent event) {
         HumanEntity entity = event.getEntity();
         if (entity instanceof Player 
-                && stage.getGame().contains((Player) event.getEntity())) {
+                && dr.getGame().contains((Player) event.getEntity())) {
             event.setCancelled(true);
         }
     }
 
     @EventHandler
     public void onItemDrop(PlayerDropItemEvent event) {
-        if (!stage.getGame().contains(event.getPlayer())) {
+        if (!dr.getGame().contains(event.getPlayer())) {
             return;
         }
 

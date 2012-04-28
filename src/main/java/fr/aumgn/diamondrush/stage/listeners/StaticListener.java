@@ -33,9 +33,9 @@ public class StaticListener implements Listener {
     private StaticStage stage;
     private Game game;
 
-    public StaticListener(StaticStage stage) {
+    public StaticListener(StaticStage stage, Game game) {
         this.stage = stage;
-        this.game = stage.getGame();
+        this.game = game;
     }
 
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)

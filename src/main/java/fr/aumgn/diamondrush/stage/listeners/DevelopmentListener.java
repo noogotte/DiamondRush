@@ -16,14 +16,13 @@ import fr.aumgn.bukkitutils.util.Vector;
 import fr.aumgn.diamondrush.DiamondRush;
 import fr.aumgn.diamondrush.game.Game;
 import fr.aumgn.diamondrush.game.Team;
-import fr.aumgn.diamondrush.stage.DevelopmentStage;
 
 public class DevelopmentListener implements Listener {
 
-    public DevelopmentStage stage;
+    public DiamondRush dr;
 
-    public DevelopmentListener(DevelopmentStage stage) {
-        this.stage = stage;
+    public DevelopmentListener(DiamondRush dr) {
+        this.dr = dr;
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
@@ -42,7 +41,7 @@ public class DevelopmentListener implements Listener {
 
         Player target = (Player) targetEntity;
         Player damager = (Player) damagerEntity;
-        Game game = stage.getGame();
+        Game game = dr.getGame();
         if (!game.contains(damager) || !game.contains(target)) {
             return;
         }
@@ -59,20 +58,20 @@ public class DevelopmentListener implements Listener {
         Vector targetPos = new Vector(damager.getLocation());
         int totemDistanceSq = damagerTeam.getTotem().
                 getMiddle().distanceSq(targetPos);
-        if (totemDistanceSq < DiamondRush.getConfig().getSpottedTotemDistance()) {
+        if (totemDistanceSq < dr.getConfig().getSpottedTotemDistance()) {
             handleSpottedPlayer(damager, target);
             return;
         }
 
         int spawnDistanceSq = damagerTeam.getSpawn().
                 getMiddle().distanceSq(targetPos);
-        if (spawnDistanceSq < DiamondRush.getConfig().getSpottedSpawnDistance()) {
+        if (spawnDistanceSq < dr.getConfig().getSpottedSpawnDistance()) {
             handleSpottedPlayer(damager, target);
         }
     }
 
     private void handleSpottedPlayer(Player player, Player target) {
-        Game game = stage.getGame();
+        Game game = dr.getGame();
         Team team = game.getTeam(target);
         target.teleport(team.getSpawn().getTeleportLocation(game.getWorld(), game.getSpawn()));
         game.sendMessage(target.getDisplayName() + ChatColor.YELLOW +
@@ -82,7 +81,7 @@ public class DevelopmentListener implements Listener {
     @EventHandler(priority = EventPriority.HIGH)
     public void onChat(PlayerChatEvent event) {
         Player player = event.getPlayer();
-        Game game = stage.getGame();
+        Game game = dr.getGame();
         if (game.contains(player)) {
             String message = event.getMessage();
             if (message.charAt(0) == '!') {

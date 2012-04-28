@@ -10,13 +10,13 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
+import fr.aumgn.diamondrush.DiamondRush;
 import fr.aumgn.diamondrush.Util;
 import fr.aumgn.diamondrush.event.game.DRGameStartEvent;
 import fr.aumgn.diamondrush.event.players.DRPlayerJoinEvent;
 import fr.aumgn.diamondrush.event.players.DRPlayerQuitEvent;
 import fr.aumgn.diamondrush.event.spectators.DRSpectatorJoinEvent;
 import fr.aumgn.diamondrush.exception.NotEnoughPlayers;
-import fr.aumgn.diamondrush.game.Game;
 import fr.aumgn.diamondrush.game.Team;
 import fr.aumgn.diamondrush.game.TeamsView;
 
@@ -24,8 +24,8 @@ public class RandomJoinStage extends JoinStage implements Listener {
 
     private List<Player> players;
 
-    public RandomJoinStage(Game game) {
-        super(game);
+    public RandomJoinStage(DiamondRush dr) {
+        super(dr);
         players = new ArrayList<Player>();
     }
 
@@ -71,19 +71,19 @@ public class RandomJoinStage extends JoinStage implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onGameStart(DRGameStartEvent event) {
-        if (game.getTeams().size() > players.size()) {
+        if (dr.getGame().getTeams().size() > players.size()) {
             event.setCancelled(true);
             throw new NotEnoughPlayers();
         }
 
         Collections.shuffle(players);
         for (Player player : players) {
-            Team team = game.getTeamWithMinimumPlayers();
-            game.addPlayer(player, team);
+            Team team = dr.getGame().getTeamWithMinimumPlayers();
+            dr.getGame().addPlayer(player, team);
         }
-        TeamsView view = new TeamsView(game.getTeams());
+        TeamsView view = new TeamsView(dr.getGame().getTeams());
         for (String message : view) {
-            game.sendMessage(message);
+            dr.getGame().sendMessage(message);
         }
     }
 

@@ -8,9 +8,9 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
+import org.bukkit.inventory.ItemStack;
 
 import fr.aumgn.bukkitutils.util.Vector2D;
-import fr.aumgn.diamondrush.DiamondRush;
 import fr.aumgn.diamondrush.Util;
 
 public class ChestPopulator {
@@ -34,14 +34,16 @@ public class ChestPopulator {
         this.radiusOffset = radiusOffset;
     }
 
-    public void populate(World world, int amount) {
+    public void populate(World world, List<ItemStack[]> contents) {
+        int amount = contents.size();
         double maxRadius = getMaxRadius().length();
 
         Random rand = Util.getRandom();
         double angleDiff = 2 * Math.PI / amount;
         double angleOrigin = rand.nextDouble() * Math.PI;
         double angleOffset = angleDiff / amount;
-        for (int i = 0; i < amount; i++) {
+        int i = 0;
+        for (ItemStack[] content : contents) {
             double radius = rand.nextDouble() * maxRadius + radiusOffset;
             double offset = rand.nextDouble() * angleOffset;
             double angle = angleOrigin + i * angleDiff + offset;
@@ -50,7 +52,7 @@ public class ChestPopulator {
             Vector2D pos = origin.add(x, z);
 
             Block block = world.getHighestBlockAt(pos.getX(), pos.getZ());
-            createChest(block);
+            createChest(block, content);
         }
     }
 
@@ -69,10 +71,9 @@ public class ChestPopulator {
         return maxRadius;
     }
 
-    private void createChest(Block block) {
+    private void createChest(Block block, ItemStack[] content) {
         block.setType(Material.CHEST);
         Chest chest = (Chest) block.getState();
-        chest.getBlockInventory().addItem(
-                DiamondRush.getConfig().getRandomBonus());
+        chest.getBlockInventory().addItem(content);
     }
 }

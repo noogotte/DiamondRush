@@ -6,14 +6,14 @@ import java.util.List;
 import org.bukkit.ChatColor;
 import org.bukkit.event.Listener;
 
+import fr.aumgn.diamondrush.DiamondRush;
 import fr.aumgn.diamondrush.Util;
-import fr.aumgn.diamondrush.game.Game;
 import fr.aumgn.diamondrush.game.Team;
 
 public abstract class JoinStage extends Stage {
 
-    public JoinStage(Game game) {
-        super(game);
+    public JoinStage(DiamondRush dr) {
+        super(dr);
     }
 
     @Override
@@ -25,7 +25,7 @@ public abstract class JoinStage extends Stage {
     public void start() {
         Util.broadcast(ChatColor.YELLOW + "Une nouvelle partie de Diamond Rush va commencer !");
         Util.broadcast(ChatColor.YELLOW + "Equipes : ");
-        for (Team team : game.getTeams()) {
+        for (Team team : dr.getGame().getTeams()) {
             Util.broadcast(" - " + team.getDisplayName());
         }
     }

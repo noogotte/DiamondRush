@@ -28,10 +28,12 @@ import fr.aumgn.diamondrush.stage.FightStage;
 
 public class FightListener implements Listener {
 
+    private DiamondRush dr;
     private FightStage stage;
     private Set<Player> pvpDeaths;
 
-    public FightListener(FightStage stage) {
+    public FightListener(DiamondRush dr, FightStage stage) {
+        this.dr = dr;
         this.stage = stage;
         this.pvpDeaths = new HashSet<Player>();
     }
@@ -53,7 +55,7 @@ public class FightListener implements Listener {
         }
 
         Player damager = (Player) damagerEntity;
-        Game game = stage.getGame();
+        Game game = dr.getGame();
         if (!game.contains(damager) || !game.contains(player)) {
             return;
         }
@@ -64,8 +66,8 @@ public class FightListener implements Listener {
         }
 
         stage.incrementDeathCount(team, player);
-        if (stage.getDeathCount(team) > DiamondRush.getConfig().getMaxDiamond()) {
-            event.getDrops().add(DiamondRush.getConfig().getItemForKill());
+        if (stage.getDeathCount(team) > dr.getConfig().getMaxDiamond()) {
+            event.getDrops().add(dr.getConfig().getItemForKill());
         } else {
             event.getDrops().add(new ItemStack(Material.DIAMOND));
         }
@@ -75,11 +77,11 @@ public class FightListener implements Listener {
     @EventHandler
     public void onRespawn(PlayerRespawnEvent event) {
         final Player player = event.getPlayer();
-        Bukkit.getScheduler().scheduleSyncDelayedTask(DiamondRush.getPlugin(), new Runnable() {
+        Bukkit.getScheduler().scheduleSyncDelayedTask(dr.getPlugin(), new Runnable() {
             @Override
             public void run() {
                 if (pvpDeaths.contains(player)) {
-                    player.getInventory().addItem(DiamondRush.getConfig().getItemForDeath());
+                    player.getInventory().addItem(dr.getConfig().getItemForDeath());
                     affectPlayer(player);
                     pvpDeaths.remove(player);
                 }
@@ -89,7 +91,7 @@ public class FightListener implements Listener {
 
     private void affectPlayer(Player player) {
         int duration = (stage.getDeathCount(player) - 1)
-                * DiamondRush.getConfig().getDeathMalusDuration();
+                * dr.getConfig().getDeathMalusDuration();
         for (PotionEffect potionEffect : player.getActivePotionEffects()) {
             if (potionEffect.getType() == PotionEffectType.SLOW) {
                 duration += potionEffect.getDuration();
@@ -112,14 +114,14 @@ public class FightListener implements Listener {
         }
 
         Player player = event.getPlayer();
-        Game game = stage.getGame();
+        Game game = dr.getGame();
         if (!game.contains(player)) {
             return;
         }
 
         ItemStack item = player.getItemInHand();
         int type = item.getTypeId();
-        if (type != DiamondRush.getConfig().getSurrenderItem()) {
+        if (type != dr.getConfig().getSurrenderItem()) {
             return;
         }
 
@@ -129,7 +131,7 @@ public class FightListener implements Listener {
         }
 
         Team team = game.getTeam(player);
-        if (stage.getDeathCount(team) >= DiamondRush.getConfig().getDeathNeededForSurrender()) {
+        if (stage.getDeathCount(team) >= dr.getConfig().getDeathNeededForSurrender()) {
             if (item.getAmount() == 1) {
                 player.setItemInHand(new ItemStack(0));
             } else {

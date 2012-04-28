@@ -2,6 +2,10 @@ package fr.aumgn.diamondrush;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.google.gson.FieldNamingPolicy;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import fr.aumgn.bukkitutils.command.CommandsRegistration;
 import fr.aumgn.bukkitutils.command.messages.FrenchMessages;
 import fr.aumgn.bukkitutils.gconf.GConfLoadException;
@@ -15,18 +19,28 @@ import fr.aumgn.diamondrush.config.DRConfig;
 
 public class DiamondRushPlugin extends JavaPlugin {
 
-    public void onEnable() {
-        DiamondRush.init(this);
+    private static final double GSON_VERSION = 0.0;
 
+    public void onEnable() {
+        DiamondRush diamondRush = new DiamondRush(this);
+        
         CommandsRegistration commandsRegistration = new CommandsRegistration(
                 this, new FrenchMessages());
-        commandsRegistration.register(new AdminCommands());
-        commandsRegistration.register(new GameCommands());
-        commandsRegistration.register(new SpectatorsCommands());
-        commandsRegistration.register(new PlayerCommands());
-        commandsRegistration.register(new InfoCommands());
+        commandsRegistration.register(new AdminCommands(this));
+        commandsRegistration.register(new GameCommands(diamondRush));
+        commandsRegistration.register(new SpectatorsCommands(diamondRush));
+        commandsRegistration.register(new PlayerCommands(diamondRush));
+        commandsRegistration.register(new InfoCommands(diamondRush));
 
         getLogger().info("Enabled.");
+    }
+
+    public Gson gson() {
+        return new GsonBuilder()
+            .setVersion(GSON_VERSION)
+            .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_DASHES)
+            .setPrettyPrinting()
+            .create();
     }
 
     public void onDisable() {
@@ -35,7 +49,7 @@ public class DiamondRushPlugin extends JavaPlugin {
 
     public DRConfig loadTBNConfig() {
         try {
-            GConfLoader loader = new GConfLoader(DiamondRush.getGson(), this);
+            GConfLoader loader = new GConfLoader(gson(), this);
             return loader.loadOrCreate("config.json", DRConfig.class);
         } catch (GConfLoadException exc) {
             getLogger().warning(

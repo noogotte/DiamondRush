@@ -29,9 +29,15 @@ import fr.aumgn.diamondrush.stage.Stage;
 @NestedCommands(name = "diamondrush")
 public class GameCommands implements Commands {
 
+    private final DiamondRush dr;
+
+    public GameCommands(DiamondRush diamondRush) {
+        this.dr = diamondRush;
+    }
+
     @Command(name = "init", min = 1, max = -1, flags = "cn")
     public void initGame(Player player, CommandArgs args) {
-        if (DiamondRush.isRunning()) {
+        if (dr.isRunning()) {
             throw new CommandError("Une partie est déjà en cours.");
         }
 
@@ -57,48 +63,47 @@ public class GameCommands implements Commands {
         }
 
         Game game = new Game(teams, player.getWorld(),
-                new Vector(player.getLocation()));
+                new Vector(player.getLocation()), dr.getConfig().getLives());
 
         JoinStage stage;
         if (args.hasFlag('c')) {
-            stage = new SimpleJoinStage(game);
+            stage = new SimpleJoinStage(dr);
         } else {
-            stage = new RandomJoinStage(game);
+            stage = new RandomJoinStage(dr);
         }
-        DiamondRush.initGame(game, stage);
+        dr.initGame(game, stage);
     }
 
     @Command(name = "start")
     public void startGame(CommandSender sender, CommandArgs args) {
-        Game game = DiamondRush.getGame();
+        Game game = dr.getGame();
         DRGameStartEvent event = new DRGameStartEvent(game);
-        DiamondRush.getController().handleGameStartEvent(event);
+        dr.handleGameStartEvent(event);
     }
 
     @Command(name = "stop")
     public void stopGame(CommandSender sender, CommandArgs args) {
-        Game game = DiamondRush.getGame();
+        Game game = dr.getGame();
         DRGameStopEvent event = new DRGameStopEvent(game);
-        DiamondRush.getController().handleGameStopEvent(event);
+        dr.handleGameStopEvent(event);
     }
 
     @Command(name = "pause")
     public void pauseGame(CommandSender sender, CommandArgs args) {
-        Game game = DiamondRush.getGame();
-        if (game.isPaused()) {
+        if (dr.isPaused()) {
             throw new CommandError("Le jeu est déjà en pause.");
         }
-        game.pause();
+        dr.pause();
     }
 
     @Command(name = "resume")
     public void resumeGame(CommandSender sender, CommandArgs args) {
-        final Game game = DiamondRush.getGame();
-        if (!game.isPaused()) {
+        final Game game = dr.getGame();
+        if (!dr.isPaused()) {
             throw new CommandError("Le jeu n'est pas en pause.");
         }
 
-        Stage stage = game.getStage();
+        Stage stage = dr.getStage();
         if (stage.hasNextStageScheduled()) {
             throw new CommandError(
                     "La partie est déjà sur le point de redémarrer.");
@@ -107,7 +112,7 @@ public class GameCommands implements Commands {
         game.sendMessage(ChatColor.GREEN + "La partie va reprendre.");
         stage.schedule(3, new Runnable() {
             public void run() {
-                game.resume();
+                dr.resume();
             }
         });
     }

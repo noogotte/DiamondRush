@@ -33,19 +33,28 @@ import fr.aumgn.diamondrush.DiamondRush;
 import fr.aumgn.diamondrush.event.players.DRPlayerJoinEvent;
 import fr.aumgn.diamondrush.event.spectators.DRSpectatorJoinEvent;
 import fr.aumgn.diamondrush.event.spectators.DRSpectatorQuitEvent;
+import fr.aumgn.diamondrush.game.Game;
 import fr.aumgn.diamondrush.game.Spectators;
 import fr.aumgn.diamondrush.game.Team;
 
 public class SpectatorsListener implements Listener {
 
+    private Game game;
+    private Spectators spectators;
+
+    public SpectatorsListener(DiamondRush diamondRush) {
+        this.game = diamondRush.getGame();
+        this.spectators = diamondRush.getGame().getSpectators();
+    }
+
     private boolean isSpectator(Player player) {
-        return DiamondRush.getGame().getSpectators().contains(player);
+        return spectators.contains(player);
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onSpectatorJoin(DRSpectatorJoinEvent event) {
         Player spectator = event.getSpectator();
-        for (Team team : DiamondRush.getGame().getTeams()) {
+        for (Team team : game.getTeams()) {
             for (Player player : team.getPlayers()) {
                 player.hidePlayer(spectator);
             }
@@ -58,7 +67,7 @@ public class SpectatorsListener implements Listener {
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onSpectatorQuit(DRSpectatorQuitEvent event) {
         Player spectator = event.getSpectator();
-        for (Team team : DiamondRush.getGame().getTeams()) {
+        for (Team team : game.getTeams()) {
             for (Player player : team.getPlayers()) {
                 player.showPlayer(spectator);
             }
@@ -81,7 +90,7 @@ public class SpectatorsListener implements Listener {
    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
    public void onRealPlayerJoinGame(DRPlayerJoinEvent event) {
         Player player = event.getPlayer();
-        for (Player spectator : DiamondRush.getGame().getSpectators()) {
+        for (Player spectator : spectators) {
             player.hidePlayer(spectator);
         }
     }
@@ -215,7 +224,6 @@ public class SpectatorsListener implements Listener {
     public void onChat(PlayerChatEvent event) {
         if (isSpectator(event.getPlayer())) {
             event.getRecipients().clear();
-            Spectators spectators = DiamondRush.getGame().getSpectators();
             event.getRecipients().addAll(spectators.asCollection());
         }
     }

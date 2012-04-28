@@ -6,20 +6,19 @@ import org.bukkit.event.Listener;
 
 import fr.aumgn.bukkitutils.util.Timer;
 import fr.aumgn.diamondrush.DiamondRush;
-import fr.aumgn.diamondrush.game.Game;
 import fr.aumgn.diamondrush.game.GameTimer;
 
 public abstract class Stage {
 
-    protected Game game;
+    protected DiamondRush dr;
     private Timer gameTimer = null;
 
-    public Stage(Game game) {
-        this.game = game;
+    public Stage(DiamondRush dr) {
+        this.dr = dr;
     }
 
-    public Game getGame() {
-        return game;
+    public DiamondRush getDiamondRush() {
+        return dr;
     }
 
     public abstract List<Listener> getListeners();
@@ -29,23 +28,23 @@ public abstract class Stage {
     }
 
     public void schedule(int seconds, Runnable runnable) {
-        gameTimer  = new GameTimer(seconds, game, runnable);
+        gameTimer  = new GameTimer(dr, seconds, dr.getGame(), runnable);
         gameTimer.run();
     }
 
     public void scheduleNextStage(int seconds, final Stage nextStage) {
         this.schedule(seconds, new Runnable() {
             public void run() {
-                game.nextStage(nextStage);
+                dr.nextStage(nextStage);
             }
         });
     }
 
     public void scheduleNextStageWithTransition(int seconds, Stage nextStage) {
-        int duration = DiamondRush.getConfig().getTransitionDuration();
+        int duration = dr.getConfig().getTransitionDuration();
         if (duration > 0) {
             scheduleNextStage(seconds, new TransitionStage(
-                    game, nextStage, duration));
+                    dr, nextStage, duration));
         } else {
             scheduleNextStage(seconds, nextStage);
         }
