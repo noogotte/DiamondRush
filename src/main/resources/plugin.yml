@@ -32,11 +32,17 @@ commands:
         usage: ""
         aliases: ["resume", "rsm"]
         permission: "dr.cmd.stop"
+
     "diamondrush teams":
         description: "Affiche les équipes"
         usage: ""
         permission: "dr.cmd.showteams"
         aliases: ["st"]
+    "diamondrush spectators":
+        description: "Affiche la liste des spectateurs."
+        usage: ""
+        permission: "dr.cmd.spectators"
+        aliases: ["spectators"]
 
     "diamondrush init":
         description: "Initie une partie de Diamond Rush."
@@ -108,6 +114,7 @@ permissions:
         default: true
         children:
             dr.cmd.jointeam: true
+            dr.cmd.spectators: true
             dr.cmd.showteams: true
     dr.watch:
         default: true
