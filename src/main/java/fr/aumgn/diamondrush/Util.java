@@ -1,6 +1,9 @@
 package fr.aumgn.diamondrush;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 
 import org.bukkit.Bukkit;
@@ -26,6 +29,20 @@ public final class Util {
                 player.sendMessage(message);
             }
         }
+    }
+
+    public static List<Player> matchPlayer(String rawPattern) {
+        String pattern = rawPattern.toLowerCase(Locale.ENGLISH);
+        ArrayList<Player> players = new ArrayList<Player>();
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            String name = player.getName().toLowerCase(Locale.ENGLISH);
+            if (name.equals(pattern)) {
+                return Collections.<Player>singletonList(player);
+            } else if (name.startsWith(pattern)) {
+                players.add(player);
+            }
+        }
+        return players;
     }
 
     public static Random getRandom() {
