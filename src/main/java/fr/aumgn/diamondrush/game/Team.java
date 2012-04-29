@@ -6,7 +6,6 @@ import java.util.List;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-import fr.aumgn.diamondrush.Util;
 import fr.aumgn.diamondrush.region.TeamSpawn;
 import fr.aumgn.diamondrush.region.Totem;
 
@@ -70,9 +69,6 @@ public class Team {
 
     public void setSpawn(TeamSpawn spawn) {
         this.spawn = spawn;
-        /*for (Player player: players) {
-            setCompassTarget(player, world);
-        }*/
     }
 
     public int getLives() {
@@ -93,15 +89,9 @@ public class Team {
         return players.size();
     }
 
-    public void setTeamName(Player player) {
+    public String getTeamName(Player player) {
         String rawName = ChatColor.stripColor(player.getDisplayName());
-        String teamName = color.getChatColor() + rawName + ChatColor.RESET;
-        player.setDisplayName(teamName);
-        if (teamName.length() > 16) {
-            player.setPlayerListName(teamName.substring(0, 16));
-        } else {
-            player.setPlayerListName(teamName);
-        }
+        return color.getChatColor() + rawName + ChatColor.RESET;
     }
 
     void addPlayer(Player player) {
@@ -110,13 +100,6 @@ public class Team {
 
     void removePlayer(Player player) {
         players.remove(player);
-        if (player.equals(foreman)) {
-            foreman = Util.pickRandom(players);
-            if (foreman != null) {
-                sendMessage(foreman.getDisplayName() + 
-                    " est maintenant le chef d'équipe.");
-            }
-        }
     }
 
     public void decreaseLives() {

@@ -18,20 +18,24 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 
 import fr.aumgn.bukkitutils.util.Vector;
 import fr.aumgn.diamondrush.DiamondRush;
+import fr.aumgn.diamondrush.Util;
 import fr.aumgn.diamondrush.event.players.DRPlayerJoinEvent;
 import fr.aumgn.diamondrush.event.players.DRPlayerQuitEvent;
 import fr.aumgn.diamondrush.event.spectators.DRSpectatorJoinEvent;
+import fr.aumgn.diamondrush.event.team.DRTeamLooseEvent;
 import fr.aumgn.diamondrush.event.team.DRTeamSpawnSetEvent;
 import fr.aumgn.diamondrush.game.Game;
 import fr.aumgn.diamondrush.game.Team;
 
 public class GameListener implements Listener {
 
+    private final DiamondRush dr;
     private final Game game;
     private boolean handleMove = false;
     private Set<Player> playersInSpawn = new HashSet<Player>();
 
     public GameListener(DiamondRush diamondRush) {
+        this.dr = diamondRush;
         this.game = diamondRush.getGame();
     }
 
@@ -56,8 +60,13 @@ public class GameListener implements Listener {
     }
 
     private void initPlayer(Team team, Player player) {
-        player.setDisplayName(team.getColor().getChatColor() +
-                player.getDisplayName());
+        String teamName = team.getTeamName(player);
+        player.setDisplayName(teamName);
+        if (teamName.length() > 16) {
+            player.setPlayerListName(teamName.substring(0, 16));
+        } else {
+            player.setPlayerListName(teamName);
+        }
         if (team.getSpawn() != null) {
             Location spawnLoc = team.getSpawn().getMiddle().
                     toLocation(game.getWorld());
@@ -73,6 +82,22 @@ public class GameListener implements Listener {
         // Ugly..
         player.setDisplayName(player.getDisplayName().replaceFirst(
                 team.getColor().getChatColor().toString(), ""));
+        Player foreman = team.getForeman();
+        if (player.equals(foreman)) {
+            foreman = Util.pickRandom(team.getPlayers());
+            team.setForeman(foreman);
+            if (foreman != null) {
+                team.sendMessage(foreman.getDisplayName() + 
+                    " est maintenant le chef d'équipe.");
+            }
+        }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    public void onTeamLoose(DRTeamLooseEvent event) {
+        for (Player player : event.getTeam().getPlayers()) {
+            dr.spectatorJoin(player);
+        }
     }
 
     @EventHandler(ignoreCancelled = true)

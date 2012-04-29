@@ -6,7 +6,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
@@ -137,9 +136,6 @@ public class Game {
         teams.remove(team.getName());
         for (Player player : team.getPlayers()) {
             players.remove(player);
-            spectators.add(player);
-            player.sendMessage(ChatColor.GREEN + 
-                    "Vous êtes maintenant spectateur.");
         }
     }
 
