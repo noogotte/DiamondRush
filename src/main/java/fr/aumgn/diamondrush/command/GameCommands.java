@@ -48,7 +48,7 @@ public class GameCommands extends DiamondRushCommands {
             if (args.length() > 1) {
                 throw new CommandUsageError("Cette commande ne prend qu'un seul argument.");
             }
-            int amount = Integer.parseInt(args.get(0));
+            int amount = args.getInteger(0);
             Iterator<TeamColor> colors = 
                     TeamColor.getRandomColors(amount).iterator();
             for (;amount > 0; amount--) {
