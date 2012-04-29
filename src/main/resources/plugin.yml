@@ -98,16 +98,14 @@ commands:
 
 permissions:
     "dr.*":
-        default: false
+        default: op
         children:
             dr.admin: true
     dr.admin:
-        default: op
         children:
             dr.cmd.reload: true
             dr.manage: true
     dr.manage:
-        default: false
         children:
             dr.cmd.stop: true
             dr.cmd.init: true
@@ -121,12 +119,11 @@ permissions:
     dr.play:
         default: true
         children:
-            dr.cmd.jointeam: true
+            dr.cmd.join: true
             dr.cmd.showteams: true
             dr.cmd.spectators: true
             dr.cmd.stats: true
     dr.watch:
-        default: true
         children:
             dr.cmd.watch: true
             dr.cmd.tpplayer: true
