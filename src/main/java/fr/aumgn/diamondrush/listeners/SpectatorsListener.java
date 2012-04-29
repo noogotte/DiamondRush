@@ -2,6 +2,8 @@ package fr.aumgn.diamondrush.listeners;
 
 import org.bukkit.GameMode;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.BlockState;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.HumanEntity;
@@ -25,9 +27,11 @@ import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
+import org.bukkit.inventory.ItemStack;
 
 import fr.aumgn.diamondrush.DiamondRush;
 import fr.aumgn.diamondrush.event.players.DRPlayerJoinEvent;
@@ -35,7 +39,6 @@ import fr.aumgn.diamondrush.event.spectators.DRSpectatorJoinEvent;
 import fr.aumgn.diamondrush.event.spectators.DRSpectatorQuitEvent;
 import fr.aumgn.diamondrush.game.Game;
 import fr.aumgn.diamondrush.game.Spectators;
-import fr.aumgn.diamondrush.game.Team;
 
 public class SpectatorsListener implements Listener {
 
@@ -54,27 +57,30 @@ public class SpectatorsListener implements Listener {
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onSpectatorJoin(DRSpectatorJoinEvent event) {
         Player spectator = event.getSpectator();
-        for (Team team : game.getTeams()) {
-            for (Player player : team.getPlayers()) {
-                player.hidePlayer(spectator);
-            }
+        initSpectator(spectator);
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPlayerJoinServer(PlayerJoinEvent event) {
+        Player spectator = event.getPlayer();
+        if (isSpectator(spectator)) {
+            initSpectator(spectator);
         }
+    }
+
+    private void initSpectator(Player spectator) {
         spectator.setAllowFlight(true);
         spectator.setFlying(true);
         spectator.setSleepingIgnored(true);
-    }
+        Location spawnLoc = game.getSpawn().getMiddle().
+                toLocation(game.getWorld());
+        spectator.setCompassTarget(spawnLoc);
+        spectator.setHealth(20);
+        spectator.setFoodLevel(20);
 
-    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onSpectatorQuit(DRSpectatorQuitEvent event) {
-        Player spectator = event.getSpectator();
-        for (Team team : game.getTeams()) {
-            for (Player player : team.getPlayers()) {
-                player.showPlayer(spectator);
-            }
-        }
-        spectator.setAllowFlight(false);
-        spectator.setFlying(false);
-        spectator.setSleepingIgnored(false);
+        Inventory inventory = spectator.getInventory();
+        inventory.clear();
+        inventory.addItem(new ItemStack(Material.COMPASS));
     }
 
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
@@ -87,12 +93,12 @@ public class SpectatorsListener implements Listener {
         }
     }
 
-   @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-   public void onRealPlayerJoinGame(DRPlayerJoinEvent event) {
-        Player player = event.getPlayer();
-        for (Player spectator : spectators) {
-            player.hidePlayer(spectator);
-        }
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    public void onSpectatorQuit(DRSpectatorQuitEvent event) {
+        Player spectator = event.getSpectator();
+        spectator.setAllowFlight(false);
+        spectator.setFlying(false);
+        spectator.setSleepingIgnored(false);
     }
 
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
