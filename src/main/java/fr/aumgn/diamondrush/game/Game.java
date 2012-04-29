@@ -25,6 +25,7 @@ public class Game {
     private Map<Player, Team> players;
     private Spectators spectators;
     private int turnCount;
+    private Statistics statistics;
 
     public Game(Map<String, TeamColor> teamsMap, World world, Vector spawnPoint, int lives) {
         this.teams = new LinkedHashMap<String, Team>();
@@ -44,6 +45,7 @@ public class Game {
         players = new HashMap<Player, Team>();
         spectators = new Spectators();
         turnCount = -1;
+        statistics = new Statistics();
     }
 
     public World getWorld() {
@@ -139,5 +141,9 @@ public class Game {
             player.sendMessage(ChatColor.GREEN + 
                     "Vous êtes maintenant spectateur.");
         }
+    }
+
+    public Statistics getStatistics() {
+        return statistics;
     }
 }

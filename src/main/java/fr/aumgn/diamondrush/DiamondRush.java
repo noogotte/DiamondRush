@@ -26,6 +26,7 @@ import fr.aumgn.diamondrush.listeners.GameListener;
 import fr.aumgn.diamondrush.listeners.RegionsListener;
 import fr.aumgn.diamondrush.listeners.SpectatorsListener;
 import fr.aumgn.diamondrush.listeners.SpectatorsVisibilityListener;
+import fr.aumgn.diamondrush.listeners.StatisticsListener;
 import fr.aumgn.diamondrush.region.TeamSpawn;
 import fr.aumgn.diamondrush.region.Totem;
 import fr.aumgn.diamondrush.stage.JoinStage;
@@ -47,7 +48,7 @@ public final class DiamondRush {
         reloadConfig();
         this.game = null;
         this.stage = null;
-        this.listeners = new Listener[4];
+        this.listeners = new Listener[5];
     }
 
     public DiamondRushPlugin getPlugin() {
@@ -77,6 +78,7 @@ public final class DiamondRush {
         listeners[1] = new RegionsListener(this);
         listeners[2] = new SpectatorsListener(this);
         listeners[3] = new SpectatorsVisibilityListener(this);
+        listeners[4] = new StatisticsListener(this);
         for (Listener listener : listeners) {
             pm.registerEvents(listener, plugin);
         }
