@@ -19,6 +19,7 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import fr.aumgn.bukkitutils.util.Vector;
 import fr.aumgn.diamondrush.DiamondRush;
 import fr.aumgn.diamondrush.event.players.DRPlayerJoinEvent;
+import fr.aumgn.diamondrush.event.players.DRPlayerQuitEvent;
 import fr.aumgn.diamondrush.event.spectators.DRSpectatorJoinEvent;
 import fr.aumgn.diamondrush.event.team.DRTeamSpawnSetEvent;
 import fr.aumgn.diamondrush.game.Game;
@@ -39,8 +40,7 @@ public class GameListener implements Listener {
         Player player = event.getPlayer();
         if (game.contains(player)) {
             Team team = game.getTeam(player);
-            team.setTeamName(player);
-            team.setCompassTarget(player, game.getWorld());
+            initPlayer(team, player);
         }
     }
 
@@ -48,13 +48,31 @@ public class GameListener implements Listener {
     public void onJoinGame(DRPlayerJoinEvent event) {
         Player player = event.getPlayer();
         Team team = event.getTeam();
-        Vector pos;
         if (team.getTotem() != null) {
-            pos = team.getTotem().getTeleportPoint();
-        } else {
-            pos = new Vector(team.getForeman().getLocation());
-        } 
-        player.teleport(pos.toLocation(game.getWorld()));
+            Vector pos = team.getTotem().getTeleportPoint();
+            player.teleport(pos.toLocation(game.getWorld()));
+        }
+        initPlayer(team, player);
+    }
+
+    private void initPlayer(Team team, Player player) {
+        player.setDisplayName(team.getColor().getChatColor() +
+                player.getDisplayName());
+        if (team.getSpawn() != null) {
+            Location spawnLoc = team.getSpawn().getMiddle().
+                    toLocation(game.getWorld());
+            player.setCompassTarget(spawnLoc);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    public void onQuitGame(DRPlayerQuitEvent event) {
+        Player player = event.getPlayer();
+        player.setCompassTarget(null);
+        Team team = game.getTeam(player);
+        // Ugly..
+        player.setDisplayName(player.getDisplayName().replaceFirst(
+                team.getColor().getChatColor().toString(), ""));
     }
 
     @EventHandler(ignoreCancelled = true)

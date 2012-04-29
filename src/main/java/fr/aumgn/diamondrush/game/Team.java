@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import fr.aumgn.diamondrush.Util;
@@ -106,17 +104,8 @@ public class Team {
         }
     }
 
-    public void setCompassTarget(Player player, World world) {
-        Location compassTarget = spawn.getMiddle().toLocation(world);
-        player.setCompassTarget(compassTarget);
-    }
-
-    void addPlayer(Player player, World world) {
+    void addPlayer(Player player) {
         players.add(player);
-        setTeamName(player);
-        if (spawn != null) {
-            setCompassTarget(player, world);
-        }
     }
 
     void removePlayer(Player player) {

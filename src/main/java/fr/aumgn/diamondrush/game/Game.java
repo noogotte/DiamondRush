@@ -123,7 +123,7 @@ public class Game {
     }
 
     public void addPlayer(Player player, Team team) {
-        team.addPlayer(player, world);
+        team.addPlayer(player);
         players.put(player, team);
     }
 
