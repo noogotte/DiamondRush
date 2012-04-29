@@ -18,6 +18,7 @@ import fr.aumgn.diamondrush.stage.listeners.FightListener;
 public class FightStage extends Stage {
 
     private FightListener listener;
+    private Map<Team, Integer> killsByTeam;
     private Map<Team, Integer> deathsByTeam;
     private Map<Player, Integer> deathsByPlayer;
     private boolean surrender;
@@ -25,6 +26,7 @@ public class FightStage extends Stage {
     public FightStage(DiamondRush dr) {
         super(dr);
         this.listener = new FightListener(dr, this);
+        this.killsByTeam = new HashMap<Team, Integer>();
         this.deathsByTeam = new HashMap<Team, Integer>();
         this.deathsByPlayer = new HashMap<Player, Integer>();
         this.surrender = false;
@@ -39,6 +41,7 @@ public class FightStage extends Stage {
     public void start() {
         dr.getGame().sendMessage(ChatColor.GREEN + "La phase de combat commence.");
         for (Team team : dr.getGame().getTeams()) {
+            killsByTeam.put(team, 0);
             deathsByTeam.put(team, 0);
             for (Player player : team.getPlayers()) {
                 deathsByPlayer.put(player, 0);
@@ -58,18 +61,24 @@ public class FightStage extends Stage {
         return !surrender;
     }
 
-    public int getDeathCount(Team team) {
+    public int getKills(Team team) {
+        return killsByTeam.get(team);
+    }
+
+    public int getDeaths(Team team) {
         return deathsByTeam.get(team);
     }
 
-    public int getDeathCount(Player player) {
+    public int getDeaths(Player player) {
         return deathsByPlayer.get(player);
     }
 
-    public void incrementDeathCount(Team team, Player player) {
-        int count = getDeathCount(team) + 1;
+    public void onDeath(Team killerTeam, Team team, Player player) {
+        int count = getKills(killerTeam) + 1;
+        killsByTeam.put(killerTeam, count);
+        count = getDeaths(team) + 1;
         deathsByTeam.put(team, count);
-        count = getDeathCount(player) + 1;
+        count = getDeaths(player) + 1;
         deathsByPlayer.put(player, count);
     }
 

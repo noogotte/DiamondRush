@@ -61,12 +61,13 @@ public class FightListener implements Listener {
         }
 
         Team team = game.getTeam(player);
-        if (team == game.getTeam(damager)) {
+        Team killerTeam = game.getTeam(damager);
+        if (team == killerTeam) {
             return;
         }
 
-        stage.incrementDeathCount(team, player);
-        if (stage.getDeathCount(team) > dr.getConfig().getMaxDiamond()) {
+        stage.onDeath(killerTeam, team, player);
+        if (stage.getKills(team) > dr.getConfig().getMaxDiamond()) {
             event.getDrops().add(dr.getConfig().getItemForKill());
         } else {
             event.getDrops().add(new ItemStack(Material.DIAMOND));
@@ -90,7 +91,7 @@ public class FightListener implements Listener {
     }
 
     private void affectPlayer(Player player) {
-        int duration = (stage.getDeathCount(player) - 1)
+        int duration = (stage.getDeaths(player) - 1)
                 * dr.getConfig().getDeathMalusDuration();
         for (PotionEffect potionEffect : player.getActivePotionEffects()) {
             if (potionEffect.getType() == PotionEffectType.SLOW) {
@@ -131,7 +132,7 @@ public class FightListener implements Listener {
         }
 
         Team team = game.getTeam(player);
-        if (stage.getDeathCount(team) >= dr.getConfig().getDeathNeededForSurrender()) {
+        if (stage.getDeaths(team) >= dr.getConfig().getDeathNeededForSurrender()) {
             if (item.getAmount() == 1) {
                 player.setItemInHand(new ItemStack(0));
             } else {
