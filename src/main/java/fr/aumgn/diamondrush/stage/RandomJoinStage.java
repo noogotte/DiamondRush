@@ -7,7 +7,6 @@ import java.util.List;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
 import fr.aumgn.diamondrush.DiamondRush;
@@ -15,18 +14,19 @@ import fr.aumgn.diamondrush.Util;
 import fr.aumgn.diamondrush.event.game.DRGameStartEvent;
 import fr.aumgn.diamondrush.event.players.DRPlayerJoinEvent;
 import fr.aumgn.diamondrush.event.players.DRPlayerQuitEvent;
-import fr.aumgn.diamondrush.event.spectators.DRSpectatorJoinEvent;
 import fr.aumgn.diamondrush.exception.NotEnoughPlayers;
 import fr.aumgn.diamondrush.game.Team;
-import fr.aumgn.diamondrush.game.TeamsView;
+import fr.aumgn.diamondrush.views.TeamsView;
 
 public class RandomJoinStage extends JoinStage implements Listener {
 
     private List<Player> players;
+    private boolean starting;
 
     public RandomJoinStage(DiamondRush dr) {
         super(dr);
         players = new ArrayList<Player>();
+        starting = false;
     }
 
     @Override
@@ -36,8 +36,11 @@ public class RandomJoinStage extends JoinStage implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void addPlayer(DRPlayerJoinEvent event) {
-        Player player = event.getPlayer();
+        if (starting) {
+            return;
+        }
 
+        Player player = event.getPlayer();
         if (players.contains(player)) {
             player.sendMessage("Vous êtes déjà dans la partie.");
         } else {
@@ -52,6 +55,7 @@ public class RandomJoinStage extends JoinStage implements Listener {
             }
             players.add(player);
         }
+
         event.setCancelled(true);
     }
 
@@ -76,21 +80,15 @@ public class RandomJoinStage extends JoinStage implements Listener {
             throw new NotEnoughPlayers();
         }
 
+        starting = true;
         Collections.shuffle(players);
         for (Player player : players) {
             Team team = dr.getGame().getTeamWithMinimumPlayers();
-            dr.getGame().addPlayer(player, team);
+            dr.playerJoin(team, player);
         }
         TeamsView view = new TeamsView(dr.getGame().getTeams());
         for (String message : view) {
             dr.getGame().sendMessage(message);
         }
-    }
-
-    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
-    public void onSpectatorJoin(DRSpectatorJoinEvent event) {
-        event.setCancelled(true);
-        event.getSpectator().sendMessage(ChatColor.RED + 
-                "Impossible de passer en spectateur durant une phase de join aléatoire.");
     }
 }

@@ -1,4 +1,4 @@
-package fr.aumgn.diamondrush.game;
+package fr.aumgn.diamondrush.views;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+
+import fr.aumgn.diamondrush.game.Team;
 
 public class TeamsView implements Iterable<String> {
 
