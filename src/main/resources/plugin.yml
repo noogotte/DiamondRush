@@ -123,6 +123,7 @@ permissions:
             dr.cmd.showteams: true
             dr.cmd.spectators: true
             dr.cmd.stats: true
+            dr.watch: true
     dr.watch:
         children:
             dr.cmd.watch: true
