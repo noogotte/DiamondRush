@@ -141,7 +141,7 @@ public final class DiamondRush {
         stage.resume();
     }
 
-    public void forceStop() {
+    private void forceStop() {
         for (Listener listener : stage.getListeners()) {
             HandlerList.unregisterAll(listener);
         }

@@ -20,10 +20,11 @@ import fr.aumgn.diamondrush.config.DRConfig;
 public class DiamondRushPlugin extends JavaPlugin {
 
     private static final double GSON_VERSION = 0.0;
+    private DiamondRush diamondRush;
 
     public void onEnable() {
-        DiamondRush diamondRush = new DiamondRush(this);
-        
+        diamondRush = new DiamondRush(this);
+
         CommandsRegistration commandsRegistration = new CommandsRegistration(
                 this, new FrenchMessages());
         commandsRegistration.register(new AdminCommands(diamondRush));
@@ -44,6 +45,9 @@ public class DiamondRushPlugin extends JavaPlugin {
     }
 
     public void onDisable() {
+        if (diamondRush.isRunning()) {
+            diamondRush.gameStop();
+        }
         getLogger().info("Disabled.");
     }
 
