@@ -22,7 +22,9 @@ public class TotemStage extends PositioningStage {
     public void start() {
         super.start();
         dr.getGame().sendMessage("Phase de placement du totem.");
-        scheduleNextStage(dr.getConfig().getTotemDuration(), new SpawnStage(dr));
+        SpawnStage nextStage = new SpawnStage(dr);
+        nextStage.setForemen(foremen);
+        scheduleNextStage(dr.getConfig().getTotemDuration(), nextStage);
     }
 
     @Override
@@ -49,7 +51,8 @@ public class TotemStage extends PositioningStage {
 
     @Override
     public void initPosition(Team team, Vector pos) {
-        Totem totem = new Totem(pos, dr.getGame().getWorld().getMaxHeight());
+        Totem totem = new Totem(pos,
+                dr.getGame().getWorld().getMaxHeight());
         dr.totemSet(team, totem);
     }
 }

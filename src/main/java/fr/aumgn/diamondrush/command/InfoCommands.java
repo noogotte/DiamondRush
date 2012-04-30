@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import fr.aumgn.bukkitutils.command.Command;
 import fr.aumgn.bukkitutils.command.CommandArgs;
 import fr.aumgn.bukkitutils.command.NestedCommands;
+import fr.aumgn.bukkitutils.command.exception.CommandError;
 import fr.aumgn.diamondrush.DiamondRush;
 import fr.aumgn.diamondrush.exception.PlayerNotInGame;
 import fr.aumgn.diamondrush.game.Game;
@@ -50,7 +51,10 @@ public class InfoCommands extends DiamondRushCommands {
 
         Game game = dr.getGame();
         Player target = matchPlayer(args.get(0));
-        if (!game.contains(player)) {
+        if (game.contains(player)) {
+            throw new CommandError("Impossible d'utiliser cette commande en tant que joueur.");
+        }
+        if (!game.contains(target)) {
             throw new PlayerNotInGame();
         }
 

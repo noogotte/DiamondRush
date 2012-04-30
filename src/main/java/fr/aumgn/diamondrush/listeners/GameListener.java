@@ -18,7 +18,6 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 
 import fr.aumgn.bukkitutils.util.Vector;
 import fr.aumgn.diamondrush.DiamondRush;
-import fr.aumgn.diamondrush.Util;
 import fr.aumgn.diamondrush.event.players.DRPlayerJoinEvent;
 import fr.aumgn.diamondrush.event.players.DRPlayerQuitEvent;
 import fr.aumgn.diamondrush.event.spectators.DRSpectatorJoinEvent;
@@ -77,20 +76,10 @@ public class GameListener implements Listener {
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onQuitGame(DRPlayerQuitEvent event) {
         Player player = event.getPlayer();
-        player.setCompassTarget(null);
         Team team = game.getTeam(player);
         // Ugly..
         player.setDisplayName(player.getDisplayName().replaceFirst(
                 team.getColor().getChatColor().toString(), ""));
-        Player foreman = team.getForeman();
-        if (player.equals(foreman)) {
-            foreman = Util.pickRandom(team.getPlayers());
-            team.setForeman(foreman);
-            if (foreman != null) {
-                team.sendMessage(foreman.getDisplayName() + 
-                    " est maintenant le chef d'équipe.");
-            }
-        }
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)

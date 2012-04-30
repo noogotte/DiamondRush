@@ -27,25 +27,13 @@ public class TeamsView implements Iterable<String> {
             message.append(")");
             message.append(ChatColor.RESET);
             if (team.size() > 0) {
-                message.append(" : ");
-                Player foreman = team.getForeman();
-                if (foreman != null) {
-                    message.append(ChatColor.BOLD);
-                    if (!foreman.isOnline()) {
-                        message.append(ChatColor.ITALIC);
-                    }
-                    message.append(foreman.getDisplayName());
-                    message.append(" ");
-                }
+                message.append(" :");
                 for (Player player : team.getPlayers()) {
-                    if (player.equals(foreman)) {
-                        continue;
-                    }
+                    message.append(" ");
                     if (!player.isOnline()) {
                         message.append(ChatColor.ITALIC);
                     }
                     message.append(player.getDisplayName());
-                    message.append(" ");
                 }
             }
             messages.add(message.toString());

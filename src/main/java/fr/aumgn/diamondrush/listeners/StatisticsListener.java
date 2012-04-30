@@ -55,10 +55,12 @@ public class StatisticsListener implements Listener {
 
         Player target = (Player) targetEntity;
         Player damager = (Player) damagerEntity;
-        Team targetTeam = game.getTeam(target);
-        Team damagerTeam = game.getTeam(damager);
+        if (game.contains(target) && game.contains(damager)) {
+            Team targetTeam = game.getTeam(target);
+            Team damagerTeam = game.getTeam(damager);
 
-        statistics.registerkill(damagerTeam, damager, targetTeam, target);
+            statistics.registerkill(damagerTeam, damager, targetTeam, target);
+        }
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)

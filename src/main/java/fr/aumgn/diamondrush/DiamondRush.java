@@ -33,7 +33,6 @@ import fr.aumgn.diamondrush.stage.JoinStage;
 import fr.aumgn.diamondrush.stage.PauseStage;
 import fr.aumgn.diamondrush.stage.Stage;
 import fr.aumgn.diamondrush.stage.StartStage;
-import fr.aumgn.diamondrush.stage.TotemStage;
 
 public final class DiamondRush {
 
@@ -227,7 +226,7 @@ public final class DiamondRush {
         Util.callEvent(event);
         if (!event.isCancelled()) {
             game.sendMessage(ChatColor.GREEN + "La partie va commencer.");
-            nextStage(new StartStage(this, new TotemStage(this)));
+            nextStage(new StartStage(this));
         }
     }
 

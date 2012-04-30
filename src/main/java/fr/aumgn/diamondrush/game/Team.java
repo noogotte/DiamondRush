@@ -13,7 +13,6 @@ public class Team {
 
     private String name;
     private TeamColor color;
-    private Player foreman;
     private List<Player> players;
     private Totem totem;
     private TeamSpawn spawn;
@@ -23,7 +22,6 @@ public class Team {
     public Team(String name, TeamColor color, int lives) {
         this.name = name;
         this.color = color;
-        this.foreman = null;
         this.players = new ArrayList<Player>();
         this.totem = null;
         this.spawn = null;
@@ -41,14 +39,6 @@ public class Team {
 
     public TeamColor getColor() {
         return color;
-    }
-
-    public Player getForeman() {
-        return foreman;
-    }
-
-    public void setForeman(Player foreman) {
-        this.foreman = foreman;
     }
 
     public List<Player> getPlayers() {

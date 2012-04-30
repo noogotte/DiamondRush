@@ -11,7 +11,6 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.block.Chest;
 import org.bukkit.inventory.ItemStack;
 
-import fr.aumgn.bukkitutils.util.Vector;
 import fr.aumgn.bukkitutils.util.Vector2D;
 import fr.aumgn.diamondrush.Util;
 
@@ -67,7 +66,6 @@ public class ChestPopulator {
                 block = blockDown;
                 blockDown = block.getRelative(BlockFace.DOWN);
             } 
-            Util.broadcast(new Vector(block).toString());
             createChest(block, content);
             i++;
         }

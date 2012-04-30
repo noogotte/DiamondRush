@@ -67,7 +67,7 @@ public class FightListener implements Listener {
         }
 
         stage.onDeath(killerTeam, team, player);
-        if (stage.getKills(team) > dr.getConfig().getMaxDiamond()) {
+        if (stage.getKills(killerTeam) > dr.getConfig().getMaxDiamond()) {
             event.getDrops().add(dr.getConfig().getItemForKill());
         } else {
             event.getDrops().add(new ItemStack(Material.DIAMOND));

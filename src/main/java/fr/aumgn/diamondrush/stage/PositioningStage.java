@@ -20,6 +20,7 @@ import fr.aumgn.diamondrush.stage.listeners.PositioningListener;
 
 public abstract class PositioningStage extends Stage {
 
+    protected Map<Team, Player> foremen;
     private Map<Team, Vector> positions;
     private List<Listener> listeners;
 
@@ -29,6 +30,10 @@ public abstract class PositioningStage extends Stage {
         this.listeners = new ArrayList<Listener>();
         this.listeners.add(new NoPVPListener(dr.getGame()));
         this.listeners.add(new PositioningListener(dr, this, positions));
+    }
+
+    public void setForemen(Map<Team, Player> foremen) {
+        this.foremen = foremen;
     }
 
     @Override
@@ -54,7 +59,7 @@ public abstract class PositioningStage extends Stage {
     public Vector getPosition(Team team) {
         Vector pos = positions.get(team);
         if (pos == null) {
-            Player foreman = team.getForeman();
+            Player foreman = foremen.get(team);
             pos = new Vector(foreman.getLocation());
             foreman.teleport(pos.add(0, 0, 1).toLocation(dr.getGame().getWorld()));
         }
@@ -67,7 +72,7 @@ public abstract class PositioningStage extends Stage {
 
     protected void giveBlocks() {
         for (Team team : dr.getGame().getTeams()) {
-            giveBlock(team.getForeman());
+            giveBlock(foremen.get(team));
         }
     }
 

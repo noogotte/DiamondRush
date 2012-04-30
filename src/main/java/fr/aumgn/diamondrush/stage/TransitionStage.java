@@ -6,7 +6,7 @@ import fr.aumgn.diamondrush.DiamondRush;
 
 public class TransitionStage extends StaticStage {
 
-    private Stage nextStage;
+    protected Stage nextStage;
     private int duration;
 
     public TransitionStage(DiamondRush dr, Stage nextStage, int duration) {

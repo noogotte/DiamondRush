@@ -68,7 +68,7 @@ public class SpectatorsCommands extends DiamondRushCommands {
         player.sendMessage(ChatColor.GREEN + "Poof !");
     }
 
-    @Command(name = "tp-team", min = 1, max = 1, flags = "sf")
+    @Command(name = "tp-team", min = 1, max = 1, flags = "s")
     public void tpTeam(Player player, CommandArgs args) {
         ensureIsSpectator(player);
 
@@ -76,13 +76,7 @@ public class SpectatorsCommands extends DiamondRushCommands {
         String arg = args.get(0);
 
         Team team = game.getTeam(arg);
-        if (args.hasFlag('f')) {
-            Player foreman = team.getForeman();
-            if (foreman == null) {
-                throw new CommandError("Cette équipe n'a pas encore de chef d'équipe.");
-            }
-            player.teleport(foreman);
-        } else if (args.hasFlag('s')) {
+        if (args.hasFlag('s')) {
             TeamSpawn spawn = team.getSpawn();
             if (spawn == null) {
                 throw new CommandError("Cette équipe n'a pas encore de spawn.");
