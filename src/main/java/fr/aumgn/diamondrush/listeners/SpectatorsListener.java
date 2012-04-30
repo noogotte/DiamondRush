@@ -39,6 +39,7 @@ import fr.aumgn.diamondrush.event.spectators.DRSpectatorJoinEvent;
 import fr.aumgn.diamondrush.event.spectators.DRSpectatorQuitEvent;
 import fr.aumgn.diamondrush.game.Game;
 import fr.aumgn.diamondrush.game.Spectators;
+import fr.aumgn.diamondrush.views.PlayerView;
 
 public class SpectatorsListener implements Listener {
 
@@ -124,9 +125,17 @@ public class SpectatorsListener implements Listener {
         }
 
         Entity clicked = event.getRightClicked();
-        if (clicked instanceof Player && game.contains((Player) clicked)) {
-            Inventory inventory = ((InventoryHolder) clicked).getInventory();
-            event.getPlayer().openInventory(inventory);
+        if (clicked instanceof Player) {
+            Player clickedPlayer = (Player) clicked;
+            if (game.contains(clickedPlayer)) {
+                Player player = event.getPlayer();
+                Inventory inventory = clickedPlayer.getInventory();
+                player.openInventory(inventory);
+                PlayerView view = new PlayerView(game, clickedPlayer);
+                for (String message : view) {
+                    player.sendMessage(message);
+                }
+            }
         }
         event.setCancelled(true);
     }
