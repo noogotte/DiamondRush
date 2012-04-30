@@ -12,6 +12,9 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 
 import fr.aumgn.diamondrush.DiamondRush;
@@ -25,6 +28,8 @@ public class StaticStage extends Stage {
         private Location location;
         private Material material;
         private byte data;
+        private boolean isInventoryHolder;
+        private ItemStack[] inventoryContents;
         private Collection<PotionEffect> potionEffects;
         private float fallDistance;
         private int remainingAir;
@@ -38,17 +43,30 @@ public class StaticStage extends Stage {
             Block block = location.getBlock().getRelative(BlockFace.DOWN);
             material = block.getType();
             data = block.getData();
-            block.setType(Material.GLASS);
-            restorePosition(player);
-
-            this.potionEffects = player.getActivePotionEffects();
-            for (PotionEffect activeEffect : potionEffects) {
-                player.removePotionEffect(activeEffect.getType());
+            isInventoryHolder = block.getState() instanceof InventoryHolder;
+            if (isInventoryHolder) {
+                Inventory inventory = ((InventoryHolder) block.getState()).getInventory();
+                inventoryContents = inventory.getContents();
             }
 
+            this.potionEffects = player.getActivePotionEffects();
             this.fallDistance = player.getFallDistance();
             this.remainingAir = player.getRemainingAir();
             this.fireTicks = player.getFireTicks();
+        }
+
+        public void init(Player player) {
+            Block block = location.getBlock().getRelative(BlockFace.DOWN);
+            if (isInventoryHolder) {
+                Inventory inventory = ((InventoryHolder) block.getState()).getInventory();
+                inventory.clear();
+            }
+            block.setType(Material.GLASS);
+            restorePosition(player);
+
+            for (PotionEffect activeEffect : potionEffects) {
+                player.removePotionEffect(activeEffect.getType());
+            }
         }
 
         public void restorePosition(Player player) {
@@ -58,6 +76,10 @@ public class StaticStage extends Stage {
         public void restore(Player player) {
             Block block = location.getBlock().getRelative(BlockFace.DOWN);
             block.setTypeIdAndData(material.getId(), data, true);
+            if (isInventoryHolder) {
+                Inventory inventory = ((InventoryHolder) block.getState()).getInventory();
+                inventory.setContents(inventoryContents);
+            }
 
             for (PotionEffect potionEffect : potionEffects) {
                 player.addPotionEffect(potionEffect, true);
@@ -90,6 +112,11 @@ public class StaticStage extends Stage {
         for (Team team : dr.getGame().getTeams()) {
             for (Player player : team.getPlayers()) {
                 status.put(player, new PlayerStatus(player));
+            }
+        }
+        for (Team team : dr.getGame().getTeams()) {
+            for (Player player : team.getPlayers()) {
+                status.get(player).init(player);
             }
         }
     }
