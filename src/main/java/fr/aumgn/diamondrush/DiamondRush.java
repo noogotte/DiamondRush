@@ -280,6 +280,9 @@ public final class DiamondRush {
                     + ChatColor.RED + " a perdu la partie.";
             game.sendMessage(msg);
             team.sendMessage(msg);
+            for (Player player : team.getPlayers()) {
+                spectatorJoin(player);
+            }
         }
     }
 

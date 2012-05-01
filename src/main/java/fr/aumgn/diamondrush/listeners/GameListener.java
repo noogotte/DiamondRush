@@ -21,20 +21,17 @@ import fr.aumgn.diamondrush.DiamondRush;
 import fr.aumgn.diamondrush.event.players.DRPlayerJoinEvent;
 import fr.aumgn.diamondrush.event.players.DRPlayerQuitEvent;
 import fr.aumgn.diamondrush.event.spectators.DRSpectatorJoinEvent;
-import fr.aumgn.diamondrush.event.team.DRTeamLooseEvent;
 import fr.aumgn.diamondrush.event.team.DRTeamSpawnSetEvent;
 import fr.aumgn.diamondrush.game.Game;
 import fr.aumgn.diamondrush.game.Team;
 
 public class GameListener implements Listener {
 
-    private final DiamondRush dr;
     private final Game game;
     private boolean handleMove = false;
     private Set<Player> playersInSpawn = new HashSet<Player>();
 
     public GameListener(DiamondRush diamondRush) {
-        this.dr = diamondRush;
         this.game = diamondRush.getGame();
     }
 
@@ -80,13 +77,6 @@ public class GameListener implements Listener {
         // Ugly..
         player.setDisplayName(player.getDisplayName().replaceFirst(
                 team.getColor().getChatColor().toString(), ""));
-    }
-
-    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onTeamLoose(DRTeamLooseEvent event) {
-        for (Player player : event.getTeam().getPlayers()) {
-            dr.spectatorJoin(player);
-        }
     }
 
     @EventHandler(ignoreCancelled = true)
