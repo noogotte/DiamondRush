@@ -1,8 +1,11 @@
 package fr.aumgn.diamondrush.listeners;
 
+import org.bukkit.entity.AnimalTamer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
+import org.bukkit.entity.Tameable;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -49,6 +52,18 @@ public class StatisticsListener implements Listener {
 
         Entity damagerEntity = ((EntityDamageByEntityEvent) targetEntity.
                 getLastDamageCause()).getDamager();
+
+        if (damagerEntity instanceof Projectile) {
+            damagerEntity = ((Projectile) damagerEntity).getShooter();
+        }
+
+        if (damagerEntity instanceof Tameable) {
+            AnimalTamer owner = ((Tameable) damagerEntity).getOwner();
+            if (owner instanceof Entity) {
+                damagerEntity = (Entity) owner;
+            }
+        }
+
         if (!(damagerEntity instanceof Player)) {
             return;
         }
