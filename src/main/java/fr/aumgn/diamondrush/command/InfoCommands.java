@@ -63,7 +63,7 @@ public class InfoCommands extends DiamondRushCommands {
                 view = getInfoViewForPlayer(player, game, args);
             }
         } else {
-            if (args.length() != 0) {
+            if (args.length() == 0 && !args.hasFlag('g')) {
                 throw new CommandError("Vous n'êtes pas dans la partie, " +
                     "specifiez un argument");
             } else {

@@ -23,7 +23,7 @@ public class GameView extends MessagesView {
         List<Player> motg = stats.getMenOfTheGame();
         if (motg.size() == 0) {
         } else if (motg.size() == 1) {
-            entryLn("Homme de la partie", motg.get(0));
+            entryLn("Homme de la partie", motg.get(0).getDisplayName());
         } else {
             StringBuilder builder = new StringBuilder();
             for (Player manOfTheGame : motg) {

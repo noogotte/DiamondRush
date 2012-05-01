@@ -56,9 +56,6 @@ public class MessagesView implements Iterable<String> {
 
     @Override
     public Iterator<String> iterator() {
-        if (current != null) {
-            nl();
-        }
         return messages.iterator();
     }
 }
