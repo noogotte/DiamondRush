@@ -20,7 +20,6 @@ import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.event.player.PlayerBucketFillEvent;
 import org.bukkit.event.player.PlayerChatEvent;
@@ -34,6 +33,7 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 
 import fr.aumgn.diamondrush.DiamondRush;
+import fr.aumgn.diamondrush.event.game.DRGameStopEvent;
 import fr.aumgn.diamondrush.event.players.DRPlayerJoinEvent;
 import fr.aumgn.diamondrush.event.spectators.DRSpectatorJoinEvent;
 import fr.aumgn.diamondrush.event.spectators.DRSpectatorQuitEvent;
@@ -80,8 +80,28 @@ public class SpectatorsListener implements Listener {
         spectator.setFoodLevel(20);
 
         Inventory inventory = spectator.getInventory();
-        inventory.clear();
-        inventory.addItem(new ItemStack(Material.COMPASS));
+        inventory.setItem(0, new ItemStack(Material.COMPASS));
+        for (int j = 1; j <= 39; j++) {
+            inventory.setItem(j, null);
+        }
+
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    public void onSpectatorQuit(DRSpectatorQuitEvent event) {
+        Player spectator = event.getSpectator();
+        spectator.setAllowFlight(false);
+        spectator.setFlying(false);
+        spectator.setSleepingIgnored(false);
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    public void onGameStop(DRGameStopEvent event) {
+        for (Player spectator : spectators) {
+            spectator.setAllowFlight(false);
+            spectator.setFlying(false);
+            spectator.setSleepingIgnored(false);
+        }
     }
 
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
@@ -94,15 +114,7 @@ public class SpectatorsListener implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onSpectatorQuit(DRSpectatorQuitEvent event) {
-        Player spectator = event.getSpectator();
-        spectator.setAllowFlight(false);
-        spectator.setFlying(false);
-        spectator.setSleepingIgnored(false);
-    }
-
-    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onInteract(PlayerInteractEvent event) {
         if (!isSpectator(event.getPlayer())) {
             return;
@@ -118,7 +130,7 @@ public class SpectatorsListener implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onEntityInteract(PlayerInteractEntityEvent event) {
         if (!isSpectator(event.getPlayer())) {
             return;
@@ -180,8 +192,9 @@ public class SpectatorsListener implements Listener {
         }
 
         Player player = (Player) entity;
-        if (event.getView().getType() == InventoryType.PLAYER &&
-                player.getGameMode() == GameMode.CREATIVE) {
+        InventoryHolder holder = event.getInventory().getHolder();
+        if (holder instanceof Player &&
+                ((Player) holder).getGameMode() == GameMode.CREATIVE) {
             // Returns or bad things would happen
             return;
         }

@@ -1,5 +1,10 @@
 package fr.aumgn.diamondrush;
 
+import org.bukkit.Bukkit;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.google.gson.FieldNamingPolicy;
@@ -17,12 +22,13 @@ import fr.aumgn.diamondrush.command.PlayerCommands;
 import fr.aumgn.diamondrush.command.SpectatorsCommands;
 import fr.aumgn.diamondrush.config.DRConfig;
 
-public class DiamondRushPlugin extends JavaPlugin {
+public class DiamondRushPlugin extends JavaPlugin implements Listener {
 
     private static final double GSON_VERSION = 0.0;
     private DiamondRush diamondRush;
 
     public void onEnable() {
+        Bukkit.getPluginManager().registerEvents(this, this);
         diamondRush = new DiamondRush(this);
 
         CommandsRegistration commandsRegistration = new CommandsRegistration(
@@ -36,19 +42,26 @@ public class DiamondRushPlugin extends JavaPlugin {
         getLogger().info("Enabled.");
     }
 
+    public void onDisable() {
+        getLogger().info("Disabled.");
+    }
+
+    // Come on ..
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onDisable(PluginDisableEvent event) {
+        if (event.getPlugin().equals(this)) {
+            if (diamondRush.isRunning()) {
+                diamondRush.gameStop();
+            }
+        }
+    }
+
     public Gson gson() {
         return new GsonBuilder()
             .setVersion(GSON_VERSION)
             .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_DASHES)
             .setPrettyPrinting()
             .create();
-    }
-
-    public void onDisable() {
-        if (diamondRush.isRunning()) {
-            diamondRush.gameStop();
-        }
-        getLogger().info("Disabled.");
     }
 
     public DRConfig loadDRConfig() {
