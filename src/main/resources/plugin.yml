@@ -43,11 +43,11 @@ commands:
         usage: ""
         permission: "dr.cmd.spectators"
         aliases: ["spectators"]
-    "diamondrush stats":
+    "diamondrush info":
         description: "Affiche les statistiques d'un joueur."
         usage: "<player>"
         permission: "dr.cmd.stats"
-        aliases: ["stats"]
+        aliases: ["diamondrush stats", "info", "stats"]
 
     "diamondrush init":
         description: "Initie une partie de Diamond Rush."

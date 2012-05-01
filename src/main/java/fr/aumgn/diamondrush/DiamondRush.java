@@ -33,6 +33,7 @@ import fr.aumgn.diamondrush.stage.JoinStage;
 import fr.aumgn.diamondrush.stage.PauseStage;
 import fr.aumgn.diamondrush.stage.Stage;
 import fr.aumgn.diamondrush.stage.StartStage;
+import fr.aumgn.diamondrush.views.GameView;
 
 public final class DiamondRush {
 
@@ -238,6 +239,10 @@ public final class DiamondRush {
                 "L'équipe " + winningTeam.getDisplayName() +
                 ChatColor.GREEN + " a gagné la partie.";
         Util.broadcast(msg);
+        GameView view = new GameView(game, false, false);
+        for (String message : view) {
+            Util.broadcast(message);
+        }
         forceStop();
     }
 

@@ -1,7 +1,5 @@
 package fr.aumgn.diamondrush.views;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.bukkit.ChatColor;
@@ -9,39 +7,32 @@ import org.bukkit.entity.Player;
 
 import fr.aumgn.diamondrush.game.Team;
 
-public class TeamsView implements Iterable<String> {
-
-    private List<String> messages;
+public class TeamsView extends MessagesView {
 
     public TeamsView(List<Team> teams) {
-        this.messages = new  ArrayList<String>();
-        messages.add("Equipes : ");
+        super();
+
+        headLn("Equipes");
         for (Team team : teams) {
-            StringBuilder message = new StringBuilder();
-            message.append(" - ");
-            message.append(ChatColor.BOLD);
-            message.append(team.getDisplayName());
-            message.append(ChatColor.BLUE);
-            message.append(" (");
-            message.append(team.getLives());
-            message.append(")");
-            message.append(ChatColor.RESET);
+            append(" - ");
+            append(ChatColor.BOLD);
+            append(team.getDisplayName());
+            append(ChatColor.BLUE);
+            append(" (");
+            append(team.getLives());
+            append(")");
+            append(ChatColor.RESET);
             if (team.size() > 0) {
-                message.append(" :");
+                append(" :");
                 for (Player player : team.getPlayers()) {
-                    message.append(" ");
+                    append(" ");
                     if (!player.isOnline()) {
-                        message.append(ChatColor.ITALIC);
+                        append(ChatColor.ITALIC);
                     }
-                    message.append(player.getDisplayName());
+                    append(player.getDisplayName());
                 }
             }
-            messages.add(message.toString());
+            nl();
         }
-    }
-
-    @Override
-    public Iterator<String> iterator() {
-        return messages.iterator();
     }
 }

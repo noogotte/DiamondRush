@@ -10,7 +10,11 @@ import fr.aumgn.bukkitutils.command.exception.CommandError;
 import fr.aumgn.diamondrush.DiamondRush;
 import fr.aumgn.diamondrush.exception.PlayerNotInGame;
 import fr.aumgn.diamondrush.game.Game;
+import fr.aumgn.diamondrush.game.Team;
+import fr.aumgn.diamondrush.views.GameView;
+import fr.aumgn.diamondrush.views.MessagesView;
 import fr.aumgn.diamondrush.views.PlayerView;
+import fr.aumgn.diamondrush.views.TeamView;
 import fr.aumgn.diamondrush.views.TeamsView;
 
 @NestedCommands(name = "diamondrush")
@@ -21,7 +25,7 @@ public class InfoCommands extends DiamondRushCommands {
     }
 
     @Command(name = "teams")
-    public void showTeams(CommandSender sender, CommandArgs args) {
+    public void teams(CommandSender sender, CommandArgs args) {
         ensureIsRunning();
 
         Game game = dr.getGame();
@@ -45,22 +49,57 @@ public class InfoCommands extends DiamondRushCommands {
         sender.sendMessage(builder.toString());
     }
 
-    @Command(name = "stats", min = 1, max = 1)
-    public void stats(Player player, CommandArgs args) {
+    @Command(name = "info", min = 0, max = 1, flags = "gt")
+    public void info(Player player, CommandArgs args) {
         ensureIsRunning();
 
         Game game = dr.getGame();
-        Player target = matchPlayer(args.get(0));
+        MessagesView view;
         if (game.contains(player)) {
-            throw new CommandError("Impossible d'utiliser cette commande en tant que joueur.");
-        }
-        if (!game.contains(target)) {
-            throw new PlayerNotInGame();
+            if (args.length() != 0) {
+                throw new CommandError("Impossible de voir les " +
+                        "stats des autres joueurs durant la partie.");
+            } else {
+                view = getInfoViewForPlayer(player, game, args);
+            }
+        } else {
+            if (args.length() != 0) {
+                throw new CommandError("Vous n'êtes pas dans la partie, " +
+                    "specifiez un argument");
+            } else {
+                view = getInfoViewForOthers(game, args);
+            }
         }
 
-        PlayerView view = new PlayerView(game, target);
         for (String message : view) {
             player.sendMessage(message);
+        }
+    }
+
+    private MessagesView getInfoViewForPlayer(Player player, Game game, CommandArgs args) {
+        if (args.hasFlag('g')) {
+            return new GameView(game, true, true);
+        } else if (args.hasFlag('t')) {
+            Team team = game.getTeam(player);
+            return new TeamView(game, team);
+        } else {
+            return new PlayerView(game, player);
+        }
+    }
+
+    private MessagesView getInfoViewForOthers(Game game, CommandArgs args) {
+        if (args.hasFlag('g')) {
+            return new GameView(game, true, true);
+        } else if (args.hasFlag('t')) {
+            Team team = game.getTeam(args.get(0));
+            return new TeamView(game, team);
+        } else {
+            Player target = matchPlayer(args.get(0));
+            if (!game.contains(target)) {
+                throw new PlayerNotInGame();
+            }
+
+            return new PlayerView(game, target);
         }
     }
 }

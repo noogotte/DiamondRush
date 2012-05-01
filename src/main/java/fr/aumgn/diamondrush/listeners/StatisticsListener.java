@@ -14,13 +14,13 @@ import fr.aumgn.diamondrush.event.game.DRGameStartEvent;
 import fr.aumgn.diamondrush.event.players.DRPlayerJoinEvent;
 import fr.aumgn.diamondrush.event.team.DRTotemBreakEvent;
 import fr.aumgn.diamondrush.game.Game;
-import fr.aumgn.diamondrush.game.Statistics;
+import fr.aumgn.diamondrush.game.GameStatistics;
 import fr.aumgn.diamondrush.game.Team;
 
 public class StatisticsListener implements Listener {
 
     private final Game game;
-    private final Statistics statistics;
+    private final GameStatistics statistics;
 
     public StatisticsListener(DiamondRush dr) {
         this.game = dr.getGame();
