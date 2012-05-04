@@ -36,9 +36,11 @@ public class StartStage extends TransitionStage {
         for (Team team : teams) {
             Player foreman = Util.pickRandom(team.getPlayers());
             foremen.put(team, foreman);
+            team.sendMessage(ChatColor.GREEN + foreman.getDisplayName() +
+                    " est le chef d'équipe.");
             Vector pos = positions.next();
             Vector2D dir = pos.subtract(spawnPos).to2D();
-            initTeam(team, foreman, game.getWorld(), pos, dir);
+            initTeam(team, game.getWorld(), pos, dir);
         }
         ((TotemStage) nextStage).setForemen(foremen);
         for (Monster monster : game.getWorld().getEntitiesByClass(Monster.class)) {
@@ -51,8 +53,19 @@ public class StartStage extends TransitionStage {
         super.start();
     }
 
-    private void initTeam(Team team, Player foreman, World world, Vector pos, Vector2D dir) {
-        team.sendMessage(ChatColor.GREEN + foreman.getDisplayName() + " est le chef d'équipe.");
+    private void initTeam(Team team, World world, Vector pos, Vector2D dir) {
+        Vector offset = dir.rotate90().normalize().to3D();
+        int i;
+        boolean left;
+        if ((team.size() & 1) == 0) {
+            i = 1;
+            left = true;
+        } else {
+            i = 0;
+            left = false;
+        }
+
+        float yaw = dir.toYaw();
         for (Player player : team.getPlayers()) {
             player.setGameMode(GameMode.SURVIVAL);
             player.setHealth(20);
@@ -62,8 +75,17 @@ public class StartStage extends TransitionStage {
                 inventory.setItem(j, null);
             }
             player.setTotalExperience(0);
-        }
 
-        foreman.teleport(pos.toLocation(world, dir));
+            Vector playerPos;
+            if (left) {
+                playerPos = pos.subtract(offset.multiply(i));
+                left = false;
+            } else {
+                playerPos = pos.add(offset.multiply(i));
+                left = true;
+                i++;
+            }
+            player.teleport(playerPos.toLocation(world, yaw));
+        }
     }
 }
