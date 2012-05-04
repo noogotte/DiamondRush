@@ -56,11 +56,11 @@ public class ChestPopulator {
             double angleOffset = rand.nextDouble() * maxAngleOffset;
             double angle = angleOrigin + i * angleDiff + angleOffset;
 
-            int x = (int) (Math.cos(angle) * radius);
-            int z = (int) (Math.sin(angle) * radius);
+            double x = Math.cos(angle) * radius;
+            double z = Math.sin(angle) * radius;
             Vector2D pos = origin.add(x, z);
 
-            Block block = world.getHighestBlockAt(pos.getX(), pos.getZ());
+            Block block = world.getHighestBlockAt(pos.getBlockX(), pos.getBlockZ());
             Block blockDown = block.getRelative(BlockFace.DOWN);
             while (isBlackListed(blockDown.getType())) {
                 block = blockDown;
@@ -72,11 +72,11 @@ public class ChestPopulator {
     }
 
     private Vector2D getMaxRadius() {
-        int maxDistance = 0;
+        double maxDistance = 0;
         Vector2D maxRadius = origin;
         for (Vector2D totem : points) {
             Vector2D radius = totem.subtract(origin);
-            int distance = radius.lengthSq();
+            double distance = radius.lengthSq();
             if (distance > maxDistance) {
                 maxDistance = distance;
                 maxRadius = radius;

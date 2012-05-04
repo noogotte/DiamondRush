@@ -23,7 +23,7 @@ public class Totem extends Region {
     public void create(World world, TeamColor color, int lives) {
         removeEverythingInside(world);
         FloorPattern base = new FloorPattern(
-                min.to2D(), max.to2D(), min.getY(),
+                min.to2D(), max.to2D(), min.getBlockY(),
                 Material.WOOL, color.getWoolColor(), true);
         base.create(world);
         Vector totemOrigin = getMiddle().setY(min.getY() + 1);

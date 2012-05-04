@@ -22,8 +22,8 @@ public class GameSpawn extends Region {
 
         for (int i = 0; i < amount; i++) {
             double angle = angleDiff * i;
-            int x = (int) Math.round(Math.cos(angle) * 5);
-            int z = (int) Math.round(Math.sin(angle) * 5);
+            double x = Math.cos(angle) * 5;
+            double z = Math.sin(angle) * 5;
             list.add(middle.add(new Vector(x, 0, z)));
         }
 
@@ -40,7 +40,7 @@ public class GameSpawn extends Region {
     public void create(World world) {
         removeEverythingInside(world);
         RoundFloorPattern base = new RoundFloorPattern(
-                min.to2D(), max.to2D(), min.getY());
+                min.to2D(), max.to2D(), min.getBlockY());
         base.create(world);
     }
 }

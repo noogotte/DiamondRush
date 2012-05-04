@@ -20,25 +20,22 @@ public class RoundFloorPattern {
 
     public void create(World world) {
         Vector2D center = baseMax.getMiddle(baseMin);
-        Vector2D radiusOutline = baseMax.subtract(center);
-        Vector2D radius = radiusOutline.subtract(1);
+        Vector2D outlineRadius = baseMax.subtract(center).add(0.5);
+        Vector2D radius = outlineRadius.subtract(1.0);
 
         for (Vector2D vec : baseMin.rectangle(baseMax)) {
             if (vec.equals(center)) {
                 setCenter(world, vec);
             } else if (isInside(center, radius, vec)) {
                 setInside(world, vec);
-            } else if (isInside(center, radiusOutline, vec)) {
+            } else if (isInside(center, outlineRadius, vec)) {
                 setOutline(world, vec);
             }
         }
     }
 
     private boolean isInside(Vector2D center, Vector2D radius, Vector2D vec) {
-        Vector2D diff = vec.subtract(center);
-        double x = ((double)diff.getX()) / (radius.getX() + 0.5);
-        double z = ((double)diff.getZ()) / (radius.getZ() + 0.5);
-        return (x * x + z * z < 1);
+        return vec.subtract(center).divide(radius).lengthSq() < 1;
     }
 
     private void setCenter(World world, Vector2D vec) {
