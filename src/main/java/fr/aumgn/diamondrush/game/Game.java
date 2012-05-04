@@ -40,7 +40,8 @@ public class Game {
             throw new NotEnoughTeams();
         }
         this.world = world;
-        spawn = new GameSpawn(spawnPoint);
+        spawn = GameSpawn.createFromTeamsNumber(spawnPoint,
+                teams.values().size());
         players = new HashMap<Player, Team>();
         spectators = new Spectators();
         turnCount = -1;

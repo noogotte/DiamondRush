@@ -1,13 +1,16 @@
 package fr.aumgn.diamondrush.stage;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import fr.aumgn.bukkitutils.util.Vector;
+import fr.aumgn.bukkitutils.util.Vector2D;
 import fr.aumgn.diamondrush.DiamondRush;
+import fr.aumgn.diamondrush.game.Game;
 import fr.aumgn.diamondrush.game.Team;
 import fr.aumgn.diamondrush.region.ChestPopulator;
 import fr.aumgn.diamondrush.region.Totem;
@@ -22,8 +25,25 @@ public class TotemStage extends PositioningStage {
     public void start() {
         super.start();
         dr.getGame().sendMessage("Phase de placement du totem.");
-        SpawnStage nextStage = new SpawnStage(dr);
-        nextStage.setForemen(foremen);
+
+        Game game = dr.getGame();
+        List<Team> teams = game.getTeams();
+        Vector spawnPos = game.getSpawn().getMiddle(); 
+        Iterator<Vector> spawnPositions = game.getSpawn().
+                getStartPositions(teams.size()).iterator();
+        for (Team team : teams) {
+            Vector pos = spawnPositions.next();
+            Vector2D dir = pos.subtract(spawnPos).to2D();
+            Vector2D blockPos2D = dir.normalize().multiply(2);
+            blockPos2D = pos.to2D().add(blockPos2D);
+            int y = game.getWorld().getHighestBlockYAt(blockPos2D.getBlockX(),
+                    blockPos2D.getBlockZ());
+            Vector blockPos = blockPos2D.to3D(y);
+            positions.put(team, blockPos);
+            blockPos.toBlock(game.getWorld()).setType(getMaterial());
+        }
+
+        SpawnStage nextStage = new SpawnStage(dr, playersHoldingBlock);
         scheduleNextStage(dr.getConfig().getTotemDuration(), nextStage);
     }
 

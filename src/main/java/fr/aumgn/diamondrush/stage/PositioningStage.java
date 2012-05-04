@@ -14,36 +14,33 @@ import org.bukkit.inventory.ItemStack;
 
 import fr.aumgn.bukkitutils.util.Vector;
 import fr.aumgn.diamondrush.DiamondRush;
+import fr.aumgn.diamondrush.Util;
 import fr.aumgn.diamondrush.game.Team;
 import fr.aumgn.diamondrush.stage.listeners.NoPVPListener;
 import fr.aumgn.diamondrush.stage.listeners.PositioningListener;
 
 public abstract class PositioningStage extends Stage {
 
-    protected Map<Team, Player> foremen;
-    private Map<Team, Vector> positions;
+    protected Map<Team, Vector> positions;
+    protected Map<Team, Player> playersHoldingBlock;
     private List<Listener> listeners;
 
-    public PositioningStage(DiamondRush dr) {
+    public PositioningStage(DiamondRush dr, Map<Team, Player> playersHoldingBlock) {
         super(dr);
         this.positions = new HashMap<Team, Vector>();
-        this.listeners = new ArrayList<Listener>();
+        this.playersHoldingBlock = playersHoldingBlock;
+        this.listeners = new ArrayList<Listener>(2);
         this.listeners.add(new NoPVPListener(dr.getGame()));
-        this.listeners.add(new PositioningListener(dr, this, positions));
+        this.listeners.add(new PositioningListener(dr, this));
     }
 
-    public void setForemen(Map<Team, Player> foremen) {
-        this.foremen = foremen;
+    public PositioningStage(DiamondRush dr) {
+        this(dr, new HashMap<Team, Player>());
     }
 
     @Override
     public List<Listener> getListeners() {
         return listeners;
-    }
-
-    @Override
-    public void start() {
-        giveBlocks();
     }
 
     @Override
@@ -56,24 +53,35 @@ public abstract class PositioningStage extends Stage {
         }
     }
 
+    public boolean isPosition(Team team, Vector position) {
+        return position.equalsBlock(positions.get(team));
+    }
+
     public Vector getPosition(Team team) {
         Vector pos = positions.get(team);
         if (pos == null) {
-            Player foreman = foremen.get(team);
-            pos = new Vector(foreman.getLocation());
-            foreman.teleport(pos.add(0, 0, 1).toLocation(dr.getGame().getWorld()));
+            Player player = playersHoldingBlock.get(team);
+            if (player == null) {
+                player = Util.pickRandom(team.getPlayers());
+                playersHoldingBlock.put(team, player);
+            }
+            pos = new Vector(player.getLocation());
+            player.teleport(pos.add(0, 0, 1).toLocation(dr.getGame().getWorld()));
         }
         return pos;
     }
 
-    public void clearPositions() {
-        positions.clear();
+    public void setPosition(Team team, Vector position) {
+        positions.put(team, position);
     }
 
-    protected void giveBlocks() {
-        for (Team team : dr.getGame().getTeams()) {
-            giveBlock(foremen.get(team));
-        }
+    public void setPlayerHoldingBlock(Team team, Player player) {
+        positions.remove(team);
+        playersHoldingBlock.put(team, player);
+    }
+
+    public void clearPositions() {
+        positions.clear();
     }
 
     public void giveBlock(Player player) {

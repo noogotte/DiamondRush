@@ -2,7 +2,6 @@ package fr.aumgn.diamondrush.stage.listeners;
 
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Set;
 
 import org.bukkit.Material;
@@ -32,24 +31,27 @@ public class PositioningListener implements Listener {
 
     private DiamondRush dr;
     private PositioningStage stage;
-    private Map<Team, Vector> positions;
     private Set<Player> blockToGiveBackAtRespawn;
 
-    public PositioningListener(DiamondRush dr, PositioningStage stage, Map<Team, Vector> positions) {
+    public PositioningListener(DiamondRush dr, PositioningStage stage) {
         this.dr = dr;
         this.stage = stage;
-        this.positions = positions;
         this.blockToGiveBackAtRespawn = new HashSet<Player>();
     }
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onDeath(PlayerDeathEvent event) {
+        Player player = event.getEntity();
+        if (!dr.getGame().contains(player)) {
+            return;
+        }
+
         Iterator<ItemStack> it = event.getDrops().iterator();
         while (it.hasNext()) {
             ItemStack stack = it.next();
             if (stack.getType() == stage.getMaterial()) {
                 it.remove();
-                blockToGiveBackAtRespawn.add(event.getEntity());
+                blockToGiveBackAtRespawn.add(player);
                 return;
             }
         }
@@ -66,18 +68,27 @@ public class PositioningListener implements Listener {
 
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {
+        Player player = event.getPlayer();
+        Game game = dr.getGame();
+        if (!game.contains(player)) {
+            return;
+        }
+
         Block block = event.getBlock();
         if (event.getBlock().getType() == stage.getMaterial()) {
-            Team team = stage.getDiamondRush().getGame().getTeam(event.getPlayer());
-            if (team == null) {
-                return;
-            }
-            positions.put(team, new Vector(block));
+            Team team = game.getTeam(event.getPlayer());
+            stage.setPosition(team, new Vector(block));
         }
     }
 
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
+        Player player = event.getPlayer();
+        Game game = dr.getGame();
+        if (!game.contains(player)) {
+            return;
+        }
+
         if (event.getAction() != Action.LEFT_CLICK_BLOCK) {
             return;
         }
@@ -87,29 +98,24 @@ public class PositioningListener implements Listener {
             return;
         }
 
-        Game game = dr.getGame();
-        Player player = event.getPlayer();
-
         if (!game.contains(player)) {
             return;
         }
 
         Team team = game.getTeam(player);
-        if (!positions.containsKey(team)) {
+        if (!stage.isPosition(team, new Vector(block))) {
             return;
         }
 
-        if (positions.get(team).equals(new Vector(block))) {
-            event.setCancelled(true);
-            PlayerInventory inventory = event.getPlayer().getInventory();
-            if (inventory.getItemInHand().getType() != Material.AIR) {
-                inventory.addItem(new ItemStack(stage.getMaterial()));
-            } else {
-                inventory.setItemInHand(new ItemStack(stage.getMaterial()));
-            }
-            block.setType(Material.AIR);
-            positions.remove(team);
+        event.setCancelled(true);
+        PlayerInventory inventory = event.getPlayer().getInventory();
+        if (inventory.getItemInHand().getType() != Material.AIR) {
+            inventory.addItem(new ItemStack(stage.getMaterial()));
+        } else {
+            inventory.setItemInHand(new ItemStack(stage.getMaterial()));
         }
+        block.setType(Material.AIR);
+        stage.setPlayerHoldingBlock(team, player);
     }
 
     @EventHandler

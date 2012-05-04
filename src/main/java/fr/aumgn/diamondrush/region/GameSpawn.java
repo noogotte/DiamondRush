@@ -11,19 +11,25 @@ import fr.aumgn.diamondrush.region.patterns.RoundFloorPattern;
 
 public class GameSpawn extends Region {
 
-    public GameSpawn(Vector pt) {
-        super(pt.subtract(6, 1, 6), pt.add(6, 5, 6));
+    public static GameSpawn createFromTeamsNumber(Vector pt, int teamsNumber) {
+        int radius = teamsNumber * 2;
+        return new GameSpawn(pt, radius);
+    }
+
+    private GameSpawn(Vector pt, int radius) {
+        super(pt.subtract(radius, 1, radius), pt.add(radius, 5, radius));
     }
 
     public List<Vector> getStartPositions(int amount) {
         List<Vector> list = new ArrayList<Vector>(amount);
+        int radius = Math.abs(max.getBlockX() - min.getBlockX() ) / 2 - 1;
         double angleDiff = 2 * Math.PI / amount;
         Vector middle = getMiddle();
 
         for (int i = 0; i < amount; i++) {
             double angle = angleDiff * i;
-            double x = Math.cos(angle) * 5;
-            double z = Math.sin(angle) * 5;
+            double x = Math.cos(angle) * radius;
+            double z = Math.sin(angle) * radius;
             list.add(middle.add(new Vector(x, 0, z)));
         }
 

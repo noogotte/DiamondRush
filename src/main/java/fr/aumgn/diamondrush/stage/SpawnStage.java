@@ -1,10 +1,14 @@
 package fr.aumgn.diamondrush.stage;
 
+import java.util.Map;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 
 import fr.aumgn.bukkitutils.util.Vector;
 import fr.aumgn.diamondrush.DiamondRush;
+import fr.aumgn.diamondrush.game.Game;
 import fr.aumgn.diamondrush.game.Team;
 import fr.aumgn.diamondrush.region.TeamSpawn;
 
@@ -12,16 +16,19 @@ public class SpawnStage extends PositioningStage {
 
     private int duration; 
 
-    public SpawnStage(DiamondRush dr) {
-        super(dr);
+    public SpawnStage(DiamondRush dr, Map<Team, Player> players) {
+        super(dr, players);
         this.duration = dr.getConfig().getSpawnDuration();
     }
 
     @Override
     public void start() {
         super.start();
-        dr.getGame().sendMessage("Phase de placement du spawn.");
+        Game game = dr.getGame();
+        game.sendMessage("Phase de placement du spawn.");
         scheduleNextStage(duration, new DevelopmentStage(dr));
+
+        giveBlocksAtStart();
     }
 
     @Override
@@ -43,11 +50,17 @@ public class SpawnStage extends PositioningStage {
             removeBlocksFromWorld();
             removeBlocksFromInventories();
             clearPositions();
-            giveBlocks();
+            giveBlocksAtStart();
             scheduleNextStage(duration, new DevelopmentStage(dr));
             return;
         }
         dr.nextStage(new DevelopmentStage(dr));
+    }
+
+    private void giveBlocksAtStart() {
+        for (Team team : dr.getGame().getTeams()) {
+            giveBlock(playersHoldingBlock.get(team));
+        }
     }
 
     private boolean validatePosition(Team team) {
