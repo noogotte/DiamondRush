@@ -26,7 +26,7 @@ public class MessagesView implements Iterable<String> {
     }
 
     public void head(Object obj) {
-        append(ChatColor.BOLD);
+        append(ChatColor.UNDERLINE);
         append(obj);
     }
 
