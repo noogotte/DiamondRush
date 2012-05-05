@@ -23,6 +23,7 @@ import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.event.world.StructureGrowEvent;
 
 import fr.aumgn.bukkitutils.util.Vector;
+import fr.aumgn.bukkitutils.util.Vector2D;
 import fr.aumgn.diamondrush.DiamondRush;
 import fr.aumgn.diamondrush.game.Game;
 import fr.aumgn.diamondrush.game.Team;
@@ -64,7 +65,15 @@ public class RegionsListener implements Listener {
 
     @EventHandler
     public void onPlace(BlockPlaceEvent event) {
-        if (isProtected(event.getBlock())) {
+        Block block = event.getBlock();
+        Material type = block.getType(); 
+        if (type == Material.SAND || type == Material.GRAVEL) {
+            if (isProtected2D(block)) {
+                event.setCancelled(true);
+            }
+            return;
+        }
+        if (isProtected(block)) {
             event.setCancelled(true);
         }
     }
@@ -89,7 +98,13 @@ public class RegionsListener implements Listener {
 
     @EventHandler
     public void onPhysics(BlockPhysicsEvent event) {
-        if (isProtected(event.getBlock())) {
+        Block block = event.getBlock();
+        Material type = block.getType();
+        if (type != Material.SAND && type != Material.GRAVEL) {
+            return;
+        }
+
+        if (isProtected2D(block)) {
             event.setCancelled(true);
         }
     }
@@ -178,4 +193,34 @@ public class RegionsListener implements Listener {
 
         return false;
     }
+
+    private boolean isProtected2D(Block block) {
+        World world = block.getWorld();
+        Vector2D pos = new Vector(block).to2D();
+        int y = block.getY();
+        Game game = dr.getGame();
+
+        if (!world.equals(game.getWorld())) {
+            return false;
+        }
+
+        if (game.getSpawn() != null 
+                && game.getSpawn().contains(pos, y)) {
+            return true;
+        }
+
+        for (Team team : game.getTeams()) {
+            if (team.getSpawn() != null 
+                    && team.getSpawn().contains(pos, y)) {
+                return true;
+            }
+            if (team.getTotem() != null 
+                    && team.getTotem().contains(pos, y)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 }

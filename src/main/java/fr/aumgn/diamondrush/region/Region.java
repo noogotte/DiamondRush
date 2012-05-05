@@ -21,6 +21,10 @@ public class Region {
         return pos.isInside(min, max);
     }
 
+    public boolean contains(Vector2D pos, int y) {
+        return y >= min.getY() && pos.isInside(min.to2D(), max.to2D());
+    }
+
     public Vector getMiddle() {
         return min.to2D().getMiddle(max.to2D()).to3D(min.getY() + 1);
     }
