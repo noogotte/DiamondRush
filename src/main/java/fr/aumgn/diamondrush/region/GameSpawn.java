@@ -7,9 +7,12 @@ import org.bukkit.Material;
 import org.bukkit.World;
 
 import fr.aumgn.bukkitutils.util.Vector;
+import fr.aumgn.diamondrush.Util;
 import fr.aumgn.diamondrush.region.patterns.RoundFloorPattern;
 
 public class GameSpawn extends Region {
+
+    private double angleOffset;
 
     public static GameSpawn createFromTeamsNumber(Vector pt, int teamsNumber) {
         int radius = teamsNumber * 2;
@@ -18,6 +21,7 @@ public class GameSpawn extends Region {
 
     private GameSpawn(Vector pt, int radius) {
         super(pt.subtract(radius, 1, radius), pt.add(radius, 5, radius));
+        angleOffset = Util.getRandom().nextDouble() * Math.PI;
     }
 
     public List<Vector> getStartPositions(int amount) {
@@ -27,7 +31,7 @@ public class GameSpawn extends Region {
         Vector middle = getMiddle();
 
         for (int i = 0; i < amount; i++) {
-            double angle = angleDiff * i;
+            double angle = angleOffset + angleDiff * i;
             double x = Math.cos(angle) * radius;
             double z = Math.sin(angle) * radius;
             list.add(middle.add(new Vector(x, 0, z)));
