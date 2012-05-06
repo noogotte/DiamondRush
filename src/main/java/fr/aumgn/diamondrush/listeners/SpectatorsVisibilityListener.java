@@ -10,8 +10,8 @@ import fr.aumgn.diamondrush.DiamondRush;
 import fr.aumgn.diamondrush.event.game.DRGameStopEvent;
 import fr.aumgn.diamondrush.event.players.DRPlayerJoinEvent;
 import fr.aumgn.diamondrush.event.players.DRPlayerQuitEvent;
-import fr.aumgn.diamondrush.event.spectators.DRSpectatorJoinEvent;
-import fr.aumgn.diamondrush.event.spectators.DRSpectatorQuitEvent;
+import fr.aumgn.diamondrush.event.players.DRSpectatorJoinEvent;
+import fr.aumgn.diamondrush.event.players.DRSpectatorQuitEvent;
 import fr.aumgn.diamondrush.game.Game;
 import fr.aumgn.diamondrush.game.Spectators;
 import fr.aumgn.diamondrush.game.Team;
@@ -28,7 +28,7 @@ public class SpectatorsVisibilityListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onSpectatorJoin(DRSpectatorJoinEvent event) {
-        Player spectator = event.getSpectator();
+        Player spectator = event.getPlayer();
         for (Player player : Bukkit.getOnlinePlayers()) {
             player.showPlayer(spectator);
         }
@@ -42,7 +42,7 @@ public class SpectatorsVisibilityListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onSpectatorQuit(DRSpectatorQuitEvent event) {
-        Player spectator = event.getSpectator();
+        Player spectator = event.getPlayer();
         for (Player player : Bukkit.getOnlinePlayers()) {
             player.showPlayer(spectator);
         }

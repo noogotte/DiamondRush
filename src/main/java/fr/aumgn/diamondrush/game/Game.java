@@ -39,8 +39,9 @@ public class Game {
         if (teams.keySet().size() < 2) {
             throw new NotEnoughTeams();
         }
+
         this.world = world;
-        spawn = GameSpawn.createFromTeamsNumber(spawnPoint,
+        spawn = GameSpawn.newFromTeamsNumber(spawnPoint,
                 teams.values().size());
         players = new HashMap<Player, Team>();
         spectators = new Spectators();

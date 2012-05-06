@@ -66,7 +66,7 @@ public abstract class PositioningStage extends Stage {
                 playersHoldingBlock.put(team, player);
             }
             pos = new Vector(player.getLocation());
-            player.teleport(pos.add(0, 0, 1).toLocation(dr.getGame().getWorld()));
+            pos = pos.add(0, 0, 2);
         }
         return pos;
     }

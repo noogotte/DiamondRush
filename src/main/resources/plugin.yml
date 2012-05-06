@@ -15,7 +15,6 @@ commands:
     "diamondrush reload":
         description: "Recharge la configuration."
         usage: ""
-        aliases: ["rl"]
         permission: "dr.cmd.reload"
 
     "diamondrush stop":
@@ -30,14 +29,14 @@ commands:
     "diamondrush resume":
         description: "Redémarre la partie."
         usage: ""
-        aliases: ["resume", "rsm"]
+        aliases: ["resume"]
         permission: "dr.cmd.stop"
 
     "diamondrush teams":
         description: "Affiche les équipes"
         usage: ""
         permission: "dr.cmd.showteams"
-        aliases: ["st"]
+        aliases: ["teams", "st"]
     "diamondrush spectators":
         description: "Affiche la liste des spectateurs."
         usage: ""
@@ -51,17 +50,17 @@ commands:
 
     "diamondrush init":
         description: "Initie une partie de Diamond Rush."
-        usage: "[-a] <equipe1> <equipe2> [...]"
+        usage: "[-c] <nombre> | -n <equipe1> <equipe2> [...]"
         permission: "dr.cmd.init"
         aliases: ["init"]
     "diamondrush join":
-        description: "Rejoint (ou crée) une équipe."
-        usage: "[equipe]"
+        description: "Rejoint (ou créé) une équipe."
+        usage: "[équipe]"
         permission: "dr.cmd.join"
         aliases: ["join"]
     "diamondrush quit":
-        description: "Quitte la partie."
-        usage: ""
+        description: "Quitte ou fait quitter la partie."
+        usage: "[joueur]"
         permission: "dr.cmd.quit"
         aliases: ["quit"]
     "diamondrush start":
@@ -76,8 +75,8 @@ commands:
         permission: "dr.cmd.watch"
         aliases: ["watch", "spect"]
     "diamondrush unwatch":
-        description: "Désinscrit en tant que spectateur de la partie."
-        usage: ""
+        description: "Désinscrit ou fait desinscrire en tant que spectateur de la partie."
+        usage: "[joueur]"
         permission: "dr.cmd.unwatch"
         aliases: ["unwatch", "unspect"]
     "diamondrush tp-player":
@@ -87,7 +86,7 @@ commands:
         aliases: ["tpp"]
     "diamondrush tp-team":
         description: "Téléporte à un point stratégique d'une équipe."
-        usage: "[-fs] <team>"
+        usage: "[-s] <team>"
         permission: "dr.cmd.tpteam"
         aliases: ["tpt"]
     "diamondrush inventory":

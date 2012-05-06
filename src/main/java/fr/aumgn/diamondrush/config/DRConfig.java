@@ -2,6 +2,7 @@ package fr.aumgn.diamondrush.config;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.bukkit.Material;
@@ -165,7 +166,7 @@ public class DRConfig {
             bonusesSize += bonus.getWeight();
         }
 
-        List<BonusItem> bonuses = new ArrayList<BonusItem>(this.bonuses);
+        List<BonusItem> bonuses = new LinkedList<BonusItem>(this.bonuses);
         for (int i = 0; i < stacksSize; i++) {
             int j = Util.getRandom().nextInt(bonusesSize);
             Iterator<BonusItem> it = bonuses.iterator();

@@ -34,7 +34,7 @@ public class Totem extends Region {
 
     @Override
     public Vector getTeleportPoint() {
-        return super.getTeleportPoint().add(0, 0, 1);
+        return super.getTeleportPoint().add(0, 0, 2);
     }
 
     public boolean isTotemBlock(Vector pos) {

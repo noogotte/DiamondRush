@@ -14,8 +14,8 @@ import fr.aumgn.diamondrush.event.game.DRGameStopEvent;
 import fr.aumgn.diamondrush.event.game.DRGameWinEvent;
 import fr.aumgn.diamondrush.event.players.DRPlayerJoinEvent;
 import fr.aumgn.diamondrush.event.players.DRPlayerQuitEvent;
-import fr.aumgn.diamondrush.event.spectators.DRSpectatorJoinEvent;
-import fr.aumgn.diamondrush.event.spectators.DRSpectatorQuitEvent;
+import fr.aumgn.diamondrush.event.players.DRSpectatorJoinEvent;
+import fr.aumgn.diamondrush.event.players.DRSpectatorQuitEvent;
 import fr.aumgn.diamondrush.event.team.DRTeamLooseEvent;
 import fr.aumgn.diamondrush.event.team.DRTeamSpawnSetEvent;
 import fr.aumgn.diamondrush.event.team.DRTotemBreakEvent;
@@ -183,12 +183,11 @@ public final class DiamondRush {
         }
     }
 
-    public void spectatorJoin(Player spectator) {
-        DRSpectatorJoinEvent event = new DRSpectatorJoinEvent(game, spectator);
-        if (!game.getSpectators().contains(spectator)) {
+    public void spectatorJoin(Player player) {
+        DRSpectatorJoinEvent event = new DRSpectatorJoinEvent(game, player);
+        if (!game.getSpectators().contains(player)) {
             Util.callEvent(event);
             if (!event.isCancelled()) {
-                Player player = event.getSpectator();
                 game.sendMessage(player.getDisplayName() + ChatColor.YELLOW +
                         " est maintenant spectateur.");
                 game.getSpectators().add(player);
@@ -196,7 +195,7 @@ public final class DiamondRush {
             }
         } else {
             event.setCancelled(true);
-            spectator.sendMessage(ChatColor.RED + "Vous êtes déjà spectateur.");
+            player.sendMessage(ChatColor.RED + "Vous êtes déjà spectateur.");
         }
     }
 

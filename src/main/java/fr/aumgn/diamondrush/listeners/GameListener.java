@@ -20,7 +20,7 @@ import fr.aumgn.bukkitutils.util.Vector;
 import fr.aumgn.diamondrush.DiamondRush;
 import fr.aumgn.diamondrush.event.players.DRPlayerJoinEvent;
 import fr.aumgn.diamondrush.event.players.DRPlayerQuitEvent;
-import fr.aumgn.diamondrush.event.spectators.DRSpectatorJoinEvent;
+import fr.aumgn.diamondrush.event.players.DRSpectatorJoinEvent;
 import fr.aumgn.diamondrush.event.team.DRTeamSpawnSetEvent;
 import fr.aumgn.diamondrush.game.Game;
 import fr.aumgn.diamondrush.game.Team;
@@ -81,7 +81,7 @@ public class GameListener implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onSpectatorJoin(DRSpectatorJoinEvent event) {
-        Player player = event.getSpectator();
+        Player player = event.getPlayer();
         if (game.contains(player)) {
             event.setCancelled(true);
             player.sendMessage(ChatColor.RED + "Vous êtes déjà dans la partie.");

@@ -14,7 +14,7 @@ public class GameSpawn extends Region {
 
     private double angleOffset;
 
-    public static GameSpawn createFromTeamsNumber(Vector pt, int teamsNumber) {
+    public static GameSpawn newFromTeamsNumber(Vector pt, int teamsNumber) {
         int radius = teamsNumber * 2;
         return new GameSpawn(pt, radius);
     }

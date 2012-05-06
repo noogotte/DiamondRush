@@ -37,12 +37,15 @@ public class ChestPopulator {
     private int radiusOffset;
 
     public ChestPopulator(GameSpawn gameSpawn, List<Totem> totems, int radiusOffset) {
-        this.origin = gameSpawn.getMiddle().to2D();
-        this.points = new ArrayList<Vector2D>();
+        this(gameSpawn.getMiddle().to2D(), totemsToPoints(totems), radiusOffset);
+    }
+
+    private static List<Vector2D> totemsToPoints(List<Totem> totems) {
+        List<Vector2D> points = new ArrayList<Vector2D>();
         for (Totem totem : totems) {
-            this.points.add(totem.getMiddle().to2D());
+            points.add(totem.getMiddle().to2D());
         }
-        this.radiusOffset = radiusOffset;
+        return points;
     }
 
     public ChestPopulator(Vector2D origin, List<Vector2D> points, int radiusOffset) {

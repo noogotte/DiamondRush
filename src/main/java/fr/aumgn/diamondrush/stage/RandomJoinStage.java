@@ -15,7 +15,7 @@ import fr.aumgn.diamondrush.Util;
 import fr.aumgn.diamondrush.event.game.DRGameStartEvent;
 import fr.aumgn.diamondrush.event.players.DRPlayerJoinEvent;
 import fr.aumgn.diamondrush.event.players.DRPlayerQuitEvent;
-import fr.aumgn.diamondrush.event.spectators.DRSpectatorJoinEvent;
+import fr.aumgn.diamondrush.event.players.DRSpectatorJoinEvent;
 import fr.aumgn.diamondrush.exception.NotEnoughPlayers;
 import fr.aumgn.diamondrush.game.Team;
 import fr.aumgn.diamondrush.views.TeamsView;
@@ -77,7 +77,7 @@ public class RandomJoinStage extends JoinStage implements Listener {
 
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onSpectatorJoin(DRSpectatorJoinEvent event) {
-        Player spectator = event.getSpectator();
+        Player spectator = event.getPlayer();
         if (players.contains(spectator)) {
             spectator.sendMessage("Vous êtes déjà dans la partie.");
             event.setCancelled(true);

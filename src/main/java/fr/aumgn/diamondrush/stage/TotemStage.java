@@ -10,6 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import fr.aumgn.bukkitutils.util.Vector;
 import fr.aumgn.bukkitutils.util.Vector2D;
 import fr.aumgn.diamondrush.DiamondRush;
+import fr.aumgn.diamondrush.Util;
 import fr.aumgn.diamondrush.game.Game;
 import fr.aumgn.diamondrush.game.Team;
 import fr.aumgn.diamondrush.region.ChestPopulator;
@@ -39,6 +40,7 @@ public class TotemStage extends PositioningStage {
             int y = game.getWorld().getHighestBlockYAt(blockPos2D.getBlockX(),
                     blockPos2D.getBlockZ());
             Vector blockPos = blockPos2D.to3D(y);
+            playersHoldingBlock.put(team, Util.pickRandom(team.getPlayers()));
             positions.put(team, blockPos);
             blockPos.toBlock(game.getWorld()).setType(getMaterial());
         }
