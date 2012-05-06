@@ -7,7 +7,6 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 
-import fr.aumgn.bukkitutils.command.exception.CommandError;
 import fr.aumgn.diamondrush.config.DRConfig;
 import fr.aumgn.diamondrush.event.game.DRGameStartEvent;
 import fr.aumgn.diamondrush.event.game.DRGameStopEvent;
@@ -20,6 +19,7 @@ import fr.aumgn.diamondrush.event.team.DRTeamLooseEvent;
 import fr.aumgn.diamondrush.event.team.DRTeamSpawnSetEvent;
 import fr.aumgn.diamondrush.event.team.DRTotemBreakEvent;
 import fr.aumgn.diamondrush.event.team.DRTotemSetEvent;
+import fr.aumgn.diamondrush.exception.DiamondRushException;
 import fr.aumgn.diamondrush.game.Game;
 import fr.aumgn.diamondrush.game.Team;
 import fr.aumgn.diamondrush.listeners.GameListener;
@@ -214,11 +214,12 @@ public final class DiamondRush {
 
     public void startGame() {
         if (!(stage instanceof JoinStage)) {
-            throw new CommandError("Cette commande ne peut être utilisée que durant la phase de join.");
+            throw new DiamondRushException("Impossible de démarrer " +
+                    "une partie en dehors d'une phase de join.");
         }
 
         if (stage.hasNextStageScheduled()) {
-            throw new CommandError(
+            throw new DiamondRushException(
                     "La partie est déjà sur le point de démarrer.");
         }
 

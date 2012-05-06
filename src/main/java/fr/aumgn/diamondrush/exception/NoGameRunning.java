@@ -1,8 +1,6 @@
 package fr.aumgn.diamondrush.exception;
 
-import fr.aumgn.bukkitutils.command.exception.CommandError;
-
-public class NoGameRunning extends CommandError {
+public class NoGameRunning extends DiamondRushException {
 
     private static final long serialVersionUID = -8107617954016679711L;
 

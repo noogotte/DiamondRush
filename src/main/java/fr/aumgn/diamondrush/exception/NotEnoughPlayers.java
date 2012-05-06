@@ -1,8 +1,6 @@
 package fr.aumgn.diamondrush.exception;
 
-import fr.aumgn.bukkitutils.command.exception.CommandError;
-
-public class NotEnoughPlayers extends CommandError {
+public class NotEnoughPlayers extends DiamondRushException {
     private static final long serialVersionUID = -4851504257504536826L;
 
     public NotEnoughPlayers() {
