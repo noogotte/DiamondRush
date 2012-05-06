@@ -21,6 +21,15 @@ public class ChestPopulator {
         Material.LEAVES,
         Material.WATER,
         Material.STATIONARY_WATER,
+        Material.LONG_GRASS,
+        Material.VINE,
+        Material.TORCH,
+        Material.YELLOW_FLOWER,
+        Material.RED_ROSE,
+        Material.SAPLING,
+        Material.RED_MUSHROOM,
+        Material.BROWN_MUSHROOM,
+        Material.WEB
     };
 
     private Vector2D origin;
