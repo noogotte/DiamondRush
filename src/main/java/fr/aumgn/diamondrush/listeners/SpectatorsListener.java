@@ -89,19 +89,24 @@ public class SpectatorsListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onSpectatorQuit(DRSpectatorQuitEvent event) {
-        Player spectator = event.getPlayer();
-        spectator.setAllowFlight(false);
-        spectator.setFlying(false);
-        spectator.setSleepingIgnored(false);
+        restoreSpectator(event.getPlayer());
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onGameStop(DRGameStopEvent event) {
         for (Player spectator : spectators) {
-            spectator.setAllowFlight(false);
-            spectator.setFlying(false);
-            spectator.setSleepingIgnored(false);
+            restoreSpectator(spectator);
         }
+    }
+
+    private void restoreSpectator(Player spectator) {
+        spectator.setAllowFlight(false);
+        spectator.setFlying(false);
+        Location loc = spectator.getLocation();
+        int y = spectator.getWorld().getHighestBlockYAt(loc);
+        spectator.teleport(new Location(
+                spectator.getWorld(), loc.getX(), y, loc.getZ()));
+        spectator.setSleepingIgnored(false);
     }
 
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
