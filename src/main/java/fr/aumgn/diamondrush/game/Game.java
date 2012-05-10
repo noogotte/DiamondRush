@@ -2,9 +2,11 @@ package fr.aumgn.diamondrush.game;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -21,7 +23,8 @@ public class Game {
     private World world;
     private GameSpawn spawn;
     private Map<String, Team> teams;
-    private Map<Player, Team> players;
+    private Set<String> players;
+    private Map<Player, Team> playersTeam;
     private Spectators spectators;
     private int turnCount;
     private GameStatistics statistics;
@@ -43,7 +46,8 @@ public class Game {
         this.world = world;
         spawn = GameSpawn.newFromTeamsNumber(spawnPoint,
                 teams.values().size());
-        players = new HashMap<Player, Team>();
+        players = new HashSet<String>();
+        playersTeam = new HashMap<Player, Team>();
         spectators = new Spectators();
         turnCount = -1;
         statistics = new GameStatistics();
@@ -65,10 +69,22 @@ public class Game {
     }
 
     public Team getTeam(Player player) {
-        if (!players.containsKey(player)) {
+        if (!players.contains(player.getName())) {
             throw new PlayerNotInGame();
         }
-        return players.get(player);
+
+        // Update playerTeams cache if needed.
+        if (!playersTeam.containsKey(player)) {
+            for (Map.Entry<Player, Team> entry : playersTeam.entrySet()) {
+                if (entry.getKey().getName().equalsIgnoreCase(player.getName())) {
+                    playersTeam.remove(entry.getKey());
+                    playersTeam.put(player, entry.getValue());
+                    break;
+                }
+            }
+        }
+
+        return playersTeam.get(player);
     }
 
     public Spectators getSpectators() {
@@ -93,7 +109,7 @@ public class Game {
     }
 
     public boolean contains(Player player) {
-        return players.containsKey(player);
+        return players.contains(player.getName());
     }
 
     public List<Team> getTeams() {
@@ -125,19 +141,22 @@ public class Game {
 
     public void addPlayer(Player player, Team team) {
         team.addPlayer(player);
-        players.put(player, team);
+        players.add(player.getName());
+        playersTeam.put(player, team);
     }
 
     public void removePlayer(Player player) {
         Team team = getTeam(player);
         team.removePlayer(player);
-        players.remove(player);
+        players.remove(player.getName());
+        playersTeam.remove(player);
     }
 
     public void removeTeam(Team team) {
         teams.remove(team.getName());
         for (Player player : team.getPlayers()) {
-            players.remove(player);
+            players.remove(player.getName());
+            playersTeam.remove(player);
         }
     }
 
