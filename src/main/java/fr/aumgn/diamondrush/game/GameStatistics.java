@@ -10,11 +10,11 @@ import org.bukkit.entity.Player;
 public class GameStatistics extends Statistics {
 
     private final Map<Team, Statistics> statsByTeam;
-    private final Map<Player, Statistics> statsByPlayer;
+    private final Map<String, Statistics> statsByPlayer;
 
     public GameStatistics() {
         this.statsByTeam = new HashMap<Team, Statistics>();
-        this.statsByPlayer = new HashMap<Player, Statistics>();
+        this.statsByPlayer = new HashMap<String, Statistics>();
     }
 
     public void initTeam(Team team) {
@@ -25,7 +25,7 @@ public class GameStatistics extends Statistics {
 
     public void initPlayer(Player player) {
         if (!statsByPlayer.containsKey(player)) {
-            statsByPlayer.put(player, new Statistics());
+            statsByPlayer.put(player.getName(), new Statistics());
         }
     }
 
@@ -49,17 +49,17 @@ public class GameStatistics extends Statistics {
     }
 
     public Statistics get(Player player) {
-        return statsByPlayer.get(player);
+        return statsByPlayer.get(player.getName());
     }
 
-    public List<Player> getMenOfTheGame() {
-        List<Player> menOfTheGame = new ArrayList<Player>();
+    public List<String> getMenOfTheGame() {
+        List<String> menOfTheGame = new ArrayList<String>();
         int maxScore = Integer.MIN_VALUE;
-        for (Map.Entry<Player, Statistics> playerStats : statsByPlayer.entrySet()) {
+        for (Map.Entry<String, Statistics> playerStats : statsByPlayer.entrySet()) {
             int score = playerStats.getValue().getScore();
             if (score > maxScore) {
                 maxScore = score;
-                menOfTheGame = new ArrayList<Player>();
+                menOfTheGame = new ArrayList<String>();
                 menOfTheGame.add(playerStats.getKey());
             } else if (score == maxScore) {
                 menOfTheGame.add(playerStats.getKey());

@@ -1,17 +1,17 @@
 package fr.aumgn.diamondrush.views;
 
-import fr.aumgn.diamondrush.game.Game;
+import fr.aumgn.diamondrush.DiamondRush;
 import fr.aumgn.diamondrush.game.Statistics;
 import fr.aumgn.diamondrush.game.Team;
 
 public class TeamView extends MessagesView {
 
-    public TeamView(Game game, Team team) {
+    public TeamView(DiamondRush dr, Team team) {
         super();
 
         headLn(team.getDisplayName());
         entryLn("Vies", team.getLives());
-        Statistics stats = game.getStatistics().get(team);
+        Statistics stats = dr.getStatistics().get(team);
         merge(new StatisticsView(stats));
         entryLn("Surrenders", team.getSurrenders());
     }

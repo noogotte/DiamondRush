@@ -21,6 +21,7 @@ import fr.aumgn.diamondrush.event.team.DRTotemBreakEvent;
 import fr.aumgn.diamondrush.event.team.DRTotemSetEvent;
 import fr.aumgn.diamondrush.exception.DiamondRushException;
 import fr.aumgn.diamondrush.game.Game;
+import fr.aumgn.diamondrush.game.GameStatistics;
 import fr.aumgn.diamondrush.game.Team;
 import fr.aumgn.diamondrush.listeners.GameListener;
 import fr.aumgn.diamondrush.listeners.RegionsListener;
@@ -39,13 +40,17 @@ public final class DiamondRush {
 
     private DiamondRushPlugin plugin;
     private DRConfig config;
+
+    private GameStatistics statistics;
+
+    private Listener[] listeners;
     private Game game;
     private Stage stage;
-    private Listener[] listeners;
 
     public DiamondRush(DiamondRushPlugin plugin) {
         this.plugin = plugin;
         reloadConfig();
+        this.statistics = null;
         this.game = null;
         this.stage = null;
         this.listeners = new Listener[5];
@@ -57,6 +62,10 @@ public final class DiamondRush {
 
     public DRConfig getConfig() {
         return config;
+    }
+
+    public GameStatistics getStatistics() {
+        return statistics;
     }
 
     public boolean isRunning() {
@@ -72,6 +81,7 @@ public final class DiamondRush {
     }
 
     public void initGame(Game game, JoinStage stage) {
+        this.statistics = new GameStatistics();
         this.game = game;
         PluginManager pm = Bukkit.getPluginManager();
         listeners[0] = new GameListener(this);
@@ -239,7 +249,7 @@ public final class DiamondRush {
                 "L'équipe " + winningTeam.getDisplayName() +
                 ChatColor.GREEN + " a gagné la partie.";
         Util.broadcast(msg);
-        GameView view = new GameView(game, false, false);
+        GameView view = new GameView(this, false, false);
         for (String message : view) {
             Util.broadcast(message);
         }

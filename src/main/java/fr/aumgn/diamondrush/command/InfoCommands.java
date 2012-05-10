@@ -51,11 +51,13 @@ public class InfoCommands extends DiamondRushCommands {
 
     @Command(name = "info", min = 0, max = 1, flags = "gt")
     public void info(Player player, CommandArgs args) {
-        ensureIsRunning();
+        if (dr.getStatistics() == null) {
+            throw new CommandError("Aucune statistique à afficher.");
+        }
 
         Game game = dr.getGame();
         MessagesView view;
-        if (game.contains(player)) {
+        if (game != null && game.contains(player)) {
             if (args.length() != 0) {
                 throw new CommandError("Impossible de voir les " +
                         "stats des autres joueurs durant la partie.");
@@ -78,28 +80,28 @@ public class InfoCommands extends DiamondRushCommands {
 
     private MessagesView getInfoViewForPlayer(Player player, Game game, CommandArgs args) {
         if (args.hasFlag('g')) {
-            return new GameView(game, true, true);
+            return new GameView(dr, true, true);
         } else if (args.hasFlag('t')) {
             Team team = game.getTeam(player);
-            return new TeamView(game, team);
+            return new TeamView(dr, team);
         } else {
-            return new PlayerView(game, player);
+            return new PlayerView(dr, player);
         }
     }
 
     private MessagesView getInfoViewForOthers(Game game, CommandArgs args) {
         if (args.hasFlag('g')) {
-            return new GameView(game, true, true);
+            return new GameView(dr, true, true);
         } else if (args.hasFlag('t')) {
             Team team = game.getTeam(args.get(0));
-            return new TeamView(game, team);
+            return new TeamView(dr, team);
         } else {
             Player target = matchPlayer(args.get(0));
             if (!game.contains(target)) {
                 throw new PlayerNotInGame();
             }
 
-            return new PlayerView(game, target);
+            return new PlayerView(dr, target);
         }
     }
 }

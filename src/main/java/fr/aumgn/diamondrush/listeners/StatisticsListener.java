@@ -27,7 +27,7 @@ public class StatisticsListener implements Listener {
 
     public StatisticsListener(DiamondRush dr) {
         this.game = dr.getGame();
-        this.statistics = game.getStatistics();
+        this.statistics = dr.getStatistics();
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)

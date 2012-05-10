@@ -27,7 +27,6 @@ public class Game {
     private Map<Player, Team> playersTeam;
     private Spectators spectators;
     private int turnCount;
-    private GameStatistics statistics;
 
     public Game(Map<String, TeamColor> teamsMap, World world, Vector spawnPoint, int lives) {
         this.teams = new LinkedHashMap<String, Team>();
@@ -50,7 +49,6 @@ public class Game {
         playersTeam = new HashMap<Player, Team>();
         spectators = new Spectators();
         turnCount = -1;
-        statistics = new GameStatistics();
     }
 
     public World getWorld() {
@@ -158,9 +156,5 @@ public class Game {
             players.remove(player.getName());
             playersTeam.remove(player);
         }
-    }
-
-    public GameStatistics getStatistics() {
-        return statistics;
     }
 }

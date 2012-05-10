@@ -43,10 +43,12 @@ import fr.aumgn.diamondrush.views.PlayerView;
 
 public class SpectatorsListener implements Listener {
 
+    private DiamondRush dr;
     private Game game;
     private Spectators spectators;
 
     public SpectatorsListener(DiamondRush diamondRush) {
+        this.dr = diamondRush;
         this.game = diamondRush.getGame();
         this.spectators = diamondRush.getGame().getSpectators();
     }
@@ -148,7 +150,7 @@ public class SpectatorsListener implements Listener {
                 Player player = event.getPlayer();
                 Inventory inventory = clickedPlayer.getInventory();
                 player.openInventory(inventory);
-                PlayerView view = new PlayerView(game, clickedPlayer);
+                PlayerView view = new PlayerView(dr, clickedPlayer);
                 for (String message : view) {
                     player.sendMessage(message);
                 }
