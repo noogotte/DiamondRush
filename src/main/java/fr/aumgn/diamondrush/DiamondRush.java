@@ -20,6 +20,7 @@ import fr.aumgn.diamondrush.event.team.DRTeamSpawnSetEvent;
 import fr.aumgn.diamondrush.event.team.DRTotemBreakEvent;
 import fr.aumgn.diamondrush.event.team.DRTotemSetEvent;
 import fr.aumgn.diamondrush.exception.DiamondRushException;
+import fr.aumgn.diamondrush.exception.NoStatistics;
 import fr.aumgn.diamondrush.game.Game;
 import fr.aumgn.diamondrush.game.GameStatistics;
 import fr.aumgn.diamondrush.game.Team;
@@ -65,6 +66,9 @@ public final class DiamondRush {
     }
 
     public GameStatistics getStatistics() {
+        if (statistics == null) {
+            throw new NoStatistics();
+        }
         return statistics;
     }
 

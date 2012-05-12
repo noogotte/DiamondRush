@@ -48,7 +48,7 @@ public class MessagesView implements Iterable<String> {
         nl();
     }
 
-    public void merge(StatisticsView statisticsView) {
+    public void merge(StatisticsPartial statisticsView) {
         for (String message : statisticsView) {
             messages.add(message);
         }

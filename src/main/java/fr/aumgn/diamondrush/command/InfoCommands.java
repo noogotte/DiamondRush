@@ -14,6 +14,7 @@ import fr.aumgn.diamondrush.game.Team;
 import fr.aumgn.diamondrush.views.GameView;
 import fr.aumgn.diamondrush.views.MessagesView;
 import fr.aumgn.diamondrush.views.PlayerView;
+import fr.aumgn.diamondrush.views.StatisticsView;
 import fr.aumgn.diamondrush.views.TeamView;
 import fr.aumgn.diamondrush.views.TeamsView;
 
@@ -51,13 +52,11 @@ public class InfoCommands extends DiamondRushCommands {
 
     @Command(name = "info", min = 0, max = 1, flags = "gt")
     public void info(Player player, CommandArgs args) {
-        if (dr.getStatistics() == null) {
-            throw new CommandError("Aucune statistique à afficher.");
-        }
+        ensureIsRunning();
 
         Game game = dr.getGame();
         MessagesView view;
-        if (game != null && game.contains(player)) {
+        if (game.contains(player)) {
             if (args.length() != 0) {
                 throw new CommandError("Impossible de voir les " +
                         "stats des autres joueurs durant la partie.");
@@ -102,6 +101,39 @@ public class InfoCommands extends DiamondRushCommands {
             }
 
             return new PlayerView(dr, target);
+        }
+    }
+
+    @Command(name = "stats", min = 0, max = 1, flags = "gt")
+    public void stats(CommandSender sender, CommandArgs args) {
+        if (sender instanceof Player
+                && dr.isRunning()
+                && dr.getGame().contains((Player) sender)) {
+            throw new CommandError(
+                    "Impossible d'utiliser cette commande pendant une partie."
+                    + "Utiliser \"/info\" à la place.");
+        }
+
+        MessagesView view;
+        if (args.hasFlag('g')) {
+            view = StatisticsView.forGame(dr);
+        } else if (args.length() == 0) {
+            if (!(sender instanceof Player) || args.hasFlag('t')) {
+                throw new CommandError("Spécifier un nom.");
+            } else {
+                view = StatisticsView.forPlayer(dr, ((Player) sender).getName());
+            }
+        } else {
+            String name = args.get(0);
+            if (args.hasFlag('t')) {
+                view = StatisticsView.forTeam(dr, name);
+            } else {
+                view = StatisticsView.forPlayer(dr, name);
+            }
+        }
+
+        for (String message : view) {
+            sender.sendMessage(message);
         }
     }
 }

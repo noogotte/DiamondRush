@@ -7,19 +7,21 @@ import java.util.Map;
 
 import org.bukkit.entity.Player;
 
+import fr.aumgn.diamondrush.exception.NoStatistics;
+
 public class GameStatistics extends Statistics {
 
-    private final Map<Team, Statistics> statsByTeam;
+    private final Map<String, Statistics> statsByTeam;
     private final Map<String, Statistics> statsByPlayer;
 
     public GameStatistics() {
-        this.statsByTeam = new HashMap<Team, Statistics>();
+        this.statsByTeam = new HashMap<String, Statistics>();
         this.statsByPlayer = new HashMap<String, Statistics>();
     }
 
     public void initTeam(Team team) {
         if (!statsByTeam.containsKey(team)) {
-            statsByTeam.put(team, new Statistics());
+            statsByTeam.put(team.getName(), new Statistics());
         }
     }
 
@@ -44,13 +46,28 @@ public class GameStatistics extends Statistics {
         get(player).incrBlocksBroken();
     }
 
+    public Statistics getTeam(String name) {
+        if (!statsByTeam.containsKey(name)) {
+            throw NoStatistics.forTeam(name);
+        }
+        return statsByTeam.get(name);
+    }
+
+    public Statistics getPlayer(String name) {
+        if (!statsByPlayer.containsKey(name)) {
+            throw NoStatistics.forPlayer(name);
+        }
+        return statsByPlayer.get(name);
+    }
+
     public Statistics get(Team team) {
-        return statsByTeam.get(team);
+        return getTeam(team.getName());
     }
 
     public Statistics get(Player player) {
-        return statsByPlayer.get(player.getName());
+        return getPlayer(player.getName());
     }
+
 
     public List<String> getMenOfTheGame() {
         List<String> menOfTheGame = new ArrayList<String>();

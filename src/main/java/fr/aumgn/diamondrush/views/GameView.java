@@ -18,7 +18,7 @@ public class GameView extends MessagesView {
         }
 
         GameStatistics stats = dr.getStatistics();
-        merge(new StatisticsView(stats, false, showBlocksBroken));
+        merge(new StatisticsPartial(stats, false, showBlocksBroken));
 
         List<String> motg = stats.getMenOfTheGame();
         if (motg.size() == 0) {

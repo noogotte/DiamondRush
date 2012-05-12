@@ -43,10 +43,15 @@ commands:
         permission: "dr.cmd.spectators"
         aliases: ["spectators"]
     "diamondrush info":
-        description: "Affiche les statistiques d'un joueur."
-        usage: "<player>"
+        description: "Affiche les informations d'un joueur, d'une équipe ou de la partie."
+        usage: "[-gt] [nom]"
+        permission: "dr.cmd.info"
+        aliases: ["info"]
+    "diamondrush stats":
+        description: "Affiche les statistiques d'un joueur, d'une équipe ou de la partie."
+        usage: "[-gn] [nom]"
         permission: "dr.cmd.stats"
-        aliases: ["diamondrush stats", "info", "stats"]
+        aliases: ["stats"]
 
     "diamondrush init":
         description: "Initie une partie de Diamond Rush."
@@ -121,11 +126,12 @@ permissions:
             dr.cmd.join: true
             dr.cmd.showteams: true
             dr.cmd.spectators: true
-            dr.cmd.stats: true
             dr.watch: true
     dr.watch:
         children:
             dr.cmd.watch: true
             dr.cmd.tpplayer: true
             dr.cmd.tpteam: true
+            dr.cmd.info: true
+            dr.cmd.stats: true
             dr.cmd.inventory: true

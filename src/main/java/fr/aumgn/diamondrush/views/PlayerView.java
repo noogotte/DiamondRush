@@ -25,6 +25,6 @@ public class PlayerView extends MessagesView {
         entryLn("Faim", player.getFoodLevel() + " / 20");
 
         Statistics stats = dr.getStatistics().get(player);
-        merge(new StatisticsView(stats));
+        merge(new StatisticsPartial(stats));
     }
 }

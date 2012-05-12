@@ -12,7 +12,7 @@ public class TeamView extends MessagesView {
         headLn(team.getDisplayName());
         entryLn("Vies", team.getLives());
         Statistics stats = dr.getStatistics().get(team);
-        merge(new StatisticsView(stats));
+        merge(new StatisticsPartial(stats));
         entryLn("Surrenders", team.getSurrenders());
     }
 }
