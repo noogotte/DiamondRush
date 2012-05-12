@@ -2,7 +2,6 @@ package fr.aumgn.diamondrush.region;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -11,8 +10,9 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.block.Chest;
 import org.bukkit.inventory.ItemStack;
 
+import fr.aumgn.bukkitutils.util.Random;
+import fr.aumgn.bukkitutils.util.Util;
 import fr.aumgn.bukkitutils.util.Vector2D;
-import fr.aumgn.diamondrush.Util;
 
 public class ChestPopulator {
 
@@ -60,12 +60,12 @@ public class ChestPopulator {
 
         Random rand = Util.getRandom();
         double angleDiff = 2 * Math.PI / amount;
-        double angleOrigin = rand.nextDouble() * Math.PI;
+        double angleOrigin = rand.nextDouble(Math.PI);
         double maxAngleOffset = angleDiff / amount;
         int i = 0;
         for (ItemStack[] content : contents) {
-            double radius = rand.nextDouble() * maxRadius + radiusOffset;
-            double angleOffset = rand.nextDouble() * maxAngleOffset;
+            double radius = rand.nextDouble(maxRadius) + radiusOffset;
+            double angleOffset = rand.nextDouble(maxAngleOffset);
             double angle = angleOrigin + i * angleDiff + angleOffset;
 
             double x = Math.cos(angle) * radius;

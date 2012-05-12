@@ -3,7 +3,7 @@ package fr.aumgn.diamondrush.config;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-import fr.aumgn.diamondrush.Util;
+import fr.aumgn.bukkitutils.util.Util;
 
 public class BonusItem {
 
@@ -37,8 +37,7 @@ public class BonusItem {
         if (minAmount == maxAmount) {
             amount = minAmount;
         } else {
-            amount = (short) Util.getRandom().nextInt(maxAmount - minAmount);
-            amount += minAmount;
+            amount = (short) Util.getRandom().nextInt(minAmount, maxAmount);
             int max = type.getMaxStackSize();
             amount = (short) Math.min(max, amount);
         }

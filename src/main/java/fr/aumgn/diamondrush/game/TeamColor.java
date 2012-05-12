@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.bukkit.ChatColor;
 
-import fr.aumgn.diamondrush.Util;
+import fr.aumgn.bukkitutils.util.Util;
 
 public enum TeamColor {
 

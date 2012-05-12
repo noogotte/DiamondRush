@@ -11,8 +11,8 @@ import java.util.Set;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
+import fr.aumgn.bukkitutils.util.Util;
 import fr.aumgn.bukkitutils.util.Vector;
-import fr.aumgn.diamondrush.Util;
 import fr.aumgn.diamondrush.exception.NoSuchTeam;
 import fr.aumgn.diamondrush.exception.NotEnoughTeams;
 import fr.aumgn.diamondrush.exception.PlayerNotInGame;

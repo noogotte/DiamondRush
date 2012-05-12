@@ -48,7 +48,7 @@ public class SpectatorsCommands extends DiamondRushCommands {
             if (!player.hasPermission("dr.cmd.unwatch.others")) {
                 throw new CommandError("Vous n'avez pas la permi");
             }
-            spectator = matchPlayer(args.get(0));
+            spectator = args.getPlayer(0);
         }
 
         dr.spectatorQuit(spectator);
@@ -59,7 +59,7 @@ public class SpectatorsCommands extends DiamondRushCommands {
         ensureIsSpectator(player);
 
         Game game = dr.getGame();
-        Player target = matchPlayer(args.get(0));
+        Player target = args.getPlayer(0);
         if (!game.contains(target) || !game.getSpectators().contains(player)) {
             throw new PlayerNotInGame();
         }
@@ -97,7 +97,7 @@ public class SpectatorsCommands extends DiamondRushCommands {
     @Command(name= "inventory", min = 1, max = 1)
     public void inv(Player spectator, CommandArgs args) {
         ensureIsSpectator(spectator);
-        Player player = matchPlayer(args.get(0));
+        Player player = args.getPlayer(0);
 
         Game game = dr.getGame();
         if (!game.contains(player)) {

@@ -9,7 +9,7 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import fr.aumgn.bukkitutils.util.TimerConfig;
-import fr.aumgn.diamondrush.Util;
+import fr.aumgn.bukkitutils.util.Util;
 
 public class DRConfig {
 
@@ -154,15 +154,8 @@ public class DRConfig {
             return new ItemStack[0];
         }
 
-        int stacksSize;
-        if (minItemsInBonusChest < maxItemsInBonusChest) {
-            stacksSize = Util.getRandom().nextInt(
-                    maxItemsInBonusChest - minItemsInBonusChest)
-                    + minItemsInBonusChest;
-        } else {
-            stacksSize = minItemsInBonusChest;
-        }
-
+        int stacksSize = Util.getRandom().nextInt(
+                minItemsInBonusChest, maxItemsInBonusChest);
         ItemStack[] stacks = new ItemStack[stacksSize];
 
         int bonusesSize = 0;

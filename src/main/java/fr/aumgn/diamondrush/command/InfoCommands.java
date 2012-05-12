@@ -95,7 +95,7 @@ public class InfoCommands extends DiamondRushCommands {
             Team team = game.getTeam(args.get(0));
             return new TeamView(dr, team);
         } else {
-            Player target = matchPlayer(args.get(0));
+            Player target = args.getPlayer(0);
             if (!game.contains(target)) {
                 throw new PlayerNotInGame();
             }

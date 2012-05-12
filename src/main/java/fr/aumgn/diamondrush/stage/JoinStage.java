@@ -6,8 +6,8 @@ import java.util.List;
 import org.bukkit.ChatColor;
 import org.bukkit.event.Listener;
 
+import fr.aumgn.bukkitutils.util.Util;
 import fr.aumgn.diamondrush.DiamondRush;
-import fr.aumgn.diamondrush.Util;
 import fr.aumgn.diamondrush.game.Team;
 
 public abstract class JoinStage extends Stage {
