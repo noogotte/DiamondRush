@@ -48,20 +48,18 @@ public class DRConfig {
     private int itemForDeathAmount = 3;
 
     private int minItemsInBonusChest = 3;
-    private int maxItemsInBonusChest = 5;
+    private int maxItemsInBonusChest = 3;
     private List<BonusItem> bonuses;
 
     public DRConfig() {
         timer = new TimerConfig(2 * 60, 20, "%02d:%02d");
         bonuses = new ArrayList<BonusItem>();
-        bonuses.add(new BonusItem(Material.BLAZE_ROD,      1,  3,  9));
-        bonuses.add(new BonusItem(Material.NETHER_STALK,   8, 16, 13));
-        bonuses.add(new BonusItem(Material.BOOKSHELF,      2, 12,  4));
-        bonuses.add(new BonusItem(Material.EXP_BOTTLE,     1, 20,  4));
-        bonuses.add(new BonusItem(Material.EXP_BOTTLE,    30, 50,  1));
-        bonuses.add(new BonusItem(Material.FIREBALL,       2,  6,  2));
-        bonuses.add(new BonusItem(Material.MAGMA_CREAM,    8, 12,  1));
-        bonuses.add(new BonusItem(Material.BLAZE_POWDER,   6,  8,  3));
+        bonuses.add(new BonusItem(Material.BLAZE_ROD,      1,   1,  0));
+        bonuses.add(new BonusItem(Material.NETHER_STALK,   2,   5,  0));
+        bonuses.add(new BonusItem(Material.EXP_BOTTLE,    30, 100,  1));
+        bonuses.add(new BonusItem(Material.FIREBALL,       2,   6,  1));
+        bonuses.add(new BonusItem(Material.MAGMA_CREAM,    8,  12,  1));
+        bonuses.add(new BonusItem(Material.BLAZE_POWDER,   6,   8,  1));
     }
 
     public TimerConfig getTimerConfig() {
@@ -156,29 +154,47 @@ public class DRConfig {
             return new ItemStack[0];
         }
 
-        int stacksSize = Util.getRandom().nextInt(
-                maxItemsInBonusChest - minItemsInBonusChest)
-                + minItemsInBonusChest;
+        int stacksSize;
+        if (minItemsInBonusChest < maxItemsInBonusChest) {
+            stacksSize = Util.getRandom().nextInt(
+                    maxItemsInBonusChest - minItemsInBonusChest)
+                    + minItemsInBonusChest;
+        } else {
+            stacksSize = minItemsInBonusChest;
+        }
+
         ItemStack[] stacks = new ItemStack[stacksSize];
 
         int bonusesSize = 0;
         for (BonusItem bonus : bonuses) {
-            bonusesSize += bonus.getWeight();
+            if (bonus.getWeight() > 0) {
+                bonusesSize += bonus.getWeight();
+            }
         }
 
         List<BonusItem> bonuses = new LinkedList<BonusItem>(this.bonuses);
         for (int i = 0; i < stacksSize; i++) {
-            int j = Util.getRandom().nextInt(bonusesSize);
+            int j = -1;
             Iterator<BonusItem> it = bonuses.iterator();
 
             while (it.hasNext()) {
                BonusItem bonus = it.next();
-               j -= bonus.getWeight();
-               if (j <= 0) {
-                   bonusesSize -= bonus.getWeight();
-                   it.remove();
+               if (bonus.getWeight() < 1) {
                    stacks[i] = bonus.toItemStack();
+                   it.remove();
                    break;
+               } else {
+                   if (j == -1) {
+                       j = Util.getRandom().nextInt(bonusesSize);
+                   }
+
+                   j -= bonus.getWeight();
+                   if (j <= 0) {
+                       bonusesSize -= bonus.getWeight();
+                       it.remove();
+                       stacks[i] = bonus.toItemStack();
+                       break;
+                   }
                }
            }
         }

@@ -58,7 +58,7 @@ public class TotemStage extends PositioningStage {
             totems.add(team.getTotem());
         }
         ChestPopulator chestPopulator = new ChestPopulator(dr.getGame().getSpawn(), totems, 50);
-        int chestCount = 2 * dr.getGame().getTeams().size() - 1;
+        int chestCount = 2 * dr.getGame().getTeams().size() + 1;
         ArrayList<ItemStack[]> chests = new ArrayList<ItemStack[]>(chestCount);
         for (int i = 0; i < chestCount; i++) {
             chests.add(dr.getConfig().getRandomBonus());
