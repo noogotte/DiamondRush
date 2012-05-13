@@ -1,5 +1,8 @@
 package fr.aumgn.diamondrush.command;
 
+import java.util.List;
+
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -67,9 +70,8 @@ public class InfoCommands extends DiamondRushCommands {
             if (args.length() == 0 && !args.hasFlag('g')) {
                 throw new CommandError("Vous n'êtes pas dans la partie, " +
                     "specifiez un argument");
-            } else {
-                view = getInfoViewForOthers(game, args);
             }
+            view = getInfoViewForOthers(game, args);
         }
 
         for (String message : view) {
@@ -124,11 +126,16 @@ public class InfoCommands extends DiamondRushCommands {
                 view = StatisticsView.forPlayer(dr, ((Player) sender).getName());
             }
         } else {
-            String name = args.get(0);
             if (args.hasFlag('t')) {
-                view = StatisticsView.forTeam(dr, name);
+                view = StatisticsView.forTeam(dr, args.get(0));
             } else {
-                view = StatisticsView.forPlayer(dr, name);
+                List<OfflinePlayer> players = args.getOfflinePlayers(0);
+                if (players.size() == 0) {
+                    throw new CommandError("Aucun joueur trouvé.");
+                } else if (players.size() > 1) {
+                    throw new CommandError("Plus d'un joueur trouvé avec ce motif.");
+                }
+                view = StatisticsView.forPlayer(dr, players.get(0).getName());
             }
         }
 
