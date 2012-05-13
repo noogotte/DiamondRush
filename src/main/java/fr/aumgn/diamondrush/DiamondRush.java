@@ -275,7 +275,7 @@ public final class DiamondRush {
             team.decreaseLives();
             if (team.getLives() == 0) {
                 Team responsible = game.getTeam(player);
-                teamLoose(team, responsible, totem);
+                teamLoose(team, responsible);
             } else {
                 game.sendMessage(ChatColor.YELLOW + "L'équipe " + team.getDisplayName() + 
                         ChatColor.YELLOW + " a perdu une vie. " + team.getLives() + " restantes.");
@@ -284,8 +284,8 @@ public final class DiamondRush {
         return event.isCancelled();
     }
 
-    public void teamLoose(Team team, Team responsible, Totem totem) {
-        DRTeamLooseEvent event = new DRTeamLooseEvent(game, team, responsible, totem);
+    public void teamLoose(Team team, Team responsible) {
+        DRTeamLooseEvent event = new DRTeamLooseEvent(game, team, responsible);
         Util.callEvent(event);
         game.removeTeam(team);
         if (game.getTeams().size() == 1) {

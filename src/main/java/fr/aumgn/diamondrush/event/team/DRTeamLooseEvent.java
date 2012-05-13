@@ -7,7 +7,6 @@ import fr.aumgn.diamondrush.event.DRGameEvent;
 import fr.aumgn.diamondrush.event.DRTeamEvent;
 import fr.aumgn.diamondrush.game.Game;
 import fr.aumgn.diamondrush.game.Team;
-import fr.aumgn.diamondrush.region.Totem;
 
 public class DRTeamLooseEvent extends Event
         implements DRGameEvent, DRTeamEvent {
@@ -18,7 +17,7 @@ public class DRTeamLooseEvent extends Event
     private final Team team;
     private final Team responsible;
 
-    public DRTeamLooseEvent(Game game, Team team, Team responsible, Totem totem) {
+    public DRTeamLooseEvent(Game game, Team team, Team responsible) {
         this.game = game;
         this.team = team;
         this.responsible = responsible;

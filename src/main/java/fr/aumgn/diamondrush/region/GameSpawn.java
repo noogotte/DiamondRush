@@ -19,7 +19,7 @@ public class GameSpawn extends Region {
         return new GameSpawn(pt, radius);
     }
 
-    private GameSpawn(Vector pt, int radius) {
+    public GameSpawn(Vector pt, int radius) {
         super(pt.subtract(radius, 1, radius), pt.add(radius, 5, radius));
         angleOffset = Util.getRandom().nextDouble(Math.PI);
     }

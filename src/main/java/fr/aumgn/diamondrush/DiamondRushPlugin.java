@@ -49,10 +49,9 @@ public class DiamondRushPlugin extends JavaPlugin implements Listener {
     // Come on ..
     @EventHandler(priority = EventPriority.MONITOR)
     public void onDisable(PluginDisableEvent event) {
-        if (event.getPlugin().equals(this)) {
-            if (diamondRush.isRunning()) {
-                diamondRush.gameStop();
-            }
+        if (event.getPlugin().equals(this)
+                && diamondRush.isRunning()) {
+            diamondRush.gameStop();
         }
     }
 

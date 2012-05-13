@@ -20,13 +20,13 @@ public class GameStatistics extends Statistics {
     }
 
     public void initTeam(Team team) {
-        if (!statsByTeam.containsKey(team)) {
+        if (!statsByTeam.containsKey(team.getName())) {
             statsByTeam.put(team.getName(), new Statistics());
         }
     }
 
     public void initPlayer(Player player) {
-        if (!statsByPlayer.containsKey(player)) {
+        if (!statsByPlayer.containsKey(player.getName())) {
             statsByPlayer.put(player.getName(), new Statistics());
         }
     }

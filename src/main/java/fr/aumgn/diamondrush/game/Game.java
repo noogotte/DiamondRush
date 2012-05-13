@@ -31,8 +31,6 @@ public class Game {
     public Game(Map<String, TeamColor> teamsMap, World world, Vector spawnPoint, int lives) {
         this.teams = new LinkedHashMap<String, Team>();
 
-        lives = Math.max(4, lives);
-        lives = Math.min(8, lives);
         for (Map.Entry<String, TeamColor> teamEntry : teamsMap.entrySet()) {
             Team team = new Team(teamEntry.getKey(),
                     teamEntry.getValue(), lives);

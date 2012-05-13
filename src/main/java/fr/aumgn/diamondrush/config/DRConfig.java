@@ -69,7 +69,7 @@ public class DRConfig {
     }
 
     public int getLives() {
-        return lives;
+        return Math.max(4, Math.min(8, lives));
     }
 
     public int getStartDuration() {
@@ -167,10 +167,10 @@ public class DRConfig {
             }
         }
 
-        List<BonusItem> bonuses = new LinkedList<BonusItem>(this.bonuses);
+        List<BonusItem> bonusesList = new LinkedList<BonusItem>(this.bonuses);
         for (int i = 0; i < stacksSize; i++) {
             int j = -1;
-            Iterator<BonusItem> it = bonuses.iterator();
+            Iterator<BonusItem> it = bonusesList.iterator();
 
             while (it.hasNext()) {
                BonusItem bonus = it.next();

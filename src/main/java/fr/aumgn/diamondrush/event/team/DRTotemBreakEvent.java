@@ -27,7 +27,7 @@ public class DRTotemBreakEvent extends Event
     public DRTotemBreakEvent(Game game, Team team, Totem totem, Player player) {
         this.game = game;
         this.team = team;
-        this.totem = null;
+        this.totem = totem;
         this.player = player;
         this.cancelled = false;
     }

@@ -58,11 +58,11 @@ public class FloorPattern {
         corner.setType(cornerType);
         corner.setData(cornerData);
         if (torch) {
-            Block torch = pos.addY(1).toBlock(world);
-            torch.setType(Material.TORCH);
-            Torch torchData = new Torch(torch.getType(), torch.getData());
+            Block torchBlock = pos.addY(1).toBlock(world);
+            torchBlock.setType(Material.TORCH);
+            Torch torchData = new Torch(torchBlock.getType(), torchBlock.getData());
             torchData.setFacingDirection(BlockFace.UP);
-            torch.setData(torchData.getData());
+            torchBlock.setData(torchData.getData());
         }
     }
 

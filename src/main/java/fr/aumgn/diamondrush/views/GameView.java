@@ -21,8 +21,7 @@ public class GameView extends MessagesView {
         merge(new StatisticsPartial(stats, false, showBlocksBroken));
 
         List<String> motg = stats.getMenOfTheGame();
-        if (motg.size() == 0) {
-        } else if (motg.size() == 1) {
+        if (motg.size() == 1) {
             entryLn("Homme de la partie", motg.get(0));
         } else {
             StringBuilder builder = new StringBuilder();
