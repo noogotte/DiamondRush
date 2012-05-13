@@ -5,6 +5,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 
 import fr.aumgn.diamondrush.DiamondRush;
 import fr.aumgn.diamondrush.event.game.DRGameStopEvent;
@@ -24,6 +25,24 @@ public class SpectatorsVisibilityListener implements Listener {
     public SpectatorsVisibilityListener(DiamondRush dr) {
         this.game = dr.getGame();
         this.spectators = game.getSpectators();
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onJoin(PlayerJoinEvent event) {
+        Player player = event.getPlayer();
+
+        if (spectators.containsByName(player)) {
+            spectators.update(player);
+            for (Team team : game.getTeams()) {
+                for (Player playerInGame : team.getPlayers()) {
+                    playerInGame.hidePlayer(player);
+                }
+            }
+        } else if (game.contains(player)) {
+            for (Player spectator : spectators) {
+                player.hidePlayer(spectator);
+            }
+        }
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)

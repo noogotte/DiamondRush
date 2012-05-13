@@ -38,7 +38,9 @@ public class GameListener implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
+
         if (game.contains(player)) {
+            game.updatePlayer(player);
             Team team = game.getTeam(player);
             initPlayer(team, player);
         }

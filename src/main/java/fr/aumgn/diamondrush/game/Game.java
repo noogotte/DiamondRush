@@ -67,19 +67,8 @@ public class Game {
     }
 
     public Team getTeam(Player player) {
-        if (!players.contains(player.getName())) {
-            throw new PlayerNotInGame();
-        }
-
-        // Update playerTeams cache if needed.
         if (!playersTeam.containsKey(player)) {
-            for (Map.Entry<Player, Team> entry : playersTeam.entrySet()) {
-                if (entry.getKey().getName().equalsIgnoreCase(player.getName())) {
-                    playersTeam.remove(entry.getKey());
-                    playersTeam.put(player, entry.getValue());
-                    break;
-                }
-            }
+            throw new PlayerNotInGame();
         }
 
         return playersTeam.get(player);
@@ -141,6 +130,20 @@ public class Game {
         team.addPlayer(player);
         players.add(player.getName());
         playersTeam.put(player, team);
+    }
+
+    public void updatePlayer(Player player) {
+        for (Map.Entry<Player, Team> entry : playersTeam.entrySet()) {
+            Player oldPlayer = entry.getKey();
+            Team team = entry.getValue();
+            if (oldPlayer.getName().equalsIgnoreCase(player.getName())) {
+                playersTeam.remove(oldPlayer);
+                playersTeam.put(player, team);
+                team.removePlayer(oldPlayer);
+                team.addPlayer(player);
+                return;
+            }
+        }
     }
 
     public void removePlayer(Player player) {

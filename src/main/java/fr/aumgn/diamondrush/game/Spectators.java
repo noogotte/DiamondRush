@@ -24,6 +24,16 @@ public class Spectators implements Iterable<Player> {
         return spectators.contains(player);
     }
 
+    public boolean containsByName(Player player) {
+        for (Player spectator : spectators) {
+            if (spectator.getName().equals(player.getName())) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public void add(Player spectator) {
         spectators.add(spectator);
     }
@@ -34,5 +44,15 @@ public class Spectators implements Iterable<Player> {
 
     public Collection<Player> asCollection() {
         return spectators;
+    }
+
+    public void update(Player player) {
+        for (Player spectator : spectators) {
+            if (spectator.getName().equals(player.getName())) {
+                remove(spectator);
+                add(player);
+                return;
+            }
+        }
     }
 }
