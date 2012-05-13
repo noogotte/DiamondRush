@@ -54,12 +54,14 @@ public class DRConfig {
     public DRConfig() {
         timer = TimerConfig.DEFAULT;
         bonuses = new ArrayList<BonusItem>();
-        bonuses.add(new BonusItem(Material.BLAZE_ROD,      1,   1,  0));
-        bonuses.add(new BonusItem(Material.NETHER_STALK,   2,   5,  0));
-        bonuses.add(new BonusItem(Material.EXP_BOTTLE,    30, 100,  1));
-        bonuses.add(new BonusItem(Material.FIREBALL,       2,   6,  1));
-        bonuses.add(new BonusItem(Material.MAGMA_CREAM,    8,  12,  1));
-        bonuses.add(new BonusItem(Material.BLAZE_POWDER,   6,   8,  1));
+        bonuses.add(new BonusItem(Material.BLAZE_ROD,       1,   1,  0));
+        bonuses.add(new BonusItem(Material.NETHER_STALK,    2,   4,  0));
+        bonuses.add(new BonusItem(Material.EXP_BOTTLE,     30, 100,  1));
+        bonuses.add(new BonusItem(Material.MAGMA_CREAM,     1,   4,  1));
+        bonuses.add(new BonusItem(Material.GLOWSTONE_DUST,  1,   4,  1));
+        bonuses.add(new BonusItem(Material.MELON_SEEDS,     1,   4,  1));
+        bonuses.add(new BonusItem(Material.GHAST_TEAR,      1,   4,  1));
+        bonuses.add(new BonusItem(Material.BLAZE_POWDER,    1,   4,  1));
     }
 
     public TimerConfig getTimerConfig() {
