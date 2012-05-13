@@ -22,8 +22,8 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.event.world.StructureGrowEvent;
 
-import fr.aumgn.bukkitutils.util.Vector;
-import fr.aumgn.bukkitutils.util.Vector2D;
+import fr.aumgn.bukkitutils.geom.Vector;
+import fr.aumgn.bukkitutils.geom.Vector2D;
 import fr.aumgn.diamondrush.DiamondRush;
 import fr.aumgn.diamondrush.game.Game;
 import fr.aumgn.diamondrush.game.Team;

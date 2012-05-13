@@ -8,7 +8,7 @@ import java.util.List;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-import fr.aumgn.bukkitutils.util.TimerConfig;
+import fr.aumgn.bukkitutils.timer.TimerConfig;
 import fr.aumgn.bukkitutils.util.Util;
 
 public class DRConfig {
@@ -52,7 +52,7 @@ public class DRConfig {
     private List<BonusItem> bonuses;
 
     public DRConfig() {
-        timer = new TimerConfig(2 * 60, 20, "%02d:%02d");
+        timer = TimerConfig.DEFAULT;
         bonuses = new ArrayList<BonusItem>();
         bonuses.add(new BonusItem(Material.BLAZE_ROD,      1,   1,  0));
         bonuses.add(new BonusItem(Material.NETHER_STALK,   2,   5,  0));

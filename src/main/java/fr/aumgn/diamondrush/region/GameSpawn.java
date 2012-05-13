@@ -7,7 +7,7 @@ import org.bukkit.Material;
 import org.bukkit.World;
 
 import fr.aumgn.bukkitutils.util.Util;
-import fr.aumgn.bukkitutils.util.Vector;
+import fr.aumgn.bukkitutils.geom.Vector;
 import fr.aumgn.diamondrush.region.patterns.RoundFloorPattern;
 
 public class GameSpawn extends Region {
@@ -42,7 +42,7 @@ public class GameSpawn extends Region {
 
     @Override
     public void removeEverythingInside(World world) {
-        for (Vector pos : min.add(0, 1, 0).rectangle(max)) {
+        for (Vector pos : min.addY(1).rectangle(max)) {
             pos.toBlock(world).setType(Material.AIR);
         }
     }

@@ -6,7 +6,7 @@ import java.util.List;
 import org.bukkit.Material;
 import org.bukkit.World;
 
-import fr.aumgn.bukkitutils.util.Vector;
+import fr.aumgn.bukkitutils.geom.Vector;
 import fr.aumgn.diamondrush.game.TeamColor;
 import fr.aumgn.diamondrush.region.patterns.FloorPattern;
 import fr.aumgn.diamondrush.region.patterns.TotemPattern;
@@ -34,7 +34,7 @@ public class Totem extends Region {
 
     @Override
     public Vector getTeleportPoint() {
-        return super.getTeleportPoint().add(0, 0, 2);
+        return super.getTeleportPoint().addZ(2);
     }
 
     public boolean isTotemBlock(Vector pos) {

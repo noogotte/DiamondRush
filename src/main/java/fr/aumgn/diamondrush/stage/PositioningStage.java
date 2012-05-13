@@ -13,7 +13,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import fr.aumgn.bukkitutils.util.Util;
-import fr.aumgn.bukkitutils.util.Vector;
+import fr.aumgn.bukkitutils.geom.Vector;
 import fr.aumgn.diamondrush.DiamondRush;
 import fr.aumgn.diamondrush.game.Team;
 import fr.aumgn.diamondrush.stage.listeners.NoPVPListener;
@@ -66,7 +66,7 @@ public abstract class PositioningStage extends Stage {
                 playersHoldingBlock.put(team, player);
             }
             pos = new Vector(player.getLocation());
-            pos = pos.add(0, 0, 2);
+            pos = pos.addZ(2);
         }
         return pos;
     }

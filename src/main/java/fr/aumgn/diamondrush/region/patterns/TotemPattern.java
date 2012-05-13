@@ -6,7 +6,7 @@ import java.util.List;
 import org.bukkit.Material;
 import org.bukkit.World;
 
-import fr.aumgn.bukkitutils.util.Vector;
+import fr.aumgn.bukkitutils.geom.Vector;
 
 public class TotemPattern {
 
@@ -31,7 +31,7 @@ public class TotemPattern {
         }
         int y;
         for (y = 0 ;y < height; y++) {
-            blocks.add(origin.add(0, y, 0));
+            blocks.add(origin.addY(y));
         }
 
         y = height - 1;

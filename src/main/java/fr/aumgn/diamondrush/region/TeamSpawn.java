@@ -3,7 +3,7 @@ package fr.aumgn.diamondrush.region;
 import org.bukkit.Material;
 import org.bukkit.World;
 
-import fr.aumgn.bukkitutils.util.Vector;
+import fr.aumgn.bukkitutils.geom.Vector;
 import fr.aumgn.diamondrush.game.TeamColor;
 import fr.aumgn.diamondrush.region.patterns.FloorPattern;
 

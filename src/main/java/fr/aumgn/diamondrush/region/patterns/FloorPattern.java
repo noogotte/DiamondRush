@@ -6,8 +6,8 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.material.Torch;
 
-import fr.aumgn.bukkitutils.util.Vector;
-import fr.aumgn.bukkitutils.util.Vector2D;
+import fr.aumgn.bukkitutils.geom.Vector;
+import fr.aumgn.bukkitutils.geom.Vector2D;
 
 public class FloorPattern {
 
@@ -58,7 +58,7 @@ public class FloorPattern {
         corner.setType(cornerType);
         corner.setData(cornerData);
         if (torch) {
-            Block torch = pos.add(0, 1, 0).toBlock(world);
+            Block torch = pos.addY(1).toBlock(world);
             torch.setType(Material.TORCH);
             Torch torchData = new Torch(torch.getType(), torch.getData());
             torchData.setFacingDirection(BlockFace.UP);

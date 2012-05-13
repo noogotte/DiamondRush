@@ -12,7 +12,7 @@ import org.bukkit.inventory.ItemStack;
 
 import fr.aumgn.bukkitutils.util.Random;
 import fr.aumgn.bukkitutils.util.Util;
-import fr.aumgn.bukkitutils.util.Vector2D;
+import fr.aumgn.bukkitutils.geom.Vector2D;
 
 public class ChestPopulator {
 

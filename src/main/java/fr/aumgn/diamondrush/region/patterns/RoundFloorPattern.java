@@ -4,7 +4,7 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 
-import fr.aumgn.bukkitutils.util.Vector2D;
+import fr.aumgn.bukkitutils.geom.Vector2D;
 
 public class RoundFloorPattern {
 

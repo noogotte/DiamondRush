@@ -7,9 +7,9 @@ import java.util.List;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
+import fr.aumgn.bukkitutils.geom.Vector;
+import fr.aumgn.bukkitutils.geom.Vector2D;
 import fr.aumgn.bukkitutils.util.Util;
-import fr.aumgn.bukkitutils.util.Vector;
-import fr.aumgn.bukkitutils.util.Vector2D;
 import fr.aumgn.diamondrush.DiamondRush;
 import fr.aumgn.diamondrush.game.Game;
 import fr.aumgn.diamondrush.game.Team;

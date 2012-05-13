@@ -1,6 +1,6 @@
 package fr.aumgn.diamondrush.game;
 
-import fr.aumgn.bukkitutils.util.Timer;
+import fr.aumgn.bukkitutils.timer.Timer;
 import fr.aumgn.diamondrush.DiamondRush;
 
 public class GameTimer extends Timer {

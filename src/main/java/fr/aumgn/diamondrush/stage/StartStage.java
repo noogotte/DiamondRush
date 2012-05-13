@@ -10,8 +10,8 @@ import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.PlayerInventory;
 
-import fr.aumgn.bukkitutils.util.Vector;
-import fr.aumgn.bukkitutils.util.Vector2D;
+import fr.aumgn.bukkitutils.geom.Vector;
+import fr.aumgn.bukkitutils.geom.Vector2D;
 import fr.aumgn.diamondrush.DiamondRush;
 import fr.aumgn.diamondrush.game.Game;
 import fr.aumgn.diamondrush.game.Team;
