@@ -97,19 +97,7 @@ public class GameListener implements Listener {
             return;
         }
 
-        Team team = game.getTeam(player);
-        Location loc;
-        if (team.getSpawn() == null) {
-            Vector currentPos = new Vector(player.getLocation());
-            loc = game.getSpawn().getTeleportLocation(
-                    game.getWorld(), currentPos);
-        } else {
-            loc = team.getSpawn().getTeleportLocation(
-                    game.getWorld(), game.getSpawn());
-            playersInSpawn.add(player);
-            handleMove = true;
-        }
-        event.setRespawnLocation(loc);
+        event.setRespawnLocation(game.getRespawnFor(player));
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)

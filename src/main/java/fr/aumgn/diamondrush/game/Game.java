@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
@@ -157,5 +158,17 @@ public class Game {
             players.remove(player.getName());
             playersTeam.remove(player);
         }
+    }
+
+    public Location getRespawnFor(Player player) {
+        Team team = playersTeam.get(player);
+
+        if (team.getSpawn() != null) {
+            return team.getSpawn().getTeleportLocation(world, spawn);
+        }
+        if (team.getTotem() != null) {
+            return team.getTotem().getTeleportLocation(world, spawn);
+        }
+        return spawn.getTeleportLocation(world, new Vector(player.getLocation()));
     }
 }
