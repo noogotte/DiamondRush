@@ -75,10 +75,10 @@ public class GameListener implements Listener {
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onQuitGame(DRPlayerQuitEvent event) {
         Player player = event.getPlayer();
-        Team team = game.getTeam(player);
         // Ugly..
-        player.setDisplayName(player.getDisplayName().replaceFirst(
-                team.getColor().getChatColor().toString(), ""));
+        String name = ChatColor.stripColor(player.getDisplayName());
+        player.setDisplayName(name);
+        player.setPlayerListName(name);
     }
 
     @EventHandler(ignoreCancelled = true)
