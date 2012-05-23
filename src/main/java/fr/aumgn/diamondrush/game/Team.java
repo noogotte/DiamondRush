@@ -1,11 +1,12 @@
 package fr.aumgn.diamondrush.game;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
+import fr.aumgn.bukkitutils.playerid.list.PlayersIdArrayList;
+import fr.aumgn.bukkitutils.playerid.list.PlayersIdList;
 import fr.aumgn.diamondrush.region.TeamSpawn;
 import fr.aumgn.diamondrush.region.Totem;
 
@@ -13,7 +14,7 @@ public class Team {
 
     private String name;
     private TeamColor color;
-    private List<Player> players;
+    private PlayersIdList players;
     private Totem totem;
     private TeamSpawn spawn;
     private int lives;
@@ -22,7 +23,7 @@ public class Team {
     public Team(String name, TeamColor color, int lives) {
         this.name = name;
         this.color = color;
-        this.players = new ArrayList<Player>();
+        this.players = new PlayersIdArrayList();
         this.totem = null;
         this.spawn = null;
         this.lives = lives;
@@ -42,7 +43,7 @@ public class Team {
     }
 
     public List<Player> getPlayers() {
-        return players;
+        return players.getPlayers();
     }
 
     public Totem getTotem() {
@@ -70,7 +71,7 @@ public class Team {
     }
 
     public void sendMessage(String message) {
-        for (Player player : players) {
+        for (Player player : players.players()) {
             player.sendMessage(message);
         }
     }

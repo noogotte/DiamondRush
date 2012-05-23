@@ -1,23 +1,24 @@
 package fr.aumgn.diamondrush.game;
 
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Set;
 
 import org.bukkit.entity.Player;
 
+import fr.aumgn.bukkitutils.playerid.set.PlayersIdHashSet;
+import fr.aumgn.bukkitutils.playerid.set.PlayersIdSet;
+
 public class Spectators implements Iterable<Player> {
 
-    private Set<Player> spectators;
+    private PlayersIdSet spectators;
 
     public Spectators() {
-        spectators = new HashSet<Player>();
+        spectators = new PlayersIdHashSet();
     }
 
     @Override
     public Iterator<Player> iterator() {
-        return spectators.iterator();
+        return spectators.players().iterator();
     }
 
     public boolean contains(Player player) {
@@ -25,7 +26,7 @@ public class Spectators implements Iterable<Player> {
     }
 
     public boolean containsByName(Player player) {
-        for (Player spectator : spectators) {
+        for (Player spectator : spectators.players()) {
             if (spectator.getName().equals(player.getName())) {
                 return true;
             }
@@ -43,16 +44,6 @@ public class Spectators implements Iterable<Player> {
     }
 
     public Collection<Player> asCollection() {
-        return spectators;
-    }
-
-    public void update(Player player) {
-        for (Player spectator : spectators) {
-            if (spectator.getName().equals(player.getName())) {
-                remove(spectator);
-                add(player);
-                return;
-            }
-        }
+        return spectators.getPlayers();
     }
 }

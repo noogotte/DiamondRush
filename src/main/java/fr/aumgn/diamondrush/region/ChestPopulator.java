@@ -72,7 +72,7 @@ public class ChestPopulator {
             double z = Math.sin(angle) * radius;
             Vector2D pos = origin.add(x, z);
 
-            Block block = world.getHighestBlockAt(pos.getBlockX(), pos.getBlockZ());
+            Block block = pos.toHighest(world).toBlock(world);
             Block blockDown = block.getRelative(BlockFace.DOWN);
             while (isBlackListed(blockDown.getType())) {
                 block = blockDown;

@@ -75,8 +75,8 @@ public class SpectatorsListener implements Listener {
         spectator.setAllowFlight(true);
         spectator.setFlying(true);
         spectator.setSleepingIgnored(true);
-        Location spawnLoc = game.getSpawn().getMiddle().
-                toLocation(game.getWorld());
+        Location spawnLoc = game.getSpawn().getMiddle()
+                .toLocation(game.getWorld());
         spectator.setCompassTarget(spawnLoc);
         spectator.setHealth(20);
         spectator.setFoodLevel(20);
@@ -106,8 +106,8 @@ public class SpectatorsListener implements Listener {
         spectator.setFlying(false);
         Location loc = spectator.getLocation();
         int y = spectator.getWorld().getHighestBlockYAt(loc);
-        spectator.teleport(new Location(
-                spectator.getWorld(), loc.getX(), y, loc.getZ()));
+        spectator.teleport(new Location(spectator.getWorld(), loc.getX(), y,
+                loc.getZ()));
         spectator.setSleepingIgnored(false);
     }
 
@@ -115,8 +115,8 @@ public class SpectatorsListener implements Listener {
     public void onPlayerJoinGame(DRPlayerJoinEvent event) {
         Player player = event.getPlayer();
         if (isSpectator(event.getPlayer())) {
-            player.sendMessage(ChatColor.RED +
-                    "Vous ne pouvez pas rejoindre la partie tant que vous êtes spectateur.");
+            player.sendMessage(ChatColor.RED
+                    + "Vous ne pouvez pas rejoindre la partie tant que vous êtes spectateur.");
             event.setCancelled(true);
         }
     }
@@ -200,8 +200,8 @@ public class SpectatorsListener implements Listener {
 
         Player player = (Player) entity;
         InventoryHolder holder = event.getInventory().getHolder();
-        if (holder instanceof Player &&
-                ((Player) holder).getGameMode() == GameMode.CREATIVE) {
+        if (holder instanceof Player
+                && ((Player) holder).getGameMode() == GameMode.CREATIVE) {
             // Returns or bad things would happen
             return;
         }

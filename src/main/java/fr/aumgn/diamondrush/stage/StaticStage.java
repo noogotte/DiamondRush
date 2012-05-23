@@ -2,7 +2,6 @@ package fr.aumgn.diamondrush.stage;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +16,9 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 
+import fr.aumgn.bukkitutils.playerid.PlayerId;
+import fr.aumgn.bukkitutils.playerid.map.PlayersIdHashMap;
+import fr.aumgn.bukkitutils.playerid.map.PlayersIdMap;
 import fr.aumgn.diamondrush.DiamondRush;
 import fr.aumgn.diamondrush.game.Team;
 import fr.aumgn.diamondrush.stage.listeners.StaticListener;
@@ -73,14 +75,17 @@ public class StaticStage extends Stage {
             player.teleport(location);
         }
 
-        public void restore(Player player) {
+        public void restore() {
             Block block = location.getBlock().getRelative(BlockFace.DOWN);
             block.setTypeIdAndData(material.getId(), data, true);
             if (isInventoryHolder) {
                 Inventory inventory = ((InventoryHolder) block.getState()).getInventory();
                 inventory.setContents(inventoryContents);
             }
+        }
 
+        public void restore(Player player) {
+            restore();
             for (PotionEffect potionEffect : potionEffects) {
                 player.addPotionEffect(potionEffect, true);
             }
@@ -93,12 +98,12 @@ public class StaticStage extends Stage {
 
     private StaticListener listener;
     private long time;
-    private Map<Player, PlayerStatus> status;
+    private PlayersIdMap<PlayerStatus> status;
 
     public StaticStage(DiamondRush dr) {
         super(dr);
         this.listener = new StaticListener(this, dr.getGame());
-        this.status = new HashMap<Player, PlayerStatus>();
+        this.status = new PlayersIdHashMap<PlayerStatus>();
     }
 
     @Override
@@ -124,9 +129,15 @@ public class StaticStage extends Stage {
     @Override
     public void stop() {
         dr.getGame().getWorld().setTime(time);
-        for (Map.Entry<Player, PlayerStatus> playerStatus : status.entrySet()) {
-            Player player = playerStatus.getKey();
-            playerStatus.getValue().restore(player);
+        for (Map.Entry<PlayerId, PlayerStatus> playerStatus : status.entrySet()) {
+            Player player = playerStatus.getKey().getPlayer();
+            if (player == null) {
+                // Need to figure out how to restore
+                // player status after reconnection.
+                playerStatus.getValue().restore();
+            } else {
+                playerStatus.getValue().restore(player);
+            }
         }
     }
 

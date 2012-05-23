@@ -32,7 +32,6 @@ public class SpectatorsVisibilityListener implements Listener {
         Player player = event.getPlayer();
 
         if (spectators.containsByName(player)) {
-            spectators.update(player);
             for (Team team : game.getTeams()) {
                 for (Player playerInGame : team.getPlayers()) {
                     playerInGame.hidePlayer(player);

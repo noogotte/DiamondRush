@@ -1,17 +1,18 @@
 package fr.aumgn.diamondrush.game;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
+import fr.aumgn.bukkitutils.playerid.map.PlayersIdHashMap;
+import fr.aumgn.bukkitutils.playerid.map.PlayersIdMap;
+import fr.aumgn.bukkitutils.playerid.set.PlayersIdHashSet;
+import fr.aumgn.bukkitutils.playerid.set.PlayersIdSet;
 import fr.aumgn.bukkitutils.util.Util;
 import fr.aumgn.bukkitutils.geom.Vector;
 import fr.aumgn.diamondrush.exception.NoSuchTeam;
@@ -24,8 +25,8 @@ public class Game {
     private World world;
     private GameSpawn spawn;
     private Map<String, Team> teams;
-    private Set<String> players;
-    private Map<Player, Team> playersTeam;
+    private PlayersIdSet players;
+    private PlayersIdMap<Team> playersTeam;
     private Spectators spectators;
     private int turnCount;
 
@@ -44,8 +45,8 @@ public class Game {
         this.world = world;
         spawn = GameSpawn.newFromTeamsNumber(spawnPoint,
                 teams.values().size());
-        players = new HashSet<String>();
-        playersTeam = new HashMap<Player, Team>();
+        players = new PlayersIdHashSet();
+        playersTeam = new PlayersIdHashMap<Team>();
         spectators = new Spectators();
         turnCount = -1;
     }
@@ -95,7 +96,7 @@ public class Game {
     }
 
     public boolean contains(Player player) {
-        return players.contains(player.getName());
+        return players.contains(player);
     }
 
     public List<Team> getTeams() {
@@ -127,22 +128,8 @@ public class Game {
 
     public void addPlayer(Player player, Team team) {
         team.addPlayer(player);
-        players.add(player.getName());
+        players.add(player);
         playersTeam.put(player, team);
-    }
-
-    public void updatePlayer(Player player) {
-        for (Map.Entry<Player, Team> entry : playersTeam.entrySet()) {
-            Player oldPlayer = entry.getKey();
-            Team team = entry.getValue();
-            if (oldPlayer.getName().equalsIgnoreCase(player.getName())) {
-                playersTeam.remove(oldPlayer);
-                playersTeam.put(player, team);
-                team.removePlayer(oldPlayer);
-                team.addPlayer(player);
-                return;
-            }
-        }
     }
 
     public void removePlayer(Player player) {
