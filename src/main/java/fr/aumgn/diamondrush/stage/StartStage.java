@@ -10,6 +10,7 @@ import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.PlayerInventory;
 
+import fr.aumgn.bukkitutils.geom.Direction;
 import fr.aumgn.bukkitutils.geom.Vector;
 import fr.aumgn.bukkitutils.geom.Vector2D;
 import fr.aumgn.diamondrush.DiamondRush;
@@ -44,8 +45,8 @@ public class StartStage extends TransitionStage {
         super.start();
     }
 
-    private void initTeam(Team team, World world, Vector pos, Vector2D dir) {
-        Vector offset = dir.rotate90().normalize().to3D();
+    private void initTeam(Team team, World world, Vector pos, Vector2D dirVector) {
+        Vector offset = dirVector.rotate90().normalize().to3D();
         int i;
         boolean left;
         if ((team.size() & 1) == 0) {
@@ -56,7 +57,7 @@ public class StartStage extends TransitionStage {
             left = false;
         }
 
-        float yaw = dir.toYaw();
+        Direction dir = dirVector.toDirection();
         for (Player player : team.getPlayers()) {
             player.setGameMode(GameMode.SURVIVAL);
             player.setHealth(20);
@@ -76,7 +77,7 @@ public class StartStage extends TransitionStage {
                 left = true;
                 i++;
             }
-            player.teleport(playerPos.toLocation(world, yaw));
+            player.teleport(playerPos.toLocation(world, dir));
         }
     }
 }

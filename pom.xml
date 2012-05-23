@@ -4,7 +4,7 @@
 
 	<groupId>fr.aumgn</groupId>
 	<artifactId>diamondrush</artifactId>
-	<version>1.4.3</version>
+	<version>1.5.0-SNAPSHOT</version>
 
 	<name>DiamondRush</name>
 	<description>DiamondRush PVP game plugin</description>
@@ -21,6 +21,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<version.bukkitutils>1.0.0-SNAPSHOT</version.bukkitutils>
 	</properties>
 
 	<repositories>
@@ -28,13 +29,27 @@
 			<id>bukkit-repo</id>
 			<url>http://repo.bukkit.org/content/groups/public</url>
 		</repository>
+		<repository>
+			<id>aumgn-repo</id>
+			<url>https://repository-aumgn.forge.cloudbees.com/snapshot/</url>
+		</repository>
 	</repositories>
 
 	<dependencies>
 		<dependency>
-			<groupId>fr.aumgn</groupId>
-			<artifactId>bukkitutils</artifactId>
-			<version>0.1.2</version>
+			<groupId>fr.aumgn.bukkitutils</groupId>
+			<artifactId>command</artifactId>
+			<version>${version.bukkitutils}</version>
+		</dependency>
+		<dependency>
+			<groupId>fr.aumgn.bukkitutils</groupId>
+			<artifactId>gconf</artifactId>
+			<version>${version.bukkitutils}</version>
+		</dependency>
+		<dependency>
+			<groupId>fr.aumgn.bukkitutils</groupId>
+			<artifactId>playerid</artifactId>
+			<version>${version.bukkitutils}</version>
 		</dependency>
 	</dependencies>
 
@@ -94,7 +109,10 @@
 						<configuration>
 							<artifactSet>
 								<includes>
-									<include>fr.aumgn:bukkitutils</include>
+									<include>fr.aumgn.bukkitutils:core</include>
+									<include>fr.aumgn.bukkitutils:command</include>
+									<include>fr.aumgn.bukkitutils:playerid</include>
+									<include>fr.aumgn.bukkitutils:gconf</include>
 								</includes>
 							</artifactSet>
 						</configuration>
