@@ -14,6 +14,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffect;
 
 import fr.aumgn.bukkitutils.playerid.PlayerId;
@@ -31,7 +32,9 @@ public class StaticStage extends Stage {
         private Material material;
         private byte data;
         private boolean isInventoryHolder;
-        private ItemStack[] inventoryContents;
+        private ItemStack[] blockContents;
+
+        private ItemStack[] inventory;
         private Collection<PotionEffect> potionEffects;
         private float fallDistance;
         private int remainingAir;
@@ -48,9 +51,14 @@ public class StaticStage extends Stage {
             isInventoryHolder = block.getState() instanceof InventoryHolder;
             if (isInventoryHolder) {
                 Inventory inventory = ((InventoryHolder) block.getState()).getInventory();
-                inventoryContents = inventory.getContents();
+                blockContents = inventory.getContents();
             }
 
+            this.inventory = new ItemStack[9];
+            PlayerInventory playerInventory = player.getInventory();
+            for (int i = 0; i < 9; i++) {
+                this.inventory[i] = playerInventory.getItem(i);
+            }
             this.potionEffects = player.getActivePotionEffects();
             this.fallDistance = player.getFallDistance();
             this.remainingAir = player.getRemainingAir();
@@ -66,6 +74,10 @@ public class StaticStage extends Stage {
             block.setType(Material.GLASS);
             restorePosition(player);
 
+            PlayerInventory playerInventory = player.getInventory();
+            for (int i = 0; i < 9; i++) {
+                playerInventory.clear(i);
+            }
             for (PotionEffect activeEffect : potionEffects) {
                 player.removePotionEffect(activeEffect.getType());
             }
@@ -80,12 +92,17 @@ public class StaticStage extends Stage {
             block.setTypeIdAndData(material.getId(), data, true);
             if (isInventoryHolder) {
                 Inventory inventory = ((InventoryHolder) block.getState()).getInventory();
-                inventory.setContents(inventoryContents);
+                inventory.setContents(blockContents);
             }
         }
 
         public void restore(Player player) {
             restore();
+            PlayerInventory playerInventory = player.getInventory();
+            for (int i = 0; i < 9; i++) {
+                playerInventory.setItem(i, inventory[i]);
+            }
+
             for (PotionEffect potionEffect : potionEffects) {
                 player.addPotionEffect(potionEffect, true);
             }

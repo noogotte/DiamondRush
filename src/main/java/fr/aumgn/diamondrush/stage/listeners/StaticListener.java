@@ -22,6 +22,7 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerPickupItemEvent;
 
 import fr.aumgn.diamondrush.event.players.DRPlayerJoinEvent;
 import fr.aumgn.diamondrush.event.team.DRTotemBreakEvent;
@@ -62,6 +63,14 @@ public class StaticListener implements Listener {
                 && game.contains(player)) {
             stage.getPlayerStatus(player).
                 restorePosition(player);
+        }
+    }
+
+    @EventHandler
+    public void onDrop(PlayerPickupItemEvent event) {
+        Player player = event.getPlayer();
+        if (game.contains(player)) {
+            event.setCancelled(true);
         }
     }
 
