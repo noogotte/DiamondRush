@@ -87,7 +87,7 @@ public class StaticStage extends Stage {
             player.teleport(location);
         }
 
-        public void restore() {
+        public void restoreEnvironment() {
             Block block = location.getBlock().getRelative(BlockFace.DOWN);
             block.setTypeIdAndData(material.getId(), data, true);
             if (isInventoryHolder) {
@@ -97,7 +97,6 @@ public class StaticStage extends Stage {
         }
 
         public void restore(Player player) {
-            restore();
             PlayerInventory playerInventory = player.getInventory();
             for (int i = 0; i < 9; i++) {
                 playerInventory.setItem(i, inventory[i]);
@@ -146,13 +145,18 @@ public class StaticStage extends Stage {
     @Override
     public void stop() {
         dr.getGame().getWorld().setTime(time);
-        for (Map.Entry<PlayerId, PlayerStatus> playerStatus : status.entrySet()) {
+        for (final Map.Entry<PlayerId, PlayerStatus> playerStatus : status.entrySet()) {
             Player player = playerStatus.getKey().getPlayer();
             if (player == null) {
-                // Need to figure out how to restore
-                // player status after reconnection.
-                playerStatus.getValue().restore();
+                playerStatus.getValue().restoreEnvironment();
+                dr.onReconnect(playerStatus.getKey(), new Runnable() {
+                    public void run() {
+                        Player player = playerStatus.getKey().getPlayer();
+                        playerStatus.getValue().restore(player);
+                    }
+                });
             } else {
+                playerStatus.getValue().restoreEnvironment();
                 playerStatus.getValue().restore(player);
             }
         }

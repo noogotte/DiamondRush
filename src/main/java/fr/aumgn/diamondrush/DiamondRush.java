@@ -1,5 +1,8 @@
 package fr.aumgn.diamondrush;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -7,6 +10,9 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 
+import fr.aumgn.bukkitutils.playerid.PlayerId;
+import fr.aumgn.bukkitutils.playerid.map.PlayersIdHashMap;
+import fr.aumgn.bukkitutils.playerid.map.PlayersIdMap;
 import fr.aumgn.bukkitutils.util.Util;
 import fr.aumgn.diamondrush.config.DRConfig;
 import fr.aumgn.diamondrush.event.game.DRGameStartEvent;
@@ -45,17 +51,19 @@ public final class DiamondRush {
 
     private GameStatistics statistics;
 
-    private Listener[] listeners;
     private Game game;
+    private Listener[] listeners;
     private Stage stage;
+    private PlayersIdMap<List<Runnable>> onReconnect;
 
     public DiamondRush(DiamondRushPlugin plugin) {
         this.plugin = plugin;
         reloadConfig();
         this.statistics = null;
         this.game = null;
-        this.stage = null;
         this.listeners = new Listener[5];
+        this.stage = null;
+        this.onReconnect = null;
     }
 
     public DiamondRushPlugin getPlugin() {
@@ -97,6 +105,7 @@ public final class DiamondRush {
         for (Listener listener : listeners) {
             pm.registerEvents(listener, plugin);
         }
+        this.onReconnect = new PlayersIdHashMap<List<Runnable>>();
         nextStage(stage);
     }
 
@@ -313,5 +322,28 @@ public final class DiamondRush {
         Util.callEvent(event);
         team.setSpawn(spawn);
         team.getSpawn().create(game.getWorld(), team.getColor());
+    }
+
+    public void onReconnect(PlayerId player, Runnable runnable) {
+        List<Runnable> list;
+        if (onReconnect.containsKey(player)) {
+            list = onReconnect.get(player);
+        } else {
+            list = new ArrayList<Runnable>();
+            onReconnect.put(player, list);
+        }
+
+        list.add(runnable);
+    }
+
+    public void handleReconnect(Player player) {
+        if (!onReconnect.containsKey(player)) {
+            return;
+        }
+
+        for (Runnable runnable : onReconnect.get(player)) {
+            runnable.run();
+        }
+        onReconnect.remove(player);
     }
 }

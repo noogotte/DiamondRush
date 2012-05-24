@@ -27,11 +27,13 @@ import fr.aumgn.diamondrush.game.Team;
 
 public class GameListener implements Listener {
 
+    private final DiamondRush dr;
     private final Game game;
     private boolean handleMove = false;
     private Set<Player> playersInSpawn = new HashSet<Player>();
 
     public GameListener(DiamondRush diamondRush) {
+        this.dr = diamondRush;
         this.game = diamondRush.getGame();
     }
 
@@ -43,6 +45,7 @@ public class GameListener implements Listener {
             Team team = game.getTeam(player);
             initPlayer(team, player);
         }
+        dr.handleReconnect(player);
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
