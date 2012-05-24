@@ -162,6 +162,12 @@ public class StaticStage extends Stage {
         }
     }
 
+    public void initPlayer(Player player) {
+        PlayerStatus playerStatus = new PlayerStatus(player);
+        status.put(player, playerStatus);
+        playerStatus.init(player);
+    }
+
     public PlayerStatus getPlayerStatus(Player player) {
         return status.get(player);
     }
