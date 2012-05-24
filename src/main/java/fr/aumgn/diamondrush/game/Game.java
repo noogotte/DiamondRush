@@ -148,8 +148,10 @@ public class Game {
     }
 
     public Location getRespawnFor(Player player) {
-        Team team = playersTeam.get(player);
+        return getRespawnFor(player, playersTeam.get(player));
+    }
 
+    public Location getRespawnFor(Player player, Team team) {
         if (team.getSpawn() != null) {
             return team.getSpawn().getTeleportLocation(world, spawn);
         }

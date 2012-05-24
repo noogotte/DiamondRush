@@ -49,10 +49,7 @@ public class GameListener implements Listener {
     public void onJoinGame(DRPlayerJoinEvent event) {
         Player player = event.getPlayer();
         Team team = event.getTeam();
-        if (team.getTotem() != null) {
-            Vector pos = team.getTotem().getTeleportPoint();
-            player.teleport(pos.toLocation(game.getWorld()));
-        }
+        player.teleport(game.getRespawnFor(player, team));
         initPlayer(team, player);
     }
 
