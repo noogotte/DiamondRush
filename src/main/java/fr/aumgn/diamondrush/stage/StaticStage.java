@@ -145,19 +145,19 @@ public class StaticStage extends Stage {
     @Override
     public void stop() {
         dr.getGame().getWorld().setTime(time);
-        for (final Map.Entry<PlayerId, PlayerStatus> playerStatus : status.entrySet()) {
-            Player player = playerStatus.getKey().getPlayer();
-            if (player == null) {
-                playerStatus.getValue().restoreEnvironment();
-                dr.onReconnect(playerStatus.getKey(), new Runnable() {
+        for (final Map.Entry<PlayerId, PlayerStatus> entry : status.entrySet()) {
+            entry.getValue().restoreEnvironment();
+
+            final PlayerId playerId = entry.getKey();
+            if (playerId.isOffline()) {
+                final PlayerStatus playerStatus = entry.getValue();
+                dr.onReconnect(playerId, new Runnable() {
                     public void run() {
-                        Player player = playerStatus.getKey().getPlayer();
-                        playerStatus.getValue().restore(player);
+                        playerStatus.restore(playerId.getPlayer());
                     }
                 });
             } else {
-                playerStatus.getValue().restoreEnvironment();
-                playerStatus.getValue().restore(player);
+                entry.getValue().restore(playerId.getPlayer());
             }
         }
     }
