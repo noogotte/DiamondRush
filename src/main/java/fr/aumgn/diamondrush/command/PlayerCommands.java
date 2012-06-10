@@ -43,7 +43,7 @@ public class PlayerCommands extends DiamondRushCommands {
             if (!player.hasPermission("dr.cmd.quit.others")) {
                 throw new CommandError("Vous n'avez pas la permission de faire ca.");
             }
-            quitting = args.getPlayer(0);
+            quitting = args.getPlayer(0).value();
         }
 
         dr.playerQuit(quitting);
