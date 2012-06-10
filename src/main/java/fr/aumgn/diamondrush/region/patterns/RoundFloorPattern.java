@@ -22,39 +22,64 @@ public class RoundFloorPattern {
         Vector2D center = baseMax.getMiddle(baseMin);
         Vector2D outlineRadius = baseMax.subtract(center).add(0.5);
         Vector2D radius = outlineRadius.subtract(1.0);
+        Vector2D glowstoneRadius = outlineRadius.divide(2.0).positive();
 
-        for (Vector2D vec : baseMin.rectangle(baseMax)) {
-            if (vec.equals(center)) {
-                setCenter(world, vec);
-            } else if (isInside(center, radius, vec)) {
-                setInside(world, vec);
-            } else if (isInside(center, outlineRadius, vec)) {
-                setOutline(world, vec);
+        for (Vector2D pos : baseMin.rectangle(baseMax)) {
+            if (pos.equals(center)) {
+                setCenter(world, pos);
+            } else if (isGlowstone(center, glowstoneRadius, pos)) {
+                setGlowstone(world, pos);
+            } else if (isInside(center, radius, pos)) {
+                setInside(world, pos);
+            } else if (isInside(center, outlineRadius, pos)) {
+                setOutline(world, pos);
             }
         }
     }
 
-    private boolean isInside(Vector2D center, Vector2D radius, Vector2D vec) {
-        return vec.subtract(center).divide(radius).lengthSq() < 1;
+    private boolean isGlowstone(Vector2D center, Vector2D radius, Vector2D pos) {
+        Vector2D diff = pos.subtract(center).positive();
+        System.out.print(radius);
+        System.out.print(diff);
+
+        if (diff.equalsBlock(radius)) {
+            return true;
+        }
+
+        if (diff.getBlockX() == 0
+                && diff.getBlockZ() == radius.getBlockZ() + 1) {
+            return true;
+        }
+
+        if (diff.getBlockZ() == 0
+                && diff.getBlockX() == radius.getBlockX() + 1) {
+            return true;
+        }
+        
+        return false;
     }
 
-    private void setCenter(World world, Vector2D vec) {
-        Block block = vec.to3D(y).toBlock(world);
+    private boolean isInside(Vector2D center, Vector2D radius, Vector2D pos) {
+        return pos.subtract(center).divide(radius).lengthSq() < 1;
+    }
+
+    private void setCenter(World world, Vector2D pos) {
+        Block block = pos.to3D(y).toBlock(world);
         block.setType(Material.SMOOTH_BRICK);
     }
 
-    private void setInside(World world, Vector2D vec) {
-        Block block = vec.to3D(y).toBlock(world);
+    private void setInside(World world, Vector2D pos) {
+        Block block = pos.to3D(y).toBlock(world);
         block.setType(Material.SMOOTH_BRICK);
     }
 
-    /*private void setGlowstone(World world, Vector2D vec) {
-        Block block = vec.to3D(y).toBlock(world);
+    private void setGlowstone(World world, Vector2D pos) {
+        Block block = pos.to3D(y).toBlock(world);
         block.setType(Material.GLOWSTONE);
-    }*/
+    }
 
-    private void setOutline(World world, Vector2D vec) {
-        Block block = vec.to3D(y).toBlock(world);
+    private void setOutline(World world, Vector2D pos) {
+        Block block = pos.to3D(y).toBlock(world);
         block.setType(Material.SMOOTH_BRICK);
         block.setData((byte) 3);
     }

@@ -38,12 +38,12 @@ public class FloorPattern {
 
         Vector2D min = baseMin.add(1, 1);
         Vector2D max = baseMax.subtract(1, 1);
-        for (int x = min.getBlockX(); x <= max.getX(); x++) {
+        for (int x = min.getBlockX(); x <= max.getBlockX(); x++) {
             setEdge(world, x, y, baseMin.getBlockZ());
             setEdge(world, x, y, baseMax.getBlockZ());
         }
 
-        for (int z = min.getBlockZ(); z <= max.getZ(); z++) {
+        for (int z = min.getBlockZ(); z <= max.getBlockZ(); z++) {
             setEdge(world, baseMin.getBlockX(), y, z);
             setEdge(world, baseMax.getBlockX(), y, z);
         }
