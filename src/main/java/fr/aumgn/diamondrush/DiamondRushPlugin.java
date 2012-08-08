@@ -1,5 +1,7 @@
 package fr.aumgn.diamondrush;
 
+import java.util.Locale;
+
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -12,7 +14,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import fr.aumgn.bukkitutils.command.CommandsRegistration;
-import fr.aumgn.bukkitutils.command.messages.FrenchMessages;
 import fr.aumgn.bukkitutils.gconf.GConfLoadException;
 import fr.aumgn.bukkitutils.gconf.GConfLoader;
 import fr.aumgn.diamondrush.command.AdminCommands;
@@ -32,7 +33,7 @@ public class DiamondRushPlugin extends JavaPlugin implements Listener {
         diamondRush = new DiamondRush(this);
 
         CommandsRegistration commandsRegistration = new CommandsRegistration(
-                this, new FrenchMessages());
+                this, Locale.FRANCE);
         commandsRegistration.register(new AdminCommands(diamondRush));
         commandsRegistration.register(new GameCommands(diamondRush));
         commandsRegistration.register(new SpectatorsCommands(diamondRush));

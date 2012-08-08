@@ -12,6 +12,8 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.inventory.InventoryOpenEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
@@ -167,5 +169,26 @@ public class GameListener implements Listener {
         if ((game.contains(target) != game.contains(damager))) {
             event.setCancelled(true);
         }
+    }
+
+    @EventHandler
+    public void transactionWithMerchantEvent(InventoryOpenEvent event) {
+    	if (dr.getConfig().allowDealWithMerchant()) {
+    		return;
+    	}
+
+    	if (!(event.getPlayer() instanceof Player)) {
+    		return;
+    	}
+
+    	if (!game.contains((Player) event.getPlayer())){
+    		return;
+    	}
+
+    	if (event.getView().getType() != InventoryType.MERCHANT){
+    		return;
+    	}
+
+    	event.setCancelled(true);
     }
 }

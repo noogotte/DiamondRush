@@ -51,6 +51,8 @@ public class DRConfig {
     private int maxItemsInBonusChest = 3;
     private List<BonusItem> bonuses;
 
+    private boolean allowDealWithMerchant = true;
+
     public DRConfig() {
         timer = TimerConfig.DEFAULT;
         bonuses = new ArrayList<BonusItem>();
@@ -149,6 +151,10 @@ public class DRConfig {
     public ItemStack getItemForDeath() {
         return new ItemStack(
                 itemForDeathId, itemForDeathAmount);
+    }
+
+    public boolean allowDealWithMerchant() {
+    	return allowDealWithMerchant;
     }
 
     public ItemStack[] getRandomBonus() {
