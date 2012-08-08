@@ -6,12 +6,15 @@ import java.util.Set;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.inventory.InventoryOpenEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
@@ -167,5 +170,24 @@ public class GameListener implements Listener {
         if ((game.contains(target) != game.contains(damager))) {
             event.setCancelled(true);
         }
+    }
+
+    @EventHandler
+    public void transactionWithMerchantEvent(InventoryOpenEvent event) {
+        if (dr.getConfig().allowDealWithMerchant()) {
+            return;
+        }
+
+        HumanEntity player = event.getPlayer();
+        if (!(player instanceof Player
+                && game.contains((Player) player))) {
+            return;
+        }
+
+        if (event.getView().getType() != InventoryType.MERCHANT) {
+            return;
+        }
+
+        event.setCancelled(true);
     }
 }

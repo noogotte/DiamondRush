@@ -47,6 +47,8 @@ public class DRConfig {
     private int itemForDeathId = 265;
     private int itemForDeathAmount = 3;
 
+    private boolean allowDealWithMerchant = true;
+
     private int minItemsInBonusChest = 3;
     private int maxItemsInBonusChest = 3;
     private List<BonusItem> bonuses;
@@ -149,6 +151,10 @@ public class DRConfig {
     public ItemStack getItemForDeath() {
         return new ItemStack(
                 itemForDeathId, itemForDeathAmount);
+    }
+
+    public boolean allowDealWithMerchant() {
+        return allowDealWithMerchant;
     }
 
     public ItemStack[] getRandomBonus() {
