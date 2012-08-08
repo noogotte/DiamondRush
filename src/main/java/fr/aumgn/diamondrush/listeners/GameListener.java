@@ -173,10 +173,22 @@ public class GameListener implements Listener {
 
     @EventHandler
     public void transactionWithMerchantEvent(InventoryOpenEvent event) {
-    	if (!dr.isRunning()) return;
-    	if (dr.getConfig().allowDealWithMerchant()) return;
-    	if (!game.contains((Player) event.getPlayer())) return;
-    	if (event.getView().getType() != InventoryType.MERCHANT) return;
+    	if (dr.getConfig().allowDealWithMerchant()) {
+    		return;
+    	}
+
+    	if (!(event.getPlayer() instanceof Player)) {
+    		return;
+    	}
+
+    	if (!game.contains((Player) event.getPlayer())){
+    		return;
+    	}
+
+    	if (event.getView().getType() != InventoryType.MERCHANT){
+    		return;
+    	}
+
     	event.setCancelled(true);
     }
 }
