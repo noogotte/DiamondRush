@@ -10,7 +10,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.player.PlayerChatEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import fr.aumgn.bukkitutils.geom.Vector;
 import fr.aumgn.diamondrush.DiamondRush;
@@ -79,7 +79,7 @@ public class DevelopmentListener implements Listener {
     }
 
     @EventHandler(priority = EventPriority.HIGH)
-    public void onChat(PlayerChatEvent event) {
+    public void onChat(AsyncPlayerChatEvent event) {
         Player player = event.getPlayer();
         Game game = dr.getGame();
         if (game.contains(player)) {
