@@ -2,6 +2,7 @@ package fr.aumgn.diamondrush;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -10,6 +11,8 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 
+import fr.aumgn.bukkitutils.localization.PluginResourceBundles;
+import fr.aumgn.bukkitutils.localization.bundle.PluginResourceBundle;
 import fr.aumgn.bukkitutils.playerid.PlayerId;
 import fr.aumgn.bukkitutils.playerid.map.PlayersIdHashMap;
 import fr.aumgn.bukkitutils.playerid.map.PlayersIdMap;
@@ -46,8 +49,11 @@ import fr.aumgn.diamondrush.views.GameView;
 
 public final class DiamondRush {
 
-    private DiamondRushPlugin plugin;
+    private final DiamondRushPlugin plugin;
+
     private DRConfig config;
+    private PluginResourceBundle cmdMessages;
+    private PluginResourceBundle messages;
 
     private GameStatistics statistics;
 
@@ -59,6 +65,10 @@ public final class DiamondRush {
     public DiamondRush(DiamondRushPlugin plugin) {
         this.plugin = plugin;
         reloadConfig();
+        PluginResourceBundles bundles = new PluginResourceBundles(plugin,
+                Locale.FRANCE, plugin.getDataFolder());
+        this.cmdMessages = bundles.get("commands");
+        this.messages = bundles.get("messages");
         this.statistics = null;
         this.game = null;
         this.listeners = new Listener[5];
@@ -72,6 +82,14 @@ public final class DiamondRush {
 
     public DRConfig getConfig() {
         return config;
+    }
+
+    public PluginResourceBundle getCmdMessages() {
+        return cmdMessages;
+    }
+
+    public PluginResourceBundle getMessages() {
+        return messages;
     }
 
     public GameStatistics getStatistics() {

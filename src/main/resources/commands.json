@@ -1,0 +1,8 @@
+{
+	"reload.success":          "{green}Configuration rechargée.",
+	"init.onlyoneargument":    "Cette commande ne prends qu'un argument.",
+	"pause.alreadypaused":     "Le jeu est déjà en pause.",
+	"resume.notpaused":        "Le jeu n'est pas en pause.",
+	"resume.alreadyresumed":   "La partie est déjà sur le point de redémarrer."
+	"resume.success":          "{green}La partie va reprendre."
+}

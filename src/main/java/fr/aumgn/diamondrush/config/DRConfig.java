@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -12,6 +13,8 @@ import fr.aumgn.bukkitutils.timer.TimerConfig;
 import fr.aumgn.bukkitutils.util.Util;
 
 public class DRConfig {
+
+    private String language = Locale.FRANCE.toString();
 
     private TimerConfig timer;
 
@@ -64,6 +67,17 @@ public class DRConfig {
         bonuses.add(new BonusItem(Material.MELON_SEEDS,     1,   4,  1));
         bonuses.add(new BonusItem(Material.GHAST_TEAR,      1,   4,  1));
         bonuses.add(new BonusItem(Material.BLAZE_POWDER,    1,   4,  1));
+    }
+
+    public Locale getLocale() {
+        String[] splitted = language.split("_");
+        if (splitted.length == 0) {
+            return Locale.getDefault();
+        } else if (splitted.length == 1) {
+            return new Locale(splitted[0]);
+        } else {
+            return new Locale(splitted[0], splitted[1]);
+        }
     }
 
     public TimerConfig getTimerConfig() {

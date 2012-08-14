@@ -32,8 +32,8 @@ public class DiamondRushPlugin extends JavaPlugin implements Listener {
         Bukkit.getPluginManager().registerEvents(this, this);
         diamondRush = new DiamondRush(this);
 
-        CommandsRegistration commandsRegistration = new CommandsRegistration(
-                this, Locale.FRANCE);
+        CommandsRegistration commandsRegistration =
+                new CommandsRegistration(this, Locale.FRANCE);
         commandsRegistration.register(new AdminCommands(diamondRush));
         commandsRegistration.register(new GameCommands(diamondRush));
         commandsRegistration.register(new SpectatorsCommands(diamondRush));

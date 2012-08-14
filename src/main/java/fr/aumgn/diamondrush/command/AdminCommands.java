@@ -1,6 +1,5 @@
 package fr.aumgn.diamondrush.command;
 
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
 import fr.aumgn.bukkitutils.command.Command;
@@ -18,6 +17,6 @@ public class AdminCommands extends DiamondRushCommands {
     @Command(name = "reload")
     public void reload(CommandSender sender, CommandArgs args) {
         dr.reloadConfig();
-        sender.sendMessage(ChatColor.GREEN + "Configuration rechargée");
+        sender.sendMessage(dr.getCmdMessages().get("reload.success"));
     }
 }

@@ -5,7 +5,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -33,7 +32,7 @@ public class GameCommands extends DiamondRushCommands {
     @Command(name = "init", min = 1, max = -1, flags = "cn")
     public void initGame(Player player, CommandArgs args) {
         if (dr.isRunning()) {
-            throw new CommandError("Une partie est déjà en cours.");
+            throw new CommandError(dr.getMessages().get("game.alreadyrunning"));
         }
 
         Map<String, TeamColor> teams = new HashMap<String, TeamColor>();
@@ -46,7 +45,8 @@ public class GameCommands extends DiamondRushCommands {
             }
         } else {
             if (args.length() > 1) {
-                throw new CommandUsageError("Cette commande ne prend qu'un seul argument.");
+                throw new CommandUsageError(
+                        dr.getCmdMessages().get("init.onlyoneargument"));
             }
             int amount = args.getInteger(0).value();
             Iterator<TeamColor> colors = 
@@ -85,7 +85,8 @@ public class GameCommands extends DiamondRushCommands {
     public void pauseGame(CommandSender sender, CommandArgs args) {
         ensureIsRunning();
         if (dr.isPaused()) {
-            throw new CommandError("Le jeu est déjà en pause.");
+            throw new CommandError(
+                    dr.getCmdMessages().get("pause.alreadypaused"));
         }
         dr.pause();
     }
@@ -94,17 +95,17 @@ public class GameCommands extends DiamondRushCommands {
     public void resumeGame(CommandSender sender, CommandArgs args) {
         ensureIsRunning();
         if (!dr.isPaused()) {
-            throw new CommandError("Le jeu n'est pas en pause.");
+            throw new CommandError(dr.getCmdMessages().get("resume.notpaused"));
         }
 
         Game game = dr.getGame();
         Stage stage = dr.getStage();
         if (stage.hasNextStageScheduled()) {
             throw new CommandError(
-                    "La partie est déjà sur le point de redémarrer.");
+                    dr.getCmdMessages().get("resume.alreadyresumed"));
         }
 
-        game.sendMessage(ChatColor.GREEN + "La partie va reprendre.");
+        game.sendMessage(dr.getCmdMessages().get("resume.success"));
         stage.schedule(3, new Runnable() {
             public void run() {
                 dr.resume();
