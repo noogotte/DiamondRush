@@ -23,7 +23,7 @@ import fr.aumgn.diamondrush.stage.RandomJoinStage;
 import fr.aumgn.diamondrush.stage.SimpleJoinStage;
 import fr.aumgn.diamondrush.stage.Stage;
 
-@NestedCommands(name = "diamondrush")
+@NestedCommands("diamondrush")
 public class GameCommands extends DiamondRushCommands {
 
     public GameCommands(DiamondRush dr) {

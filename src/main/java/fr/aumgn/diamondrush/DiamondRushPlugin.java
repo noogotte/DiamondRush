@@ -14,8 +14,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import fr.aumgn.bukkitutils.command.CommandsRegistration;
-import fr.aumgn.bukkitutils.gconf.GConfLoadException;
-import fr.aumgn.bukkitutils.gconf.GConfLoader;
+import fr.aumgn.bukkitutils.gson.GsonLoadException;
+import fr.aumgn.bukkitutils.gson.GsonLoader;
 import fr.aumgn.diamondrush.command.AdminCommands;
 import fr.aumgn.diamondrush.command.GameCommands;
 import fr.aumgn.diamondrush.command.InfoCommands;
@@ -66,9 +66,9 @@ public class DiamondRushPlugin extends JavaPlugin implements Listener {
 
     public DRConfig loadDRConfig() {
         try {
-            GConfLoader loader = new GConfLoader(gson(), this);
+            GsonLoader loader = new GsonLoader(gson(), this);
             return loader.loadOrCreate("config.json", DRConfig.class);
-        } catch (GConfLoadException exc) {
+        } catch (GsonLoadException exc) {
             getLogger().warning(
                     "Impossible de charger le fichier de configuration.");
             getLogger().warning("Utilisation des valeurs par défaut.");

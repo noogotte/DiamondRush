@@ -19,7 +19,7 @@ import fr.aumgn.diamondrush.views.StatisticsView;
 import fr.aumgn.diamondrush.views.TeamView;
 import fr.aumgn.diamondrush.views.TeamsView;
 
-@NestedCommands(name = "diamondrush")
+@NestedCommands("diamondrush")
 public class InfoCommands extends DiamondRushCommands {
 
     public InfoCommands(DiamondRush dr) {

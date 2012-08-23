@@ -8,7 +8,7 @@ import fr.aumgn.bukkitutils.command.args.CommandArgs;
 import fr.aumgn.bukkitutils.command.NestedCommands;
 import fr.aumgn.diamondrush.DiamondRush;
 
-@NestedCommands(name = "diamondrush")
+@NestedCommands("diamondrush")
 public class AdminCommands extends DiamondRushCommands {
 
     public AdminCommands(DiamondRush dr) {

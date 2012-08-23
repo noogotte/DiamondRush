@@ -10,7 +10,7 @@ import fr.aumgn.diamondrush.DiamondRush;
 import fr.aumgn.diamondrush.game.Game;
 import fr.aumgn.diamondrush.game.Team;
 
-@NestedCommands(name = "diamondrush")
+@NestedCommands("diamondrush")
 public class PlayerCommands extends DiamondRushCommands {
 
     public PlayerCommands(DiamondRush dr) {

@@ -16,7 +16,7 @@ import fr.aumgn.diamondrush.game.Team;
 import fr.aumgn.diamondrush.region.TeamSpawn;
 import fr.aumgn.diamondrush.region.Totem;
 
-@NestedCommands(name = "diamondrush")
+@NestedCommands("diamondrush")
 public class SpectatorsCommands extends DiamondRushCommands {
 
     public SpectatorsCommands(DiamondRush dr) {
