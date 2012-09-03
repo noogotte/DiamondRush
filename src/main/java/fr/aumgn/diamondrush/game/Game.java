@@ -9,10 +9,10 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
-import fr.aumgn.bukkitutils.playerid.map.PlayersIdHashMap;
-import fr.aumgn.bukkitutils.playerid.map.PlayersIdMap;
-import fr.aumgn.bukkitutils.playerid.set.PlayersIdHashSet;
-import fr.aumgn.bukkitutils.playerid.set.PlayersIdSet;
+import fr.aumgn.bukkitutils.playerref.map.PlayersRefHashMap;
+import fr.aumgn.bukkitutils.playerref.map.PlayersRefMap;
+import fr.aumgn.bukkitutils.playerref.set.PlayersRefHashSet;
+import fr.aumgn.bukkitutils.playerref.set.PlayersRefSet;
 import fr.aumgn.bukkitutils.util.Util;
 import fr.aumgn.bukkitutils.geom.Vector;
 import fr.aumgn.diamondrush.exception.NoSuchTeam;
@@ -25,8 +25,8 @@ public class Game {
     private World world;
     private GameSpawn spawn;
     private Map<String, Team> teams;
-    private PlayersIdSet players;
-    private PlayersIdMap<Team> playersTeam;
+    private PlayersRefSet players;
+    private PlayersRefMap<Team> playersTeam;
     private Spectators spectators;
     private int turnCount;
 
@@ -45,8 +45,8 @@ public class Game {
         this.world = world;
         spawn = GameSpawn.newFromTeamsNumber(spawnPoint,
                 teams.values().size());
-        players = new PlayersIdHashSet();
-        playersTeam = new PlayersIdHashMap<Team>();
+        players = new PlayersRefHashSet();
+        playersTeam = new PlayersRefHashMap<Team>();
         spectators = new Spectators();
         turnCount = -1;
     }

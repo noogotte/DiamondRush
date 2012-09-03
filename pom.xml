@@ -4,7 +4,7 @@
 
 	<groupId>fr.aumgn</groupId>
 	<artifactId>diamondrush</artifactId>
-	<version>1.5.0-SNAPSHOT</version>
+	<version>1.6.0-SNAPSHOT</version>
 
 	<name>DiamondRush</name>
 	<description>DiamondRush PVP game plugin</description>
@@ -34,7 +34,7 @@
 		<dependency>
 			<groupId>fr.aumgn</groupId>
 			<artifactId>bukkitutils</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+			<version>1.0.1</version>
 		</dependency>
 	</dependencies>
 
@@ -91,5 +91,48 @@
 		</plugins>
 
 	</build>
+
+	<profiles>
+		<profile>
+			<id>standalone</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-shade-plugin</artifactId>
+						<version>1.7.1</version>
+						<executions>
+							<execution>
+								<phase>package</phase>
+								<goals>
+									<goal>shade</goal>
+								</goals>
+								<configuration>
+									<dependencyReducedPomLocation>${basedir}/target/dependency-reduced-pom.xml</dependencyReducedPomLocation>
+									<shadedArtifactAttached>true</shadedArtifactAttached>
+									<shadedClassifierName>standalone</shadedClassifierName>
+									<artifactSet>
+										<includes>
+											<include>fr.aumgn:bukkitutils</include>
+										</includes>
+									</artifactSet>
+									<relocations>
+										<relocation>
+											<pattern>com.google.gson</pattern>
+											<shadedPattern>fr.aumgn.diamondrush.gson</shadedPattern>
+										</relocation>
+										<relocation>
+											<pattern>fr.aumgn.bukkitutils</pattern>
+											<shadedPattern>fr.aumgn.diamondrush.bukkitutils</shadedPattern>
+										</relocation>
+									</relocations>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 
 </project>

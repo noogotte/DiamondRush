@@ -5,8 +5,8 @@ import java.util.List;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-import fr.aumgn.bukkitutils.playerid.list.PlayersIdArrayList;
-import fr.aumgn.bukkitutils.playerid.list.PlayersIdList;
+import fr.aumgn.bukkitutils.playerref.list.PlayersRefArrayList;
+import fr.aumgn.bukkitutils.playerref.list.PlayersRefList;
 import fr.aumgn.diamondrush.region.TeamSpawn;
 import fr.aumgn.diamondrush.region.Totem;
 
@@ -14,7 +14,7 @@ public class Team {
 
     private String name;
     private TeamColor color;
-    private PlayersIdList players;
+    private PlayersRefList players;
     private Totem totem;
     private TeamSpawn spawn;
     private int lives;
@@ -23,7 +23,7 @@ public class Team {
     public Team(String name, TeamColor color, int lives) {
         this.name = name;
         this.color = color;
-        this.players = new PlayersIdArrayList();
+        this.players = new PlayersRefArrayList();
         this.totem = null;
         this.spawn = null;
         this.lives = lives;

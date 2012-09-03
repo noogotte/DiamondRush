@@ -5,15 +5,15 @@ import java.util.Iterator;
 
 import org.bukkit.entity.Player;
 
-import fr.aumgn.bukkitutils.playerid.set.PlayersIdHashSet;
-import fr.aumgn.bukkitutils.playerid.set.PlayersIdSet;
+import fr.aumgn.bukkitutils.playerref.set.PlayersRefHashSet;
+import fr.aumgn.bukkitutils.playerref.set.PlayersRefSet;
 
 public class Spectators implements Iterable<Player> {
 
-    private PlayersIdSet spectators;
+    private PlayersRefSet spectators;
 
     public Spectators() {
-        spectators = new PlayersIdHashSet();
+        spectators = new PlayersRefHashSet();
     }
 
     @Override

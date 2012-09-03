@@ -10,9 +10,9 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 
-import fr.aumgn.bukkitutils.playerid.PlayerId;
-import fr.aumgn.bukkitutils.playerid.map.PlayersIdHashMap;
-import fr.aumgn.bukkitutils.playerid.map.PlayersIdMap;
+import fr.aumgn.bukkitutils.playerref.PlayerRef;
+import fr.aumgn.bukkitutils.playerref.map.PlayersRefHashMap;
+import fr.aumgn.bukkitutils.playerref.map.PlayersRefMap;
 import fr.aumgn.bukkitutils.util.Util;
 import fr.aumgn.diamondrush.config.DRConfig;
 import fr.aumgn.diamondrush.event.game.DRGameStartEvent;
@@ -54,7 +54,7 @@ public final class DiamondRush {
     private Game game;
     private Listener[] listeners;
     private Stage stage;
-    private PlayersIdMap<List<Runnable>> onReconnect;
+    private PlayersRefMap<List<Runnable>> onReconnect;
 
     public DiamondRush(DiamondRushPlugin plugin) {
         this.plugin = plugin;
@@ -105,7 +105,7 @@ public final class DiamondRush {
         for (Listener listener : listeners) {
             pm.registerEvents(listener, plugin);
         }
-        this.onReconnect = new PlayersIdHashMap<List<Runnable>>();
+        this.onReconnect = new PlayersRefHashMap<List<Runnable>>();
         nextStage(stage);
     }
 
@@ -324,7 +324,7 @@ public final class DiamondRush {
         team.getSpawn().create(game.getWorld(), team.getColor());
     }
 
-    public void onReconnect(PlayerId player, Runnable runnable) {
+    public void onReconnect(PlayerRef player, Runnable runnable) {
         List<Runnable> list;
         if (onReconnect.containsKey(player)) {
             list = onReconnect.get(player);
