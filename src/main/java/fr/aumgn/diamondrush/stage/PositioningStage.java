@@ -65,7 +65,7 @@ public abstract class PositioningStage extends Stage {
                 player = Util.pickRandom(team.getPlayers());
                 playersHoldingBlock.put(team, player);
             }
-            pos = new Vector(player.getLocation());
+            pos = new Vector(player.getLocation().getBlock());
             pos = pos.addZ(2);
         }
         return pos;
